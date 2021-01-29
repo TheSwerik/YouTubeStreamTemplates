@@ -10,7 +10,7 @@ using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
-    public abstract class EditComponent : UserControl
+    public class EditComponent : UserControl
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected readonly GenericComboBox<Category> CategoryComboBox;
@@ -36,8 +36,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Render);
         }
 
-        protected abstract void Refresh();
-        protected abstract LiveStream? GetLiveStream();
+        protected virtual void Refresh() { throw new NotImplementedException(); }
+        protected virtual LiveStream? GetLiveStream() { throw new NotImplementedException(); }
 
         protected void FillValues(LiveStream template)
         {
