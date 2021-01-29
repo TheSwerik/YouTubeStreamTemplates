@@ -26,8 +26,14 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void OnChanged(object? sender, RoutedEventArgs args)
         {
-            Logger.Info("SOMETHING CHANGED");
             _edited = HasDifference();
+            if (_edited) Logger.Info("SOMETHING CHANGED");
+        }
+
+        private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+        {
+            //TODO Check if there are unsaved changes
+            FillValues(_templateComboBox.SelectedItem!);
         }
 
         #endregion
@@ -48,7 +54,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void FillValues(Template template)
         {
-            Logger.Debug("Fill Values with:\n{0}", template);
+            Logger.Debug($"Fill Values with:\n{template}");
             _titleTextBox.Text = template.Title;
             _descriptionTextBox.Text = template.Description;
             _categoryComboBox.SelectedItem = template.Category;
@@ -57,8 +63,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private bool HasDifference()
         {
-            var template = Service.TemplateService!.Templates[0];
-            return template.Category == _categoryComboBox.SelectedItem &&
+            var template = _templateComboBox.SelectedItem;
+            return template == null ||
+                   template.Category == _categoryComboBox.SelectedItem &&
                    template.Title.Equals(_titleTextBox.Text) &&
                    template.Description.Equals(_descriptionTextBox.Text) &&
                    template.Tags.Count == _tagEditor.Tags.Count &&

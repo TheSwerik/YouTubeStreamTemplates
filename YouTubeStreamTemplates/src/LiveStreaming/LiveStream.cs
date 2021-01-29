@@ -11,7 +11,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
         public ThumbnailDetails Thumbnails { get; set; } = null!;
-        public List<string> Tags { get; set; } = null!;
+        public List<string> Tags { get; set; } = new();
         public string Language { get; set; } = null!;
         public Dictionary<string, VideoLocalization>? Localizations { get; set; }
         public Category Category { get; set; }

@@ -12,7 +12,8 @@
           x:Name="ContentGrid">
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
         <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
-                                  x:TypeArguments="templates:Template" x:Name="TemplateComboBox">
+                                  x:TypeArguments="templates:Template" x:Name="TemplateComboBox"
+                                  SelectionChanged="TemplateComboBox_OnSelectionChanged">
             <ComboBox.ItemTemplate>
                 <DataTemplate DataType="templates:Template">
                     <TextBlock Text="{Binding Name}" />
