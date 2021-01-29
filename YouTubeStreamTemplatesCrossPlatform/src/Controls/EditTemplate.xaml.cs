@@ -1,34 +1,21 @@
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using Avalonia.Threading;
-using NLog;
+using Avalonia.Styling;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
-    public class EditTemplate : UserControl
+    public class EditTemplate : EditComponent, IStyleable
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly GenericComboBox<Category> _categoryComboBox;
-        private readonly TextBox _descriptionTextBox;
-        private readonly TagEditor _tagEditor;
         private readonly GenericComboBox<Template> _templateComboBox;
-        private readonly TextBox _titleTextBox;
-        private bool _edited;
+        Type IStyleable.StyleKey => typeof(TextBox);
 
         #region EventListener
-
-        private void OnChanged(object? sender, RoutedEventArgs args)
-        {
-            _edited = HasDifference();
-            if (_edited) Logger.Info("SOMETHING CHANGED");
-        }
 
         private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
@@ -40,66 +27,35 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         #region Methods
 
-        private static void InvokeOnRender(Action action)
-        {
-            Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Render);
-        }
-
-        private void Refresh()
+        protected override void Refresh()
         {
             _templateComboBox.Items = Service.TemplateService!.Templates;
             _templateComboBox.SelectedIndex = 0;
             if (_templateComboBox.SelectedItem != null) FillValues(_templateComboBox.SelectedItem);
         }
 
-        private void FillValues(Template template)
-        {
-            Logger.Debug($"Fill Values with:\n{template}");
-            _titleTextBox.Text = template.Title;
-            _descriptionTextBox.Text = template.Description;
-            _categoryComboBox.SelectedItem = template.Category;
-            _tagEditor.RefreshTags(template.Tags);
-        }
-
-        private bool HasDifference()
-        {
-            var template = _templateComboBox.SelectedItem;
-            return template == null ||
-                   template.Category == _categoryComboBox.SelectedItem &&
-                   template.Title.Equals(_titleTextBox.Text) &&
-                   template.Description.Equals(_descriptionTextBox.Text) &&
-                   template.Tags.Count == _tagEditor.Tags.Count &&
-                   template.Tags.All(t => _tagEditor.Tags.Contains(t));
-        }
+        protected override LiveStream? GetLiveStream() { return _templateComboBox.SelectedItem; }
 
         #endregion
 
         #region Init
 
-        public EditTemplate()
-        {
-            _tagEditor = new TagEditor(); //TODO
-
-            InitializeComponent();
-            _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox");
-            _categoryComboBox = this.Find<GenericComboBox<Category>>("CategoryComboBox");
-            _titleTextBox = this.Find<TextBox>("TitleTextBox");
-            _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
-
-            InvokeOnRender(async () => await Init());
-        }
+        public EditTemplate() { _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox"); }
 
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
 
-            Grid.SetRow(_tagEditor, 7);
-            Grid.SetColumn(_tagEditor, 2);
-            this.Find<Grid>("ContentGrid").Children.Add(_tagEditor);
+            var grid = this.Find<Grid>("ContentGrid");
+            grid.RowDefinitions = RowDefinitions.Parse("*,*,*,*,*,10*,*,10*,*,*,*");
+
+            foreach (var control in grid.Children.Cast<Control?>()) Grid.SetRow(control, Grid.GetRow(control) + 2);
+            grid.Children.Add(_templateComboBox);
         }
 
-        private async Task Init()
+        protected override async Task Init()
         {
+            await base.Init();
             //TODO REMOVE THIS:
             Service.TemplateService = new TemplateService();
             await Service.TemplateService.LoadAllTemplates(SettingsService.Instance.Settings[Settings.SavePath]);
@@ -112,11 +68,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             }
 
             _templateComboBox.SelectionChanged += OnChanged;
-            _categoryComboBox.SelectionChanged += OnChanged;
-            _titleTextBox.TextInput += OnChanged;
-            _descriptionTextBox.TextInput += OnChanged;
-
-            _categoryComboBox.Items = Enum.GetValues(typeof(Category));
             _templateComboBox.SelectedIndex = 0;
             Refresh();
         }

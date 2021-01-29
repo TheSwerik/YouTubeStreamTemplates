@@ -1,37 +1,15 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:liveStreaming="clr-namespace:YouTubeStreamTemplates.LiveStreaming;assembly=YouTubeStreamTemplates"
-             xmlns:controls="clr-namespace:YouTubeStreamTemplatesCrossPlatform.Controls"
-             xmlns:templates="clr-namespace:YouTubeStreamTemplates.Templates;assembly=YouTubeStreamTemplates"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditTemplate">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-          RowDefinitions="*,*,*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
-          x:Name="ContentGrid">
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
-        <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
-                                  x:TypeArguments="templates:Template" x:Name="TemplateComboBox"
-                                  SelectionChanged="TemplateComboBox_OnSelectionChanged">
-            <ComboBox.ItemTemplate>
-                <DataTemplate DataType="templates:Template">
-                    <TextBlock Text="{Binding Name}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </controls:GenericComboBox>
-
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Title:" />
-        <TextBox Grid.Row="3" Grid.Column="2" x:Name="TitleTextBox" AcceptsReturn="False" />
-
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Description:" />
-        <TextBox Grid.Row="5" Grid.Column="2" x:Name="DescriptionTextBox" AcceptsReturn="True" />
-
-        <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" />
-        <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
-
-        <TextBlock Grid.Row="9" Grid.Column="1" Text="Category:" />
-        <controls:GenericComboBox x:TypeArguments="liveStreaming:Category" Grid.Row="9" Grid.Column="2"
-                                  x:Name="CategoryComboBox" />
-    </Grid>
-</UserControl>
+﻿<controls:EditComponent xmlns="https://github.com/avaloniaui"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:controls="clr-namespace:YouTubeStreamTemplatesCrossPlatform.Controls"
+                        xmlns:templates="clr-namespace:YouTubeStreamTemplates.Templates;assembly=YouTubeStreamTemplates"
+                        x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditTemplate">
+    <controls:GenericComboBox
+        x:TypeArguments="templates:Template" x:Name="TemplateComboBox"
+                              SelectionChanged="TemplateComboBox_OnSelectionChanged">
+        <ComboBox.ItemTemplate>
+            <DataTemplate DataType="templates:Template">
+                <TextBlock Text="{Binding Name}" />
+            </DataTemplate>
+        </ComboBox.ItemTemplate>
+    </controls:GenericComboBox>
+</controls:EditComponent>
