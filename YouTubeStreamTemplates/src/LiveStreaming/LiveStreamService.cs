@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -8,12 +7,14 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
+using NLog;
 using YouTubeStreamTemplates.Exceptions;
 
 namespace YouTubeStreamTemplates.LiveStreaming
 {
     public class LiveStreamService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly YouTubeService _youTubeService;
 
         #region Initialisation
@@ -80,7 +81,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             var response = await request.ExecuteAsync();
             if (response == null) return;
-            Console.WriteLine(response.Snippet.Title + " - " + response.Snippet.Title);
+            Logger.Debug(response.Snippet.Title + " - " + response.Snippet.Title);
         }
 
         #endregion
