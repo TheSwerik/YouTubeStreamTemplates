@@ -12,6 +12,7 @@
         <PackageReference Include="Google.Apis.Core" Version="1.49.0"/>
         <PackageReference Include="Google.Apis.Discovery.v1" Version="1.49.0"/>
         <PackageReference Include="Google.Apis.YouTube.v3" Version="1.49.0.2217"/>
+        <PackageReference Include="NLog" Version="4.7.7"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -19,5 +20,9 @@
 
         <!--TODO: Remove this line, this is for Debugging-->
         <None Include="Templates/**" CopyToOutputDirectory="PreserveNewest"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="nlog.debug.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Debug' " Link="nlog.config"/>
+        <None Include="nlog.release.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Release' " Link="nlog.config"/>
     </ItemGroup>
 </Project>

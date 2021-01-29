@@ -20,7 +20,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         #region EventListener
 
-        private void OnChanged(object? sender, RoutedEventArgs args) { Console.WriteLine("SOMETHING CHANGED"); }
+        private void OnChanged(object? sender, RoutedEventArgs args) { Logger.Info("SOMETHING CHANGED"); }
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private async Task FillValues()
         {
             var liveStream = await Service.LiveStreamService!.GetCurrentStream();
-            Console.WriteLine(liveStream);
+            Logger.Debug(liveStream);
             _descriptionTextBox.Text = liveStream.Description;
             _categoryComboBox.SelectedItem = liveStream.Category;
             _tagEditor.RefreshTags(liveStream.Tags);
@@ -87,7 +87,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
             while (Service.LiveStreamService == null)
             {
-                Console.WriteLine("Waiting for LiveStreamService to initialize...");
+                Logger.Debug("Waiting for LiveStreamService to initialize...");
                 await Task.Delay(25);
             }
 

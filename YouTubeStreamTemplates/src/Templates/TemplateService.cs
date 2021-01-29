@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog;
 using YouTubeStreamTemplates.Exceptions;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
@@ -12,6 +13,7 @@ namespace YouTubeStreamTemplates.Templates
     public class TemplateService
     {
         private const string LineSeparator = "■\\n■";
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private List<string> _templatePaths;
 
         public TemplateService()
@@ -59,7 +61,7 @@ namespace YouTubeStreamTemplates.Templates
         public async Task LoadAllTemplates(string folderPath)
         {
             foreach (var filePath in Directory.EnumerateFiles(folderPath)) await LoadTemplate(filePath);
-            Console.WriteLine(Templates.Count);
+            Logger.Debug(Templates.Count);
         }
 
         public async Task<Template> LoadTemplate(string path)

@@ -4,6 +4,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
+using NLog;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
@@ -12,6 +13,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
     public class EditTemplate : UserControl
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly GenericComboBox<Category> _categoryComboBox;
         private readonly TextBox _descriptionTextBox;
         private readonly TagEditor _tagEditor;
@@ -20,7 +22,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         #region EventListener
 
-        private void OnChanged(object? sender, RoutedEventArgs args) { Console.WriteLine("SOMETHING CHANGED"); }
+        private void OnChanged(object? sender, RoutedEventArgs args) { Logger.Info("SOMETHING CHANGED"); }
 
         #endregion
 
@@ -35,7 +37,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             _templateComboBox.Items = Service.TemplateService!.Templates;
             var template = Service.TemplateService!.Templates[0];
-            Console.WriteLine(template);
+            Logger.Debug(template);
             _descriptionTextBox.Text = template.Description;
             _categoryComboBox.SelectedItem = template.Category;
             _tagEditor.RefreshTags(template.Tags);
@@ -76,7 +78,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
             while (Service.TemplateService == null)
             {
-                Console.WriteLine("Waiting for TemplateService to initialize...");
+                Logger.Debug("Waiting for TemplateService to initialize...");
                 await Task.Delay(25);
             }
 
