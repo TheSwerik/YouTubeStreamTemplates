@@ -13,11 +13,11 @@
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
         <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
                                   x:TypeArguments="templates:Template" x:Name="TemplateComboBox">
-            <!-- <controls:GenericComboBox.ItemTemplate> -->
-            <!--     <DataTemplate DataType="templates:Template"> -->
-            <!--         <TextBlock Text="{Binding Name}" /> -->
-            <!--     </DataTemplate> -->
-            <!-- </controls:GenericComboBox.ItemTemplate> -->
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="templates:Template">
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
         </controls:GenericComboBox>
 
         <TextBlock Grid.Row="3" Grid.Column="1" Text="Title:" />
