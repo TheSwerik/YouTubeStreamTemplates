@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -19,10 +20,15 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TagEditor _tagEditor;
         private readonly GenericComboBox<Template> _templateComboBox;
         private readonly TextBox _titleTextBox;
+        private bool _edited;
 
         #region EventListener
 
-        private void OnChanged(object? sender, RoutedEventArgs args) { Logger.Info("SOMETHING CHANGED"); }
+        private void OnChanged(object? sender, RoutedEventArgs args)
+        {
+            Logger.Info("SOMETHING CHANGED");
+            _edited = HasDifference();
+        }
 
         #endregion
 
@@ -33,14 +39,30 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Render);
         }
 
-        private void FillValues()
+        private void Refresh()
         {
             _templateComboBox.Items = Service.TemplateService!.Templates;
-            var template = Service.TemplateService!.Templates[0];
-            Logger.Debug(template);
+            _templateComboBox.SelectedIndex = 0;
+            if (_templateComboBox.SelectedItem != null) FillValues(_templateComboBox.SelectedItem);
+        }
+
+        private void FillValues(Template template)
+        {
+            Logger.Debug("Fill Values with:\n{0}", template);
+            _titleTextBox.Text = template.Title;
             _descriptionTextBox.Text = template.Description;
             _categoryComboBox.SelectedItem = template.Category;
             _tagEditor.RefreshTags(template.Tags);
+        }
+
+        private bool HasDifference()
+        {
+            var template = Service.TemplateService!.Templates[0];
+            return template.Category == _categoryComboBox.SelectedItem &&
+                   template.Title.Equals(_titleTextBox.Text) &&
+                   template.Description.Equals(_descriptionTextBox.Text) &&
+                   template.Tags.Count == _tagEditor.Tags.Count &&
+                   template.Tags.All(t => _tagEditor.Tags.Contains(t));
         }
 
         #endregion
@@ -89,7 +111,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
             _categoryComboBox.Items = Enum.GetValues(typeof(Category));
             _templateComboBox.SelectedIndex = 0;
-            FillValues();
+            Refresh();
         }
 
         #endregion

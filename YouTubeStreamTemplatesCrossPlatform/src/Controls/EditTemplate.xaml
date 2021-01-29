@@ -11,11 +11,11 @@
           RowDefinitions="*,*,*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
           x:Name="ContentGrid">
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
-        <controls:GenericComboBox x:TypeArguments="templates:Template" Grid.Row="1" Grid.Column="2"
-                                  x:Name="TemplateComboBox">
+        <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
+                                  x:TypeArguments="templates:Template" x:Name="TemplateComboBox">
             <!-- <controls:GenericComboBox.ItemTemplate> -->
             <!--     <DataTemplate DataType="templates:Template"> -->
-            <!--         <TextBlock Text="{Binding Title}" /> -->
+            <!--         <TextBlock Text="{Binding Name}" /> -->
             <!--     </DataTemplate> -->
             <!-- </controls:GenericComboBox.ItemTemplate> -->
         </controls:GenericComboBox>
@@ -30,7 +30,7 @@
         <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
 
         <TextBlock Grid.Row="9" Grid.Column="1" Text="Category:" />
-        <controls:GenericComboBox x:TypeArguments="liveStreaming:Category" Grid.Row="7" Grid.Column="2"
+        <controls:GenericComboBox x:TypeArguments="liveStreaming:Category" Grid.Row="9" Grid.Column="2"
                                   x:Name="CategoryComboBox" />
     </Grid>
 </UserControl>

@@ -16,6 +16,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly WrapPanel _tagsPanel;
 
         public List<TagCard> TagCards => _tagsPanel.Children.OfType<TagCard>().ToList();
+        public List<string> Tags => _tagsPanel.Children.OfType<TagCard>().Select(c => c.Text).ToList();
         public void Remove(TagCard tagCard) { _tagsPanel.Children.Remove(tagCard); }
 
         #region EventListener
