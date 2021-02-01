@@ -45,6 +45,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         protected override async Task Init()
         {
             await base.Init();
+
             //TODO REMOVE THIS:
             Service.LiveStreamService = await LiveStreamService.Init();
             //-------- Until here -------------------
