@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -100,10 +99,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
             var streams = response.Items.ToList();
             // streams.Sort(LiveBroadcastComparer.ByDateDesc);
             streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
-            Console.WriteLine(string.Join(
-                                  "\n",
-                                  streams.Select(s => s.Id + "\t" + s.Snippet.Title + "\t" +
-                                                      s.Snippet.ScheduledStartTime)));
             return streams[0];
         }
 
