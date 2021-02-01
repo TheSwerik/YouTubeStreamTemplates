@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -7,6 +8,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
+using Google.Apis.YouTube.v3.Data;
 using NLog;
 using YouTubeStreamTemplates.Exceptions;
 using YouTubeStreamTemplates.Settings;
@@ -83,7 +85,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         #region Public Methods
 
-        public async Task<LiveStream> GetCurrentStream()
+        public async Task<LiveBroadcast> GetCurrentBroadcast()
         {
             var request = _youTubeService.LiveBroadcasts.List("id,snippet,contentDetails,status");
             request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
@@ -92,14 +94,29 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             var response = await request.ExecuteAsync();
             if (response.Items == null || response.Items.Count <= 0) throw new NoCurrentStreamException();
-            if (response.Items.Count == 1) return response.Items[0].ToLiveStream();
+            if (response.Items.Count == 1) return response.Items[0];
 
             // Get the latest Stream if there is more than one:
-            var streams = response.Items.Select(s => s.ToLiveStream()).ToList();
-            streams.Sort(LiveStreamComparer.ByDateDesc);
-            Logger.Debug("all streams:\n{0}",
-                         string.Join("\n", streams.Select(s => s.Id + " " + s.Title + " " + s.StartTime)));
+            var streams = response.Items.ToList();
+            // streams.Sort(LiveBroadcastComparer.ByDateDesc);
+            streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
+            Console.WriteLine(string.Join(
+                                  "\n",
+                                  streams.Select(s => s.Id + "\t" + s.Snippet.Title + "\t" +
+                                                      s.Snippet.ScheduledStartTime)));
             return streams[0];
+        }
+
+        public async Task<LiveStream> GetCurrentStream() { return (await GetCurrentBroadcast()).ToLiveStream(); }
+
+        public async Task<LiveStream> GetCurrentStreamAsVideo()
+        {
+            var liveStream = await GetCurrentBroadcast();
+            var videoRequest = _youTubeService.Videos.List("snippet");
+            videoRequest.Id = liveStream.Id;
+            var videos = await videoRequest.ExecuteAsync();
+            if (videos.Items == null || videos.Items.Count <= 0) throw new NoVideoFoundException(liveStream.Id);
+            return videos.Items[0].ToLiveStream();
         }
 
         public async Task UpdateStream(Template template)

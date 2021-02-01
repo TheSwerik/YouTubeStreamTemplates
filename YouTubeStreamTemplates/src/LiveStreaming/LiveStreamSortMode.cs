@@ -7,4 +7,10 @@
         TitleDesc,
         TitleAsc
     }
+
+    public enum LiveStreamTimeCompareMode
+    {
+        Actual,
+        Planned
+    }
 }

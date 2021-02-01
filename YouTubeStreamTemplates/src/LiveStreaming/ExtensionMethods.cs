@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Google.Apis.YouTube.v3.Data;
 
 namespace YouTubeStreamTemplates.LiveStreaming
@@ -39,6 +40,23 @@ namespace YouTubeStreamTemplates.LiveStreaming
                                                   ScheduledStartTime = liveStream.StartTime.ToUniversalTime(),
                                                   ScheduledEndTime = liveStream.EndTime.ToUniversalTime()
                                               }
+                   };
+        }
+
+        public static LiveStream ToLiveStream(this Video video)
+        {
+            return new()
+                   {
+                       Id = video.Id,
+                       Title = video.Snippet.Title,
+                       Description = video.Snippet.Description,
+                       Category = video.Snippet.CategoryId,
+                       Thumbnails = video.Snippet.Thumbnails,
+                       Tags = (List<string>) (video.Snippet.Tags ?? new List<string>()),
+                       Language = video.Snippet.DefaultLanguage,
+                       Localizations = (Dictionary<string, VideoLocalization>) video.Localizations,
+                       StartTime = video.LiveStreamingDetails?.ScheduledStartTime ?? DateTime.MinValue,
+                       EndTime = video.LiveStreamingDetails?.ScheduledEndTime ?? DateTime.MinValue
                    };
         }
     }
