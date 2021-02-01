@@ -43,7 +43,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         protected void FillValues(LiveStream liveStream)
         {
-            Logger.Debug($"Fill Values with:\n{liveStream}");
+            // Logger.Debug($"Fill Values with:\n{liveStream}");
             TitleTextBox.Text = liveStream.Title;
             DescriptionTextBox.Text = liveStream.Description;
             CategoryComboBox.SelectedItem =
