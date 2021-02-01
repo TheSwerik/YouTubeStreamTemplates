@@ -30,11 +30,10 @@ namespace YouTubeStreamTemplates.LiveStreaming
                                      Description = liveStream.Description,
                                      CategoryId = liveStream.Category,
                                      // Thumbnails = liveStream.Thumbnails,
-                                     Tags = liveStream.Tags
-                                     // DefaultLanguage = liveStream.Language,
-                                     // DefaultAudioLanguage = liveStream.Language
+                                     Tags = liveStream.Tags,
+                                     DefaultLanguage = liveStream.TextLanguage,
+                                     DefaultAudioLanguage = liveStream.AudioLanguage
                                  },
-                       // Localizations = liveStream.Localizations,
                        LiveStreamingDetails = new VideoLiveStreamingDetails
                                               {
                                                   ScheduledStartTime = liveStream.StartTime.ToUniversalTime(),
@@ -53,7 +52,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        Category = video.Snippet.CategoryId,
                        Thumbnails = video.Snippet.Thumbnails,
                        Tags = (List<string>) (video.Snippet.Tags ?? new List<string>()),
-                       Language = video.Snippet.DefaultLanguage,
+                       TextLanguage = video.Snippet.DefaultLanguage,
+                       AudioLanguage = video.Snippet.DefaultAudioLanguage,
                        StartTime = video.LiveStreamingDetails?.ScheduledStartTime ?? DateTime.MinValue,
                        EndTime = video.LiveStreamingDetails?.ScheduledEndTime ?? DateTime.MinValue
                    };

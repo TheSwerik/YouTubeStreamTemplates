@@ -120,7 +120,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
             var liveStream = await GetCurrentStream();
             var video = template.ToVideo();
             video.Id = liveStream.Id;
-            // var request = _youTubeService.Videos.Update(video,"id,snippet,localizations,liveStreamingDetails");
             var request = _youTubeService.Videos.Update(video, "id,snippet,liveStreamingDetails");
 
             Logger.Debug("UPDATE VIDEO: {0}\n{1}", liveStream.Id, template);
