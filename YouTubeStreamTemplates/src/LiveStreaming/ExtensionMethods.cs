@@ -14,8 +14,11 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        Title = liveBroadcast.Snippet.Title,
                        Description = liveBroadcast.Snippet.Description,
                        Thumbnails = liveBroadcast.Snippet.Thumbnails,
+                       //TODO Change to Actual:
                        StartTime = liveBroadcast.Snippet.ScheduledStartTime ?? DateTime.MinValue,
                        EndTime = liveBroadcast.Snippet.ScheduledEndTime ?? DateTime.MinValue
+                       // StartTime = liveBroadcast.Snippet.ActualStartTime ?? DateTime.MinValue,
+                       // EndTime = liveBroadcast.Snippet.ActualEndTime ?? DateTime.MinValue
                    };
         }
 
@@ -29,7 +32,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                                      Title = liveStream.Title,
                                      Description = liveStream.Description,
                                      CategoryId = liveStream.Category,
-                                     // Thumbnails = liveStream.Thumbnails,
+                                     // Thumbnails = liveStream.Thumbnails, //TODO
                                      Tags = liveStream.Tags,
                                      DefaultLanguage = liveStream.TextLanguage,
                                      DefaultAudioLanguage = liveStream.AudioLanguage

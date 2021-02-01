@@ -89,6 +89,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             var request = _youTubeService.LiveBroadcasts.List("id,snippet,contentDetails,status");
             request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
+            // TODO Change back to Active:
             // request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
             request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Upcoming;
 
@@ -98,6 +99,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             // Get the latest Stream if there is more than one:
             var streams = response.Items.ToList();
+            // TODO Change back to Actual (not Planned):
             // streams.Sort(LiveBroadcastComparer.ByDateDesc);
             streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
             return streams[0];
@@ -131,6 +133,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             catch (GoogleApiException e)
             {
                 throw new CouldNotUpdateVideoException(e.Error);
+                // TODO Somehow catch or throw this in the main Thread
             }
         }
 
