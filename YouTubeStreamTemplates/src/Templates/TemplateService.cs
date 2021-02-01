@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NLog;
 using YouTubeStreamTemplates.Exceptions;
-using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 
 namespace YouTubeStreamTemplates.Templates
@@ -37,7 +36,7 @@ namespace YouTubeStreamTemplates.Templates
                           Id = id,
                           Name = lines.GetValue("Name"),
                           Title = lines.GetValue("Title"),
-                          Category = (Category) int.Parse(lines.GetValue("Category")),
+                          Category = lines.GetValue("Category"),
                           Description = lines.GetValue("Description").Replace(LineSeparator, "\n"),
                           StartTime = DateTime.Parse(lines.GetValue("StartTime")),
                           EndTime = DateTime.Parse(lines.GetValue("EndTime")),

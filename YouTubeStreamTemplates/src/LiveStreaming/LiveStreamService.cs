@@ -9,6 +9,7 @@ using Google.Apis.Util.Store;
 using Google.Apis.YouTube.v3;
 using NLog;
 using YouTubeStreamTemplates.Exceptions;
+using YouTubeStreamTemplates.Settings;
 
 namespace YouTubeStreamTemplates.LiveStreaming
 {
@@ -25,10 +26,15 @@ namespace YouTubeStreamTemplates.LiveStreaming
                 await CreateYouTubeService(YouTubeService.Scope.YoutubeReadonly, YouTubeService.Scope.YoutubeForceSsl);
             if (ytService == null) throw new CouldNotCreateServiceException();
             var liveStreamService = new LiveStreamService(ytService);
+            await liveStreamService.InitCategories();
             return liveStreamService;
         }
 
-        private LiveStreamService(YouTubeService youTubeService) { _youTubeService = youTubeService; }
+        private LiveStreamService(YouTubeService youTubeService)
+        {
+            _youTubeService = youTubeService;
+            Category = new Dictionary<string, string>();
+        }
 
         ~LiveStreamService() { _youTubeService?.Dispose(); }
 
@@ -51,6 +57,20 @@ namespace YouTubeStreamTemplates.LiveStreaming
                            ApplicationName = "YouTube Sample",
                            ApiKey = await File.ReadAllTextAsync(@"..\..\..\..\apikey.txt")
                        });
+        }
+
+        private async Task InitCategories()
+        {
+            var request = _youTubeService.VideoCategories.List("snippet");
+            request.RegionCode = "DE";
+            request.Hl = bool.Parse(SettingsService.Instance.Settings[Settings.Settings.ForceEnglish])
+                             ? "en_US"
+                             : "de_DE";
+            var result = await request.ExecuteAsync();
+            foreach (var videoCategory in result.Items.Where(v => v.Snippet.Assignable == true))
+                Category.Add(videoCategory.Snippet.Title, videoCategory.Id);
+
+            Logger.Debug(string.Join(", ", Category.Keys));
         }
 
         #endregion
@@ -83,6 +103,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
             if (response == null) return;
             Logger.Debug(response.Snippet.Title + " - " + response.Snippet.Title);
         }
+
+        public Dictionary<string, string> Category { get; }
 
         #endregion
     }
