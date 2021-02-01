@@ -2,8 +2,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:liveStreaming="clr-namespace:YouTubeStreamTemplates.LiveStreaming;assembly=YouTubeStreamTemplates"
              xmlns:controls="clr-namespace:YouTubeStreamTemplatesCrossPlatform.Controls"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditComponent">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -20,6 +20,6 @@
 
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Category:" />
         <controls:GenericComboBox Grid.Row="7" Grid.Column="2"
-                                  x:TypeArguments="liveStreaming:Category" x:Name="CategoryComboBox" />
+                                  x:TypeArguments="system:String" x:Name="CategoryComboBox" />
     </Grid>
 </UserControl>

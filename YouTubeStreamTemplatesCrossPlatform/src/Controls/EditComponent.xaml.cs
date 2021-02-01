@@ -6,6 +6,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using NLog;
+using YouTubeStreamTemplates.Exceptions;
 using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
@@ -13,7 +14,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     public class EditComponent : UserControl
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        protected readonly GenericComboBox<Category> CategoryComboBox;
+        protected readonly GenericComboBox<string> CategoryComboBox;
         protected readonly TextBox DescriptionTextBox;
         protected readonly TagEditor TagEditor;
         protected readonly TextBox TitleTextBox;
@@ -68,7 +69,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             TagEditor = new TagEditor(); //TODO
 
             InitializeComponent();
-            CategoryComboBox = this.Find<GenericComboBox<Category>>("CategoryComboBox");
+            CategoryComboBox = this.Find<GenericComboBox<string>>("CategoryComboBox");
             TitleTextBox = this.Find<TextBox>("TitleTextBox");
             DescriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
 
@@ -81,7 +82,24 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             TitleTextBox.TextInput += OnChanged;
             DescriptionTextBox.TextInput += OnChanged;
 
-            CategoryComboBox.Items = Enum.GetValues(typeof(Category));
+            while (Service.LiveStreamService == null)
+            {
+                Logger.Debug("Waiting for LiveStreamService to initialize...");
+                await Task.Delay(100);
+
+                //TODO REMOVE THIS:
+                try
+                {
+                    Service.LiveStreamService ??= await LiveStreamService.Init();
+                }
+                catch (AlreadyInitializingException)
+                {
+                }
+
+                //-------- Until here -------------------
+            }
+
+            CategoryComboBox.Items = Service.LiveStreamService.Category.Keys;
         }
 
         private void InitializeComponent()

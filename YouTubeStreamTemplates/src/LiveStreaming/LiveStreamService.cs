@@ -20,13 +20,18 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         #region Initialisation
 
+        private static bool _isInitializing;
+
         public static async Task<LiveStreamService> Init()
         {
+            if (_isInitializing) throw new AlreadyInitializingException(typeof(LiveStreamService));
+            _isInitializing = true;
             var ytService =
                 await CreateYouTubeService(YouTubeService.Scope.YoutubeReadonly, YouTubeService.Scope.YoutubeForceSsl);
             if (ytService == null) throw new CouldNotCreateServiceException();
             var liveStreamService = new LiveStreamService(ytService);
             await liveStreamService.InitCategories();
+            _isInitializing = false;
             return liveStreamService;
         }
 
@@ -36,7 +41,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             Category = new Dictionary<string, string>();
         }
 
-        ~LiveStreamService() { _youTubeService?.Dispose(); }
+        ~LiveStreamService() { _youTubeService.Dispose(); }
 
         private static async Task<UserCredential> GetCredentials(IEnumerable<string> scopes)
         {

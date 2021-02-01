@@ -47,15 +47,16 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         protected override async Task Init()
         {
             await base.Init();
-            //TODO REMOVE THIS:
-            Service.TemplateService = new TemplateService();
-            await Service.TemplateService.LoadAllTemplates(SettingsService.Instance.Settings[Settings.SavePath]);
-            //-------- Until here -------------------
 
             while (Service.TemplateService == null)
             {
                 Logger.Debug("Waiting for TemplateService to initialize...");
-                await Task.Delay(25);
+                await Task.Delay(100);
+
+                //TODO REMOVE THIS:
+                Service.TemplateService = new TemplateService();
+                await Service.TemplateService.LoadAllTemplates(SettingsService.Instance.Settings[Settings.SavePath]);
+                //-------- Until here -------------------
             }
 
             InitializeComponent();

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
 using YouTubeStreamTemplates.Exceptions;
-using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
@@ -45,17 +44,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         protected override async Task Init()
         {
             await base.Init();
-
-            //TODO REMOVE THIS:
-            Service.LiveStreamService = await LiveStreamService.Init();
-            //-------- Until here -------------------
-
-            while (Service.LiveStreamService == null)
-            {
-                Logger.Debug("Waiting for LiveStreamService to initialize...");
-                await Task.Delay(25);
-            }
-
             await Task.Run(CheckForStream);
         }
 
