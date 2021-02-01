@@ -13,7 +13,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
         public ThumbnailDetails Thumbnails { get; set; } = null!;
         public List<string> Tags { get; set; } = new();
         public string Language { get; set; } = null!;
-        public Dictionary<string, VideoLocalization>? Localizations { get; set; }
         public string Category { get; set; } = null!;
 
         /// <summary>DOESN'T WORK IN THE CURRENT YOUTUBE API VERSION</summary>

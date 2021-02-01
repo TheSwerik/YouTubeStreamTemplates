@@ -54,7 +54,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        Thumbnails = video.Snippet.Thumbnails,
                        Tags = (List<string>) (video.Snippet.Tags ?? new List<string>()),
                        Language = video.Snippet.DefaultLanguage,
-                       Localizations = (Dictionary<string, VideoLocalization>) video.Localizations,
                        StartTime = video.LiveStreamingDetails?.ScheduledStartTime ?? DateTime.MinValue,
                        EndTime = video.LiveStreamingDetails?.ScheduledEndTime ?? DateTime.MinValue
                    };
