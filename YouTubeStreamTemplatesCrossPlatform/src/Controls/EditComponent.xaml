@@ -23,13 +23,3 @@
                                   x:TypeArguments="liveStreaming:Category" x:Name="CategoryComboBox" />
     </Grid>
 </UserControl>
-
-<!-- <controls:GenericComboBox Grid.Row="1" Grid.Column="2" -->
-<!--                           x:TypeArguments="templates:Template" x:Name="TemplateComboBox" -->
-<!--                           SelectionChanged="TemplateComboBox_OnSelectionChanged"> -->
-<!--     <ComboBox.ItemTemplate> -->
-<!--         <DataTemplate DataType="templates:Template"> -->
-<!--             <TextBlock Text="{Binding Name}" /> -->
-<!--         </DataTemplate> -->
-<!--     </ComboBox.ItemTemplate> -->
-<!-- </controls:GenericComboBox> -->
