@@ -78,7 +78,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             foreach (var videoCategory in result.Items.Where(v => v.Snippet.Assignable == true))
                 Category.Add(videoCategory.Id, videoCategory.Snippet.Title);
 
-            Logger.Debug(string.Join(", ", Category));
+            Logger.Debug("Found Categories: {0}", string.Join(", ", Category));
         }
 
         #endregion
@@ -122,11 +122,11 @@ namespace YouTubeStreamTemplates.LiveStreaming
             video.Id = liveStream.Id;
             var request = _youTubeService.Videos.Update(video, "id,snippet,liveStreamingDetails");
 
-            Logger.Debug("UPDATE VIDEO: {0}\n{1}", liveStream.Id, template);
+            Logger.Debug("Updating Video:\t{0} -> {1}", template.Name, liveStream.Id);
             try
             {
                 var response = await request.ExecuteAsync();
-                Logger.Debug(response.Snippet.Title + " - " + response.Snippet.Title);
+                Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
             }
             catch (GoogleApiException e)
             {

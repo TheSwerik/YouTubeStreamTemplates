@@ -14,7 +14,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
     public class EditComponent : UserControl
     {
-        protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         protected readonly GenericComboBox<KeyValuePair<string, string>> CategoryComboBox;
         protected readonly TextBox DescriptionTextBox;
         protected readonly TagEditor TagEditor;

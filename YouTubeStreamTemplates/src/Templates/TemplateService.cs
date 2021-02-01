@@ -51,17 +51,10 @@ namespace YouTubeStreamTemplates.Templates
 
         #region Public Methods
 
-        // public async Task<List<string>> GetTemplatePaths()
-        // {
-        //     var openFileDialog = new OpenFileDialog();
-        //     openFileDialog.Filter = "Template files (*.tlpt)|*.tlpt|All files (*.*)|*.*";
-        //     if (openFileDialog.ShowDialog()) return openFileDialog.FileName;
-        //     throw new Exception();
-        // }
         public async Task LoadAllTemplates(string folderPath)
         {
             foreach (var filePath in Directory.EnumerateFiles(folderPath)) await LoadTemplate(filePath);
-            Logger.Debug(Templates.Count);
+            Logger.Debug("Loaded {0} Templates.", Templates.Count);
         }
 
         public async Task<Template> LoadTemplate(string path)

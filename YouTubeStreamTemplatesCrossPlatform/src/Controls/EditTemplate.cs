@@ -5,6 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Styling;
+using NLog;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
@@ -13,6 +14,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
     public class EditTemplate : EditComponent, IStyleable
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private Grid _contentGrid = null!;
         private GenericComboBox<Template> _templateComboBox = null!;
         Type IStyleable.StyleKey => typeof(EditComponent);
