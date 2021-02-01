@@ -93,8 +93,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _contentGrid.Children.Add(_templateComboBox);
 
             var testButton = new Button {Content = "Update Stream"};
-            testButton.Click += (sender, args) =>
-                                    Service.LiveStreamService!.UpdateStream(_templateComboBox.SelectedItem!);
+            testButton.Click += async (sender, args) =>
+                                    await Service.LiveStreamService!.UpdateStream(_templateComboBox.SelectedItem!);
             Grid.SetRow(testButton, 9);
             Grid.SetColumn(testButton, 1);
             _contentGrid.Children.Add(testButton);

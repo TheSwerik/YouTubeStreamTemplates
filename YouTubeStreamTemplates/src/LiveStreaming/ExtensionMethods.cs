@@ -29,12 +29,12 @@ namespace YouTubeStreamTemplates.LiveStreaming
                                      Title = liveStream.Title,
                                      Description = liveStream.Description,
                                      CategoryId = liveStream.Category,
-                                     Thumbnails = liveStream.Thumbnails,
-                                     Tags = liveStream.Tags,
-                                     DefaultLanguage = liveStream.Language,
-                                     DefaultAudioLanguage = liveStream.Language
+                                     // Thumbnails = liveStream.Thumbnails,
+                                     Tags = liveStream.Tags
+                                     // DefaultLanguage = liveStream.Language,
+                                     // DefaultAudioLanguage = liveStream.Language
                                  },
-                       Localizations = liveStream.Localizations,
+                       // Localizations = liveStream.Localizations,
                        LiveStreamingDetails = new VideoLiveStreamingDetails
                                               {
                                                   ScheduledStartTime = liveStream.StartTime.ToUniversalTime(),

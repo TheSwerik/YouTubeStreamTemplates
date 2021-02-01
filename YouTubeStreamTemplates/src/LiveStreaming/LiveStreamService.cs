@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Google;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
@@ -119,11 +120,19 @@ namespace YouTubeStreamTemplates.LiveStreaming
             var liveStream = await GetCurrentStream();
             var video = template.ToVideo();
             video.Id = liveStream.Id;
-            var request = _youTubeService.Videos.Update(video, "snippet");
+            // var request = _youTubeService.Videos.Update(video,"id,snippet,localizations,liveStreamingDetails");
+            var request = _youTubeService.Videos.Update(video, "id,snippet,liveStreamingDetails");
 
-            var response = await request.ExecuteAsync();
-            if (response == null) return;
-            Logger.Debug(response.Snippet.Title + " - " + response.Snippet.Title);
+            Logger.Debug("UPDATE VIDEO: {0}\n{1}", liveStream.Id, template);
+            try
+            {
+                var response = await request.ExecuteAsync();
+                Logger.Debug(response.Snippet.Title + " - " + response.Snippet.Title);
+            }
+            catch (GoogleApiException e)
+            {
+                throw new CouldNotUpdateVideoException(e.Error);
+            }
         }
 
         /// <summary>
