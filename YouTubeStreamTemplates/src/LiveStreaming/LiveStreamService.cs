@@ -73,9 +73,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
                              : "de_DE";
             var result = await request.ExecuteAsync();
             foreach (var videoCategory in result.Items.Where(v => v.Snippet.Assignable == true))
-                Category.Add(videoCategory.Snippet.Title, videoCategory.Id);
+                Category.Add(videoCategory.Id, videoCategory.Snippet.Title);
 
-            Logger.Debug(string.Join(", ", Category.Keys));
+            Logger.Debug(string.Join(", ", Category));
         }
 
         #endregion
@@ -109,6 +109,10 @@ namespace YouTubeStreamTemplates.LiveStreaming
             Logger.Debug(response.Snippet.Title + " - " + response.Snippet.Title);
         }
 
+        /// <summary>
+        ///     First string is the Category ID
+        ///     Second string is the Category Name
+        /// </summary>
         public Dictionary<string, string> Category { get; }
 
         #endregion

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -14,7 +15,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     public class EditComponent : UserControl
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        protected readonly GenericComboBox<string> CategoryComboBox;
+        protected readonly GenericComboBox<KeyValuePair<string, string>> CategoryComboBox;
         protected readonly TextBox DescriptionTextBox;
         protected readonly TagEditor TagEditor;
         protected readonly TextBox TitleTextBox;
@@ -40,22 +41,23 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         protected virtual void Refresh() { throw new NotImplementedException(); }
         protected virtual LiveStream? GetLiveStream() { throw new NotImplementedException(); }
 
-        protected void FillValues(LiveStream template)
+        protected void FillValues(LiveStream liveStream)
         {
-            Logger.Debug($"Fill Values with:\n{template}");
-            TitleTextBox.Text = template.Title;
-            DescriptionTextBox.Text = template.Description;
-            CategoryComboBox.SelectedItem = template.Category;
-            TagEditor.RefreshTags(template.Tags);
+            Logger.Debug($"Fill Values with:\n{liveStream}");
+            TitleTextBox.Text = liveStream.Title;
+            DescriptionTextBox.Text = liveStream.Description;
+            CategoryComboBox.SelectedItem =
+                Service.LiveStreamService!.Category.First(kp => kp.Key.Equals(liveStream.Category));
+            TagEditor.RefreshTags(liveStream.Tags);
         }
 
         private bool HasDifference()
         {
             var live = GetLiveStream();
             return live == null ||
-                   live.Category == CategoryComboBox.SelectedItem &&
                    live.Title.Equals(TitleTextBox.Text) &&
                    live.Description.Equals(DescriptionTextBox.Text) &&
+                   live.Category.Equals(CategoryComboBox.SelectedItem.Value) &&
                    live.Tags.Count == TagEditor.Tags.Count &&
                    live.Tags.All(t => TagEditor.Tags.Contains(t));
         }
@@ -69,7 +71,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             TagEditor = new TagEditor(); //TODO
 
             InitializeComponent();
-            CategoryComboBox = this.Find<GenericComboBox<string>>("CategoryComboBox");
+            CategoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
             TitleTextBox = this.Find<TextBox>("TitleTextBox");
             DescriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
 
@@ -99,7 +101,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 //-------- Until here -------------------
             }
 
-            CategoryComboBox.Items = Service.LiveStreamService.Category.Keys;
+            CategoryComboBox.Items = Service.LiveStreamService.Category;
         }
 
         private void InitializeComponent()
