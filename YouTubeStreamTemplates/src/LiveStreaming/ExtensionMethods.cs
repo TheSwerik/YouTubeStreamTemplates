@@ -13,8 +13,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        Title = liveBroadcast.Snippet.Title,
                        Description = liveBroadcast.Snippet.Description,
                        Thumbnails = liveBroadcast.Snippet.Thumbnails,
-                       StartTime = liveBroadcast.Snippet.ActualStartTime ?? DateTime.MinValue,
-                       EndTime = liveBroadcast.Snippet.ActualEndTime ?? DateTime.MinValue
+                       StartTime = liveBroadcast.Snippet.ScheduledStartTime ?? DateTime.MinValue,
+                       EndTime = liveBroadcast.Snippet.ScheduledEndTime ?? DateTime.MinValue
                    };
         }
 
