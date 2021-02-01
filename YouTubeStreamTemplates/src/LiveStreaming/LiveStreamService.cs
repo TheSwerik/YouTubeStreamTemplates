@@ -10,6 +10,7 @@ using Google.Apis.YouTube.v3;
 using NLog;
 using YouTubeStreamTemplates.Exceptions;
 using YouTubeStreamTemplates.Settings;
+using YouTubeStreamTemplates.Templates;
 
 namespace YouTubeStreamTemplates.LiveStreaming
 {
@@ -98,10 +99,11 @@ namespace YouTubeStreamTemplates.LiveStreaming
             return streams[0];
         }
 
-        public async Task UpdateStream()
+        public async Task UpdateStream(Template template)
         {
             var liveStream = await GetCurrentStream();
-            var video = liveStream.ToVideo();
+            var video = template.ToVideo();
+            video.Id = liveStream.Id;
             var request = _youTubeService.Videos.Update(video, "snippet");
 
             var response = await request.ExecuteAsync();
