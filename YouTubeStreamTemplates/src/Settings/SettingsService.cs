@@ -15,7 +15,7 @@ namespace YouTubeStreamTemplates.Settings
         private static SettingsService? _instance;
         private readonly Dictionary<Settings, string> _defaultSettings;
         public static SettingsService Instance => _instance ??= new SettingsService();
-        public Dictionary<Settings, string> Settings { get; init; }
+        public Dictionary<Settings, string> Settings { get; }
 
         #region Public Methods
 

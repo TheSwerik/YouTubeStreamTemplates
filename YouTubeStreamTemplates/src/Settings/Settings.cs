@@ -2,6 +2,7 @@
 {
     public enum Settings
     {
-        SavePath
+        SavePath,
+        ForceEnglish
     }
 }

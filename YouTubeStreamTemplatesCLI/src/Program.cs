@@ -1,32 +1,18 @@
 ﻿using System;
-using System.Linq;
-using YouTubeStreamTemplates.Settings;
-using YouTubeStreamTemplates.Templates;
+using System.Threading.Tasks;
+using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplatesCLI
 {
     internal static class Program
     {
-        internal static void Main(string[] args)
+        internal static async Task Main(string[] args)
         {
             try
             {
-                var templateService = new TemplateService();
-                SettingsService.Instance.Init(templateService).Wait();
-                Console.WriteLine(templateService.Templates.Count);
-                var template = templateService.Templates.First();
-                templateService.SaveTemplate(new Template(template.Name)
-                                             {
-                                                 Id = Guid.NewGuid().ToString(),
-                                                 Category = template.Category,
-                                                 Description = template.Description,
-                                                 EndTime = template.EndTime,
-                                                 StartTime = template.StartTime,
-                                                 Language = template.Language,
-                                                 Tags = template.Tags,
-                                                 ThumbnailsPath = template.ThumbnailsPath,
-                                                 Title = template.Title
-                                             });
+                var liveStreamService = LiveStreamService.Init().Result;
+
+                await liveStreamService.GetCategories();
             }
             catch (AggregateException e)
             {
