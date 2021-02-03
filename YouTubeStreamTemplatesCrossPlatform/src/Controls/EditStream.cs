@@ -38,6 +38,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 catch (NoCurrentStreamException)
                 {
                     Logger.Debug("Not currently streaming...");
+                    _currentLiveStream = null;
                 }
             }
         }
