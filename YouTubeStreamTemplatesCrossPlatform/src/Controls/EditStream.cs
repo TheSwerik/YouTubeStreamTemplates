@@ -30,9 +30,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 {
                     var stream = await Service.LiveStreamService.GetCurrentStreamAsVideo();
                     // TODO check for unsaved Changes
+                    if (_currentLiveStream == null)
+                        Logger.Debug("Stream Detected:\tid: {0} \tTitle: {1}", stream.Id, stream.Title);
                     _currentLiveStream = stream;
-                    Logger.Debug("Stream Detected:\tid: {0} \tTitle: {1}", _currentLiveStream.Id,
-                                 _currentLiveStream.Title);
                     InvokeOnRender(() => FillValues(_currentLiveStream));
                 }
                 catch (NoCurrentStreamException)
