@@ -43,7 +43,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             if (_templateComboBox.SelectedItem != null) FillValues(_templateComboBox.SelectedItem);
         }
 
-        protected override LiveStream? GetLiveStream() { return _templateComboBox.SelectedItem; }
+        protected override LiveStream? GetLiveStream() { return _templateComboBox?.SelectedItem; }
 
         #endregion
 

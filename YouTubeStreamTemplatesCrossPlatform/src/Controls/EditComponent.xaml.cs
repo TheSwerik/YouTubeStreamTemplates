@@ -48,7 +48,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             DescriptionTextBox.Text = liveStream.Description;
             CategoryComboBox.SelectedItem =
                 Service.LiveStreamService!.Category.First(kp => kp.Key.Equals(liveStream.Category));
-            TagEditor.RefreshTags(liveStream.Tags);
+
+            TagEditor.Tags = liveStream.Tags.ToHashSet();
+            TagEditor.RefreshTags();
         }
 
         private bool HasDifference()
