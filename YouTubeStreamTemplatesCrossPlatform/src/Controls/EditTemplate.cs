@@ -23,7 +23,12 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            //TODO Check if there are unsaved changes
+            if (Edited)
+            {
+                Logger.Info("You have unsaved changes!");
+                return;
+            }
+
             FillValues(_templateComboBox.SelectedItem!);
         }
 

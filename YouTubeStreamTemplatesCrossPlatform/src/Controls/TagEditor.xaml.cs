@@ -22,7 +22,11 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         #region EventListener
 
         //TODO
-        // private void InputTextBox_OnTextInput(object? sender, TextInputEventArgs e) { Console.WriteLine(e.Text); }
+        // private void InputTextBox_OnTextInput(object? sender, TextInputEventArgs e)
+        // {
+        //     InputTextBox_FinishWriting();
+        //     Console.WriteLine("ALARM");
+        // }
 
         private void InputTextBox_OnLostFocus(object? sender, RoutedEventArgs e) { InputTextBox_FinishWriting(); }
 

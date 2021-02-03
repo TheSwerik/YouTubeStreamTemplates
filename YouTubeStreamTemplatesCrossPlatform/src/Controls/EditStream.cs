@@ -5,6 +5,7 @@ using Avalonia.Styling;
 using NLog;
 using YouTubeStreamTemplates.Exceptions;
 using YouTubeStreamTemplates.LiveStreaming;
+using YouTubeStreamTemplatesCrossPlatform.Exceptions;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
@@ -20,8 +21,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async Task CheckForStream()
         {
-            //TODO make Custom Exception
-            if (Service.LiveStreamService == null) throw new Exception("LiveStreamService is not Initialized.");
+            if (Service.LiveStreamService == null) throw new ServiceNotInitializedException(typeof(LiveStreamService));
 
             while (true)
             {

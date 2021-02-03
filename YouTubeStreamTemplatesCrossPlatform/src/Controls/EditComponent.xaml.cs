@@ -68,7 +68,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         public EditComponent()
         {
-            TagEditor = new TagEditor(); //TODO
+            TagEditor = new TagEditor();
 
             InitializeComponent();
             CategoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
