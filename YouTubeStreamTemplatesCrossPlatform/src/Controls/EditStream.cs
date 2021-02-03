@@ -19,26 +19,26 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         protected override LiveStream? GetLiveStream() { return _currentLiveStream; }
 
-        private async Task CheckForStream()
+        private async Task CheckForStream(int delay = 1000)
         {
             if (Service.LiveStreamService == null) throw new ServiceNotInitializedException(typeof(LiveStreamService));
-
+            var longDelay = delay * 20;
             while (true)
             {
+                await Task.Delay(_currentLiveStream == null ? delay : longDelay);
                 try
                 {
-                    _currentLiveStream = await Service.LiveStreamService.GetCurrentStreamAsVideo();
+                    var stream = await Service.LiveStreamService.GetCurrentStreamAsVideo();
+                    // TODO check for unsaved Changes
+                    _currentLiveStream = stream;
                     Logger.Debug("Stream Detected:\tid: {0} \tTitle: {1}", _currentLiveStream.Id,
                                  _currentLiveStream.Title);
                     InvokeOnRender(() => FillValues(_currentLiveStream));
-                    return;
                 }
                 catch (NoCurrentStreamException)
                 {
                     Logger.Debug("Not currently streaming...");
                 }
-
-                await Task.Delay(1000);
             }
         }
 
@@ -51,7 +51,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         protected override async Task Init()
         {
             await base.Init();
-            await Task.Run(CheckForStream);
+            await Task.Run(() => CheckForStream());
         }
 
         #endregion
