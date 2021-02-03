@@ -43,7 +43,7 @@ namespace YouTubeStreamTemplates.Templates
                           TextLanguage = lines.GetValue("TextLanguage"),
                           AudioLanguage = lines.GetValue("AudioLanguage"),
                           Tags = lines.GetValue("Tags").Split(",").ToList(),
-                          ThumbnailsPath = lines.GetValue("ThumbnailsPath")
+                          ThumbnailPath = lines.GetValue("ThumbnailPath")
                       };
         }
 
@@ -86,7 +86,7 @@ namespace YouTubeStreamTemplates.Templates
             await file.WriteLineAsync($"TextLanguage: {template.TextLanguage}");
             await file.WriteLineAsync($"AudioLanguage: {template.AudioLanguage}");
             await file.WriteLineAsync($"Tags: {string.Join(',', template.Tags)}");
-            await file.WriteLineAsync($"ThumbnailsPath: {template.ThumbnailsPath}");
+            await file.WriteLineAsync($"ThumbnailPath: {template.ThumbnailPath}");
         }
 
         #endregion

@@ -13,7 +13,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        Id = liveBroadcast.Id,
                        Title = liveBroadcast.Snippet.Title,
                        Description = liveBroadcast.Snippet.Description,
-                       Thumbnails = liveBroadcast.Snippet.Thumbnails,
+                       ThumbnailPath = liveBroadcast.Snippet.Thumbnails.Maxres.Url,
                        //TODO Change to Actual:
                        StartTime = liveBroadcast.Snippet.ScheduledStartTime ?? DateTime.MinValue,
                        EndTime = liveBroadcast.Snippet.ScheduledEndTime ?? DateTime.MinValue
@@ -32,7 +32,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                                      Title = liveStream.Title,
                                      Description = liveStream.Description,
                                      CategoryId = liveStream.Category,
-                                     // Thumbnails = liveStream.Thumbnails, //TODO
+                                     // ThumbnailPath = liveStream.ThumbnailPath, //TODO
                                      Tags = liveStream.Tags,
                                      DefaultLanguage = liveStream.TextLanguage,
                                      DefaultAudioLanguage = liveStream.AudioLanguage
@@ -53,7 +53,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        Title = video.Snippet.Title,
                        Description = video.Snippet.Description,
                        Category = video.Snippet.CategoryId,
-                       Thumbnails = video.Snippet.Thumbnails,
+                       ThumbnailPath = video.Snippet.Thumbnails.Maxres.Url,
                        Tags = (List<string>) (video.Snippet.Tags ?? new List<string>()),
                        TextLanguage = video.Snippet.DefaultLanguage,
                        AudioLanguage = video.Snippet.DefaultAudioLanguage,

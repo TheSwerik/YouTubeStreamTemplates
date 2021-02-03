@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -125,7 +126,22 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             Logger.Debug("Updating Video:\t{0} -> {1}", template.Name, liveStream.Id);
             var response = await request.ExecuteAsync();
+            //TODO dont change thumbnail if it's the same
+            await SetThumbnail(liveStream.Id, template.ThumbnailPath);
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
+        }
+
+        public async Task SetThumbnail(string videoId, string filePath)
+        {
+            //TODO if URL:
+            //var client = new WebClient();
+            //using (var fileStream = client.OpenRead(url))
+            using (var fileStream = File.OpenRead(filePath))
+            {
+                Console.WriteLine(fileStream.Name);
+                var videosInsertRequest = _youTubeService.Thumbnails.Set(videoId, fileStream, "image/jpeg");
+                await videosInsertRequest.UploadAsync();
+            }
         }
 
         /// <summary>

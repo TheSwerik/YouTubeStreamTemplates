@@ -10,7 +10,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         public string Id { get; init; } = null!;
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public ThumbnailDetails Thumbnails { get; set; } = null!;
+        public string ThumbnailPath { get; set; } = null!;
         public List<string> Tags { get; set; } = new();
         public string TextLanguage { get; set; } = "en";
         public string AudioLanguage { get; set; } = "en";
@@ -33,10 +33,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
                                  {
                                      Title = Title,
                                      Description = Description,
-                                     Thumbnails = Thumbnails,
                                      ScheduledStartTime = StartTime.ToUniversalTime()
                                  }
-// Kind = 
+                       // Kind = 
                    };
         }
 
