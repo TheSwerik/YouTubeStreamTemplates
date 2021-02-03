@@ -127,12 +127,12 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             Logger.Debug("Updating Video:\t{0} -> {1}", template.Name, liveStream.Id);
             var response = await request.ExecuteAsync();
-            //TODO dont change thumbnail if it's the same
-            await SetThumbnail(liveStream.Id, template.ThumbnailPath);
+            if (!response.Snippet.Thumbnails.Maxres.Url.Equals(template.ThumbnailPath))
+                template.ThumbnailPath = await SetThumbnail(liveStream.Id, template.ThumbnailPath);
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
         }
 
-        private async Task SetThumbnail(string videoId, string filePath)
+        private async Task<string> SetThumbnail(string videoId, string filePath)
         {
             Stream fileStream;
             if (filePath.StartsWith("http"))
@@ -149,6 +149,14 @@ namespace YouTubeStreamTemplates.LiveStreaming
                 _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
             await request.UploadAsync();
             await fileStream.DisposeAsync();
+
+            // Get ThumbnailPath:
+            var videoRequest = _youTubeService.Videos.List("id,snippet");
+            videoRequest.Id = videoId;
+            var video = await videoRequest.ExecuteAsync();
+            if (video?.Items == null || video.Items.Count < 1)
+                throw new OhPleaseNeverHappenException("Can't find Video");
+            return video.Items[0].Snippet.Thumbnails.Maxres.Url;
         }
 
         /// <summary>
