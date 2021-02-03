@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Apis.Auth.OAuth2;
@@ -11,6 +11,7 @@ using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
 using NLog;
 using YouTubeStreamTemplates.Exceptions;
+using YouTubeStreamTemplates.Helpers;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
 
@@ -131,17 +132,23 @@ namespace YouTubeStreamTemplates.LiveStreaming
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
         }
 
-        public async Task SetThumbnail(string videoId, string filePath)
+        private async Task SetThumbnail(string videoId, string filePath)
         {
-            //TODO if URL:
-            //var client = new WebClient();
-            //using (var fileStream = client.OpenRead(url))
-            using (var fileStream = File.OpenRead(filePath))
+            Stream fileStream;
+            if (filePath.StartsWith("http"))
             {
-                Console.WriteLine(fileStream.Name);
-                var videosInsertRequest = _youTubeService.Thumbnails.Set(videoId, fileStream, "image/jpeg");
-                await videosInsertRequest.UploadAsync();
+                using var webClient = new WebClient();
+                fileStream = webClient.OpenRead(filePath);
             }
+            else
+            {
+                fileStream = File.OpenRead(filePath);
+            }
+
+            var request =
+                _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
+            await request.UploadAsync();
+            await fileStream.DisposeAsync();
         }
 
         /// <summary>

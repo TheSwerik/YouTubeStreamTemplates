@@ -2,9 +2,9 @@
 {
     public static class ExtensionGetter
     {
-        // public static string GetJsonExtension(string Filename)
-        // {
-        //     
-        // }
+        public static string GetJsonExtension(string filename)
+        {
+            return filename.EndsWith(".png") ? "image/png" : "image/jpeg";
+        }
     }
 }
