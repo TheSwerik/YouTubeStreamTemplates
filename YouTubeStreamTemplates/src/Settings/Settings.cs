@@ -3,6 +3,7 @@
     public enum Settings
     {
         SavePath,
-        ForceEnglish
+        ForceEnglish,
+        CurrentTemplate
     }
 }

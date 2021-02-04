@@ -27,6 +27,14 @@ namespace YouTubeStreamTemplates.Settings
                 await templateService.LoadTemplate(path);
         }
 
+        public async Task Save()
+        {
+            var lines = Enum.GetValues<Settings>()
+                            .Select(setting => $"{setting} = {Settings[setting]}")
+                            .ToList();
+            await File.WriteAllLinesAsync(Path, lines);
+        }
+
         #endregion
 
         #region Initialisation

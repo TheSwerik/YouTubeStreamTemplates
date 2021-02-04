@@ -7,7 +7,6 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using NLog;
-using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
 
@@ -53,12 +52,17 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void Refresh()
         {
+            var template =
+                Service.TemplateService!.Templates.FirstOrDefault(
+                    t => t.Id.Equals(SettingsService.Instance.Settings[Settings.CurrentTemplate]));
             _templateComboBox.Items = Service.TemplateService!.Templates;
-            _templateComboBox.SelectedIndex = 0;
-            if (_templateComboBox.SelectedItem != null) FillValues(_templateComboBox.SelectedItem);
+            _templateComboBox.SelectedItem =
+                Service.TemplateService!.Templates.FirstOrDefault(
+                    t => t.Id.Equals(SettingsService.Instance.Settings[Settings.CurrentTemplate]));
+            if (_templateComboBox.SelectedItem == null) _templateComboBox.SelectedIndex = 0;
         }
 
-        private void FillValues(LiveStream liveStream)
+        private void FillValues(Template liveStream)
         {
             // Logger.Debug($"Fill Values with:\n{liveStream}");
             _titleTextBox.Text = liveStream.Title;
@@ -68,6 +72,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
+            SettingsService.Instance.Settings[Settings.CurrentTemplate] = liveStream.Id;
+            Task.Run(SettingsService.Instance.Save);
         }
 
         private bool HasDifference()
