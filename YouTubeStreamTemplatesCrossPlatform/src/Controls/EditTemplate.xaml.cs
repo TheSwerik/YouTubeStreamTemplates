@@ -56,9 +56,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 Service.TemplateService!.Templates.FirstOrDefault(
                     t => t.Id.Equals(SettingsService.Instance.Settings[Settings.CurrentTemplate]));
             _templateComboBox.Items = Service.TemplateService!.Templates;
-            _templateComboBox.SelectedItem =
-                Service.TemplateService!.Templates.FirstOrDefault(
-                    t => t.Id.Equals(SettingsService.Instance.Settings[Settings.CurrentTemplate]));
+            _templateComboBox.SelectedItem = Service.TemplateService
+                                                    .Templates
+                                                    .FirstOrDefault(t => t.Id.Equals(SettingsService.Instance.Settings
+                                                                        [Settings.CurrentTemplate]));
             if (_templateComboBox.SelectedItem == null) _templateComboBox.SelectedIndex = 0;
         }
 
