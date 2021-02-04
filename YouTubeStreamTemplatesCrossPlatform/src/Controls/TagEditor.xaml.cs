@@ -12,6 +12,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     public class TagEditor : UserControl
     {
         private readonly TextBox _inputTextBox;
+        private readonly bool _isReadOnly;
         private readonly WrapPanel _tagsPanel;
 
         public List<TagCard> TagCards => _tagsPanel.Children.OfType<TagCard>().ToList();
@@ -59,7 +60,13 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Tags = new HashSet<string>();
         }
 
-        public TagEditor(IEnumerable<string> tags) : this()
+        public TagEditor(bool isReadOnly = false) : this()
+        {
+            _isReadOnly = isReadOnly;
+            _inputTextBox.IsVisible = !isReadOnly;
+        }
+
+        public TagEditor(IEnumerable<string> tags, bool isReadOnly = false) : this(isReadOnly)
         {
             Tags = tags.ToHashSet();
             RefreshTags();
@@ -72,7 +79,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                            {
                                var controls = _tagsPanel.Children;
                                controls.Clear();
-                               controls.AddRange(tags.Select(tag => new TagCard(this, tag)));
+                               controls.AddRange(tags.Select(tag => new TagCard(this, tag, _isReadOnly)));
                                InvokeOnRender(ResizeInputBox);
                                controls.Add(_inputTextBox);
                            });

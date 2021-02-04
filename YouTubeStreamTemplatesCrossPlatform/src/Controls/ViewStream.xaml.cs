@@ -57,7 +57,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _titleTextBlock.Text = liveStream.Title;
             _descriptionTextBlock.Text = liveStream.Description;
             _categoryTextBlock.Text = Service.LiveStreamService!.Category
-                                                                .First(kp => kp.Key.Equals(liveStream.Category)).Value;
+                                                                .First(kp => kp.Key.Equals(liveStream.Category))
+                                                                .Value;
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
         }
@@ -68,7 +69,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         public ViewStream()
         {
-            _tagEditor = new TagEditor();
+            _tagEditor = new TagEditor(true);
 
             InitializeComponent();
             _categoryTextBlock = this.Find<TextBlock>("CategoryTextBlock");
