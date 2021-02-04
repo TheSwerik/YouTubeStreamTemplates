@@ -56,9 +56,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             // Logger.Debug($"Fill Values with:\n{liveStream}");
             _titleTextBlock.Text = liveStream.Title;
             _descriptionTextBlock.Text = liveStream.Description;
-            // CategoryComboBox.SelectedItem =
-            // Service.LiveStreamService!.Category.First(kp => kp.Key.Equals(liveStream.Category));
-
+            _categoryTextBlock.Text = liveStream.Category;
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
         }
