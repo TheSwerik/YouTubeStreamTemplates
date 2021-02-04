@@ -14,16 +14,16 @@
         </Border>
 
         <TextBlock Grid.Row="3" Grid.Column="1" Text="Description:" />
-        <!-- <Border Grid.Row="3" Grid.Column="2" -->
-        <!-- BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1"> -->
-        <TextBlock Grid.Row="3" Grid.Column="2" x:Name="DescriptionTextBlock" />
-        <!-- </Border> -->
+        <Border Grid.Row="3" Grid.Column="2"
+                BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+            <TextBlock x:Name="DescriptionTextBlock" />
+        </Border>
 
         <TextBlock Grid.Row="5" Grid.Column="1" Text="Tags:" />
         <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
 
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Category:" />
-        <Border Grid.Row="3" Grid.Column="2"
+        <Border Grid.Row="7" Grid.Column="2"
                 BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
             <TextBlock x:Name="CategoryTextBlock" />
         </Border>
