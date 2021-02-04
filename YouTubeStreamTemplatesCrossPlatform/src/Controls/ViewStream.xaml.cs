@@ -14,10 +14,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     public class ViewStream : UserControl
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly TextBlock _categoryTextBlock;
-        private readonly TextBlock _descriptionTextBlock;
+        private readonly TextBox _categoryTextBox;
+        private readonly TextBox _descriptionTextBox;
         private readonly TagEditor _tagEditor;
-        private readonly TextBlock _titleTextBlock;
+        private readonly TextBox _titleTextBox;
         private LiveStream? _currentLiveStream;
 
         #region Methods
@@ -54,11 +54,11 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private void FillValues(LiveStream liveStream)
         {
             // Logger.Debug($"Fill Values with:\n{liveStream}");
-            _titleTextBlock.Text = liveStream.Title;
-            _descriptionTextBlock.Text = liveStream.Description;
-            _categoryTextBlock.Text = Service.LiveStreamService!.Category
-                                                                .First(kp => kp.Key.Equals(liveStream.Category))
-                                                                .Value;
+            _titleTextBox.Text = liveStream.Title;
+            _descriptionTextBox.Text = liveStream.Description;
+            _categoryTextBox.Text = Service.LiveStreamService!.Category
+                                                              .First(kp => kp.Key.Equals(liveStream.Category))
+                                                              .Value;
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
         }
@@ -72,9 +72,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor = new TagEditor(true);
 
             InitializeComponent();
-            _categoryTextBlock = this.Find<TextBlock>("CategoryTextBlock");
-            _titleTextBlock = this.Find<TextBlock>("TitleTextBlock");
-            _descriptionTextBlock = this.Find<TextBlock>("DescriptionTextBlock");
+            _categoryTextBox = this.Find<TextBox>("CategoryTextBox");
+            _titleTextBox = this.Find<TextBox>("TitleTextBox");
+            _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
 
             InvokeOnRender(async () => await Init());
         }
