@@ -18,7 +18,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TextBlock _descriptionTextBlock;
         private readonly TagEditor _tagEditor;
         private readonly TextBlock _titleTextBlock;
-        private LiveStream? _currentLiveStream;
+        public LiveStream? CurrentLiveStream { get; private set; }
 
         #region Methods
 
@@ -28,20 +28,20 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             var longDelay = delay * 20;
             while (true)
             {
-                await Task.Delay(_currentLiveStream == null ? delay : longDelay);
+                await Task.Delay(CurrentLiveStream == null ? delay : longDelay);
                 try
                 {
                     var stream = await Service.LiveStreamService.GetCurrentStreamAsVideo();
                     // TODO check for unsaved Changes
-                    if (_currentLiveStream == null)
+                    if (CurrentLiveStream == null)
                         Logger.Debug("Stream Detected:\tid: {0} \tTitle: {1}", stream.Id, stream.Title);
-                    _currentLiveStream = stream;
-                    InvokeOnRender(() => FillValues(_currentLiveStream));
+                    CurrentLiveStream = stream;
+                    InvokeOnRender(() => FillValues(CurrentLiveStream));
                 }
                 catch (NoCurrentStreamException)
                 {
                     Logger.Debug("Not currently streaming...");
-                    _currentLiveStream = null;
+                    CurrentLiveStream = null;
                 }
             }
         }

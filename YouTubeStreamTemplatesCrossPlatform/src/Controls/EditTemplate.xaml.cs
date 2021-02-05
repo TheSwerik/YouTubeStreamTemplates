@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using NLog;
@@ -19,26 +18,30 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TextBox _descriptionTextBox;
         private readonly TagEditor _tagEditor;
         private readonly TextBox _titleTextBox;
-        private bool _edited;
         private GenericComboBox<Template> _templateComboBox;
+        public Template SelectedTemplate => _templateComboBox.SelectedItem!;
 
         #region EventListener
 
+        private bool _ignoreDifferenceCheck;
+
         private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
-            if (_edited)
+            if (_ignoreDifferenceCheck)
             {
+                _ignoreDifferenceCheck = false;
+                return;
+            }
+
+            if (e.RemovedItems.Count > 0 && e.RemovedItems[0] != null && HasDifference((Template?) e.RemovedItems[0]))
+            {
+                _ignoreDifferenceCheck = true;
+                _templateComboBox.SelectedItem = (Template?) e.RemovedItems[0];
                 Logger.Info("You have unsaved changes!");
                 return;
             }
 
-            FillValues(_templateComboBox.SelectedItem!);
-        }
-
-        private void OnChanged(object? sender, RoutedEventArgs args)
-        {
-            _edited = HasDifference();
-            if (_edited) Logger.Info("SOMETHING CHANGED");
+            FillValues(SelectedTemplate);
         }
 
         #endregion
@@ -63,29 +66,28 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             if (_templateComboBox.SelectedItem == null) _templateComboBox.SelectedIndex = 0;
         }
 
-        private void FillValues(Template liveStream)
+        private void FillValues(Template template)
         {
-            // Logger.Debug($"Fill Values with:\n{liveStream}");
-            _titleTextBox.Text = liveStream.Title;
-            _descriptionTextBox.Text = liveStream.Description;
+            // Logger.Debug($"Fill Values with:\n{template}");
+            _titleTextBox.Text = template.Title;
+            _descriptionTextBox.Text = template.Description;
             _categoryComboBox.SelectedItem =
-                Service.LiveStreamService!.Category.First(kp => kp.Key.Equals(liveStream.Category));
+                Service.LiveStreamService!.Category.First(kp => kp.Key.Equals(template.Category));
 
-            _tagEditor.Tags = liveStream.Tags.ToHashSet();
+            _tagEditor.Tags = template.Tags.ToHashSet();
             _tagEditor.RefreshTags();
-            SettingsService.Instance.Settings[Settings.CurrentTemplate] = liveStream.Id;
+            SettingsService.Instance.Settings[Settings.CurrentTemplate] = template.Id;
             Task.Run(SettingsService.Instance.Save);
         }
 
-        private bool HasDifference()
+        private bool HasDifference(Template? template = null)
         {
-            var live = _templateComboBox?.SelectedItem;
-            return live == null ||
-                   live.Title.Equals(_titleTextBox.Text) &&
-                   live.Description.Equals(_descriptionTextBox.Text) &&
-                   live.Category.Equals(_categoryComboBox.SelectedItem.Value) &&
-                   live.Tags.Count == _tagEditor.Tags.Count &&
-                   live.Tags.All(t => _tagEditor.Tags.Contains(t));
+            template ??= SelectedTemplate;
+            return !(template.Title.Equals(_titleTextBox.Text) &&
+                     template.Description.Equals(_descriptionTextBox.Text) &&
+                     template.Category.Equals(_categoryComboBox.SelectedItem.Key) &&
+                     template.Tags.Count == _tagEditor.Tags.Count &&
+                     template.Tags.All(t => _tagEditor.Tags.Contains(t)));
         }
 
         #endregion
@@ -117,7 +119,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             //TODO Remove this Button:
             var testButton = new Button {Content = "Update Stream"};
             testButton.Click += async (sender, args) =>
-                                    await Service.LiveStreamService!.UpdateStream(_templateComboBox.SelectedItem!);
+                                    await Service.LiveStreamService!.UpdateStream(SelectedTemplate);
             Grid.SetRow(testButton, 9);
             Grid.SetColumn(testButton, 1);
             contentGrid.Children.Add(testButton);
@@ -125,10 +127,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async Task Init()
         {
-            _categoryComboBox.SelectionChanged += OnChanged;
-            _titleTextBox.TextInput += OnChanged;
-            _descriptionTextBox.TextInput += OnChanged;
-
             while (Service.LiveStreamService == null)
             {
                 Logger.Debug("Waiting for LiveStreamService to initialize...");

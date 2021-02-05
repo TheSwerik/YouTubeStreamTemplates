@@ -24,7 +24,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Windows.Tabs
             Grid.SetRowSpan(streamEditor, 3);
             grid.Children.Add(streamEditor);
 
-            var updateControl = new UpdateControl();
+            var updateControl = new UpdateControl(templateEditor, streamEditor);
             Grid.SetColumn(updateControl, 1);
             Grid.SetRow(updateControl, 1);
             grid.Children.Add(updateControl);
