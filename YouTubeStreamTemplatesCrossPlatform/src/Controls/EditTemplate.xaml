@@ -9,7 +9,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditTemplate">
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-            CornerRadius="5" BorderThickness="1"
+            BorderThickness="0,0,1,1"
             BorderBrush="{DynamicResource ThemeBorderMidBrush}">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               RowDefinitions="*,*,*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
