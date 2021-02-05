@@ -4,6 +4,8 @@
     {
         SavePath,
         ForceEnglish,
-        CurrentTemplate
+        CurrentTemplate,
+        OnlyUpdateSavedTemplates, //TODO
+        AutoUpdate //TODO
     }
 }

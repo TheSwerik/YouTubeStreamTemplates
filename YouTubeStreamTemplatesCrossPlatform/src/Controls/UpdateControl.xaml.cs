@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using NLog;
 using YouTubeStreamTemplates.LiveStreaming;
+using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
@@ -26,6 +27,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             _editTemplate = editTemplate;
             _viewStream = viewStream;
+            _checkBox.IsChecked = bool.Parse(SettingsService.Instance.Settings[Settings.AutoUpdate]);
         }
 
         private async Task CheckIfShouldUpdate()
@@ -57,6 +59,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void CheckBox_OnChecked(object? sender, RoutedEventArgs e)
         {
+            SettingsService.Instance.Settings[Settings.AutoUpdate] = (_checkBox.IsChecked ?? false) + "";
+            SettingsService.Instance.Save();
             if (CheckBoxIsChecked()) Task.Run(CheckIfShouldUpdate);
         }
 
