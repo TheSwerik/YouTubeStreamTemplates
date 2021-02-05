@@ -36,7 +36,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 LiveStream? stream;
                 while ((stream = _viewStream.CurrentLiveStream) == null) await Task.Delay(2000);
                 if (!CheckBoxIsChecked()) return;
-                var template = _editTemplate.SelectedTemplate;
+                var template = _editTemplate.ChangedTemplate();
                 if (HasDifference(stream, template)) await Service.LiveStreamService!.UpdateStream(template);
                 await Task.Delay(20000);
             }
@@ -66,7 +66,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             var stream = _viewStream.CurrentLiveStream;
             if (stream == null) return;
-            var template = _editTemplate.SelectedTemplate;
+            var template = _editTemplate.ChangedTemplate();
             if (HasDifference(stream, template)) await Service.LiveStreamService!.UpdateStream(template);
         }
     }

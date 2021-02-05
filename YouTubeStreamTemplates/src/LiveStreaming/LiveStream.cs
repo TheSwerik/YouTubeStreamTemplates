@@ -5,7 +5,7 @@ using Google.Apis.YouTube.v3.Data;
 namespace YouTubeStreamTemplates.LiveStreaming
 {
     //TODO rename
-    public class LiveStream : IComparable<LiveStream>
+    public record LiveStream : IComparable<LiveStream>
     {
         public string Id { get; init; } = null!;
         public string Title { get; set; } = null!;

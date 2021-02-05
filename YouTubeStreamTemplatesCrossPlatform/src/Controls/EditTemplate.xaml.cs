@@ -19,7 +19,18 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TagEditor _tagEditor;
         private readonly TextBox _titleTextBox;
         private GenericComboBox<Template> _templateComboBox;
-        public Template SelectedTemplate => _templateComboBox.SelectedItem!;
+        private Template SelectedTemplate => _templateComboBox.SelectedItem!;
+
+        public Template ChangedTemplate()
+        {
+            return SelectedTemplate with
+                   {
+                       Title = _titleTextBox.Text,
+                       Description = _descriptionTextBox.Text,
+                       Category = _categoryComboBox.SelectedItem.Key,
+                       Tags = _tagEditor.Tags.ToList()
+                   };
+        }
 
         #region EventListener
 

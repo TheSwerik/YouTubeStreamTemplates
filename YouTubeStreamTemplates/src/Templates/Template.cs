@@ -3,7 +3,7 @@ using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplates.Templates
 {
-    public class Template : LiveStream
+    public record Template : LiveStream
     {
         public Template(string name)
         {
