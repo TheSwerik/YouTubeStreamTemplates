@@ -16,11 +16,18 @@ namespace YouTubeStreamTemplatesCrossPlatform.Windows.Tabs
 
             var templateEditor = new EditTemplate();
             Grid.SetColumn(templateEditor, 0);
+            Grid.SetRowSpan(templateEditor, 3);
             grid.Children.Add(templateEditor);
 
             var streamEditor = new ViewStream();
-            Grid.SetColumn(streamEditor, 1);
+            Grid.SetColumn(streamEditor, 2);
+            Grid.SetRowSpan(streamEditor, 3);
             grid.Children.Add(streamEditor);
+
+            var updateControl = new UpdateControl();
+            Grid.SetColumn(updateControl, 1);
+            Grid.SetRow(updateControl, 1);
+            grid.Children.Add(updateControl);
         }
     }
 }
