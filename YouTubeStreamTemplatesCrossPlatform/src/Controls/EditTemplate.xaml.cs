@@ -49,6 +49,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 _ignoreDifferenceCheck = true;
                 _templateComboBox.SelectedItem = (Template?) e.RemovedItems[0];
                 Logger.Info("You have unsaved changes!");
+                //TODO MessageBox
                 return;
             }
 
