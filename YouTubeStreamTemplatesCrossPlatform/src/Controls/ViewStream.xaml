@@ -25,16 +25,7 @@
         <TextBlock Grid.Row="7" Grid.Column="1" Text="Category:" />
         <Border Grid.Row="7" Grid.Column="2"
                 BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-            <TextBlock x:Name="CategoryTextBlock" />
+            <TextBlock x:Name="CategoryTextBlock" VerticalAlignment="Center" Padding="3" />
         </Border>
-        <!-- <controls:GenericComboBox Grid.Row="7" Grid.Column="2" -->
-        <!--                           x:TypeArguments="generic:KeyValuePair(system:String,system:String)" -->
-        <!--                           x:Name="CategoryComboBox"> -->
-        <!--     <ComboBox.ItemTemplate> -->
-        <!--         <DataTemplate> -->
-        <!--             <TextBlock Text="{Binding Value}" /> -->
-        <!--         </DataTemplate> -->
-        <!--     </ComboBox.ItemTemplate> -->
-        <!-- </controls:GenericComboBox> -->
     </Grid>
 </UserControl>

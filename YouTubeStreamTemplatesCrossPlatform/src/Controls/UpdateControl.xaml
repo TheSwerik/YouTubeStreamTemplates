@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.UpdateControl">
-    <Border BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderMidBrush}" Padding="3">
+    <Border BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+            Padding="3" CornerRadius="5">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               RowDefinitions="0.7*,*,*" ColumnDefinitions="*"
               x:Name="ContentGrid">

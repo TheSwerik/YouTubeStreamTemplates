@@ -126,14 +126,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Grid.SetRow(_tagEditor, 7);
             Grid.SetColumn(_tagEditor, 2);
             contentGrid.Children.Add(_tagEditor);
-
-            //TODO Remove this Button:
-            var testButton = new Button {Content = "Update Stream"};
-            testButton.Click += async (sender, args) =>
-                                    await Service.LiveStreamService!.UpdateStream(SelectedTemplate);
-            Grid.SetRow(testButton, 9);
-            Grid.SetColumn(testButton, 1);
-            contentGrid.Children.Add(testButton);
         }
 
         private async Task Init()
