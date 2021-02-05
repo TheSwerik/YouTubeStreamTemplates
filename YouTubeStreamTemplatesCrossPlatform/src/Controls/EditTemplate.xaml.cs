@@ -19,7 +19,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TagEditor _tagEditor;
         private readonly TextBox _titleTextBox;
         private GenericComboBox<Template> _templateComboBox;
-        private Template SelectedTemplate => _templateComboBox.SelectedItem!;
+        public Template SelectedTemplate => _templateComboBox.SelectedItem!;
 
         public Template ChangedTemplate()
         {

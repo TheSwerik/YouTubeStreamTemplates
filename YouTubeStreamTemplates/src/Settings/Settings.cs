@@ -5,7 +5,7 @@
         SavePath,
         ForceEnglish,
         CurrentTemplate,
-        OnlyUpdateSavedTemplates, //TODO
-        AutoUpdate //TODO
+        OnlyUpdateSavedTemplates,
+        AutoUpdate
     }
 }

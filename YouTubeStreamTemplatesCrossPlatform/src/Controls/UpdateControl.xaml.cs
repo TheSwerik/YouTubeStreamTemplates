@@ -13,21 +13,21 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     public class UpdateControl : UserControl
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly CheckBox _checkBox;
+        private readonly CheckBox _autoUpdateCheckBox;
         private readonly EditTemplate _editTemplate = null!;
         private readonly ViewStream _viewStream = null!;
 
         public UpdateControl()
         {
             AvaloniaXamlLoader.Load(this);
-            _checkBox = this.Find<CheckBox>("CheckBox");
+            _autoUpdateCheckBox = this.Find<CheckBox>("AutoUpdateCheckBox");
         }
 
         public UpdateControl(EditTemplate editTemplate, ViewStream viewStream) : this()
         {
             _editTemplate = editTemplate;
             _viewStream = viewStream;
-            _checkBox.IsChecked = bool.Parse(SettingsService.Instance.Settings[Settings.AutoUpdate]);
+            _autoUpdateCheckBox.IsChecked = bool.Parse(SettingsService.Instance.Settings[Settings.AutoUpdate]);
         }
 
         private async Task CheckIfShouldUpdate()
@@ -38,13 +38,15 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 LiveStream? stream;
                 while ((stream = _viewStream.CurrentLiveStream) == null) await Task.Delay(2000);
                 if (!CheckBoxIsChecked()) return;
-                var template = _editTemplate.ChangedTemplate();
+                var template = bool.Parse(SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates])
+                                   ? _editTemplate.SelectedTemplate
+                                   : _editTemplate.ChangedTemplate();
                 if (HasDifference(stream, template)) await Service.LiveStreamService!.UpdateStream(template);
                 await Task.Delay(20000);
             }
         }
 
-        private bool CheckBoxIsChecked() { return _checkBox.IsChecked ?? false; }
+        private bool CheckBoxIsChecked() { return _autoUpdateCheckBox.IsChecked ?? false; }
 
         private static bool HasDifference(LiveStream stream, Template template)
         {
@@ -57,21 +59,30 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         #region EventListeners
 
-        private void CheckBox_OnChecked(object? sender, RoutedEventArgs e)
+        private void AutoUpdateCheckBox_OnChecked(object? sender, RoutedEventArgs e)
         {
-            SettingsService.Instance.Settings[Settings.AutoUpdate] = (_checkBox.IsChecked ?? false) + "";
+            SettingsService.Instance.Settings[Settings.AutoUpdate] = (_autoUpdateCheckBox.IsChecked ?? false) + "";
             SettingsService.Instance.Save();
             if (CheckBoxIsChecked()) Task.Run(CheckIfShouldUpdate);
         }
-
-        #endregion
 
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
             var stream = _viewStream.CurrentLiveStream;
             if (stream == null) return;
-            var template = _editTemplate.ChangedTemplate();
+            var template = bool.Parse(SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates])
+                               ? _editTemplate.SelectedTemplate
+                               : _editTemplate.ChangedTemplate();
             if (HasDifference(stream, template)) await Service.LiveStreamService!.UpdateStream(template);
         }
+
+        private void OnlySavedTemplatesCheckBox_OnChecked(object sender, RoutedEventArgs e)
+        {
+            var checkBox = (CheckBox) sender;
+            SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates] = "" + (checkBox.IsChecked ?? false);
+            SettingsService.Instance.Save();
+        }
+
+        #endregion
     }
 }

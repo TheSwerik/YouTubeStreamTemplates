@@ -4,14 +4,24 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.UpdateControl">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-          RowDefinitions="*,1.3*" ColumnDefinitions="*"
-          x:Name="ContentGrid">
-        <DockPanel VerticalAlignment="Stretch" LastChildFill="False">
-            <TextBlock Text="AutoUpdate" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="1,0,0,0" />
-            <CheckBox DockPanel.Dock="Right" Margin="0,0,1,0" Checked="CheckBox_OnChecked" x:Name="CheckBox" />
-        </DockPanel>
+    <Border BorderThickness="1" BorderBrush="{DynamicResource ThemeBorderMidBrush}" Padding="3">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              RowDefinitions="0.7*,*,*" ColumnDefinitions="*"
+              x:Name="ContentGrid">
+            <DockPanel VerticalAlignment="Stretch" LastChildFill="False">
+                <TextBlock Text="AutoUpdate:" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="1,0,0,0" />
+                <CheckBox DockPanel.Dock="Right" Margin="0,0,1,0"
+                          Checked="AutoUpdateCheckBox_OnChecked" x:Name="AutoUpdateCheckBox" />
+            </DockPanel>
 
-        <Button Grid.Row="1" Content="Update" Click="UpdateButton_OnClick" />
-    </Grid>
+            <DockPanel Grid.Row="1" VerticalAlignment="Stretch" LastChildFill="False">
+                <TextBlock Text="Only Saved Templates:" DockPanel.Dock="Left"
+                           VerticalAlignment="Center" Margin="1,0,0,0" />
+                <CheckBox DockPanel.Dock="Right" Margin="0,0,1,0"
+                          Checked="OnlySavedTemplatesCheckBox_OnChecked" x:Name="OnlySavedTemplatesCheckBox" />
+            </DockPanel>
+
+            <Button Grid.Row="2" Content="Update" Click="UpdateButton_OnClick" />
+        </Grid>
+    </Border>
 </UserControl>
