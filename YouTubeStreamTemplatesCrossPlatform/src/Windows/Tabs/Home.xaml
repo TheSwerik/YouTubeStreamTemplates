@@ -5,6 +5,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Windows.Tabs.Home">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-          RowDefinitions="*,0.25*,*" ColumnDefinitions="*,0.2*,*"
+          RowDefinitions="*,0.25*,*" ColumnDefinitions="*,0.1*,0.1*,*"
           x:Name="Grid" />
 </UserControl>
