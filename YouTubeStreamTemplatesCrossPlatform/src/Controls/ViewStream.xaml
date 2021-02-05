@@ -4,28 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.ViewStream">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-          RowDefinitions="*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
-          x:Name="ContentGrid">
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Title:" />
-        <Border Grid.Row="1" Grid.Column="2"
-                BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-            <TextBlock x:Name="TitleTextBlock" />
-        </Border>
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            CornerRadius="5" BorderThickness="1"
+            BorderBrush="{DynamicResource ThemeBorderMidBrush}">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              RowDefinitions="*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
+              x:Name="ContentGrid">
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Title:" />
+            <Border Grid.Row="1" Grid.Column="2"
+                    BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+                <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Padding="3" />
+            </Border>
 
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Description:" />
-        <Border Grid.Row="3" Grid.Column="2"
-                BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-            <TextBlock x:Name="DescriptionTextBlock" />
-        </Border>
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Description:" />
+            <Border Grid.Row="3" Grid.Column="2"
+                    BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+                <TextBlock x:Name="DescriptionTextBlock" VerticalAlignment="Center" Padding="3" />
+            </Border>
 
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Tags:" />
-        <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="Tags:" />
+            <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
 
-        <TextBlock Grid.Row="7" Grid.Column="1" Text="Category:" />
-        <Border Grid.Row="7" Grid.Column="2"
-                BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-            <TextBlock x:Name="CategoryTextBlock" VerticalAlignment="Center" Padding="3" />
-        </Border>
-    </Grid>
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Category:" />
+            <Border Grid.Row="7" Grid.Column="2"
+                    BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+                <TextBlock x:Name="CategoryTextBlock" VerticalAlignment="Center" Padding="3" />
+            </Border>
+        </Grid>
+    </Border>
 </UserControl>

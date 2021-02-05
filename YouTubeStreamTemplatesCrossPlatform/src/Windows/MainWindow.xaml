@@ -15,11 +15,13 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Padding" Value="10 0" />
         </Style>
-        <Style Selector="TabItem:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="TabItem:pointerover">
             <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
         </Style>
-        <Style Selector="TabItem:selected /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="TabItem:selected">
             <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
         </Style>
     </Window.Styles>
 

@@ -8,38 +8,42 @@
              xmlns:templates="clr-namespace:YouTubeStreamTemplates.Templates;assembly=YouTubeStreamTemplates"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditTemplate">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-          RowDefinitions="*,*,*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
-          x:Name="ContentGrid">
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
-        <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
-                                  x:TypeArguments="templates:Template"
-                                  x:Name="TemplateComboBox" SelectionChanged="TemplateComboBox_OnSelectionChanged">
-            <ComboBox.ItemTemplate>
-                <DataTemplate DataType="templates:Template">
-                    <TextBlock Text="{Binding Title}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </controls:GenericComboBox>
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+            CornerRadius="5" BorderThickness="1"
+            BorderBrush="{DynamicResource ThemeBorderMidBrush}">
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+              RowDefinitions="*,*,*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
+              x:Name="ContentGrid">
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
+            <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
+                                      x:TypeArguments="templates:Template"
+                                      x:Name="TemplateComboBox" SelectionChanged="TemplateComboBox_OnSelectionChanged">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="templates:Template">
+                        <TextBlock Text="{Binding Title}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </controls:GenericComboBox>
 
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Title:" />
-        <TextBox Grid.Row="3" Grid.Column="2" x:Name="TitleTextBox" AcceptsReturn="False" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="Title:" />
+            <TextBox Grid.Row="3" Grid.Column="2" x:Name="TitleTextBox" AcceptsReturn="False" />
 
-        <TextBlock Grid.Row="5" Grid.Column="1" Text="Description:" />
-        <TextBox Grid.Row="5" Grid.Column="2" x:Name="DescriptionTextBox" AcceptsReturn="True" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Text="Description:" />
+            <TextBox Grid.Row="5" Grid.Column="2" x:Name="DescriptionTextBox" AcceptsReturn="True" />
 
-        <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" />
-        <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" />
+            <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
 
-        <TextBlock Grid.Row="9" Grid.Column="1" Text="Category:" />
-        <controls:GenericComboBox Grid.Row="9" Grid.Column="2"
-                                  x:TypeArguments="generic:KeyValuePair(system:String,system:String)"
-                                  x:Name="CategoryComboBox">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Value}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </controls:GenericComboBox>
-    </Grid>
+            <TextBlock Grid.Row="9" Grid.Column="1" Text="Category:" />
+            <controls:GenericComboBox Grid.Row="9" Grid.Column="2"
+                                      x:TypeArguments="generic:KeyValuePair(system:String,system:String)"
+                                      x:Name="CategoryComboBox">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Value}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </controls:GenericComboBox>
+        </Grid>
+    </Border>
 </UserControl>
