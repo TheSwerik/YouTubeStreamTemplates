@@ -144,6 +144,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _titleTextBox.LostFocus += OnChanged;
             _descriptionTextBox.KeyUp += OnChanged;
             _descriptionTextBox.LostFocus += OnChanged;
+            _tagEditor.OnChanged += OnChanged;
         }
 
         private async Task Init()

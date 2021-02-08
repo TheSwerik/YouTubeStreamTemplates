@@ -14,19 +14,12 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TextBox _inputTextBox;
         private readonly bool _isReadOnly;
         private readonly WrapPanel _tagsPanel;
+        public EventHandler OnChanged;
 
         public List<TagCard> TagCards => _tagsPanel.Children.OfType<TagCard>().ToList();
         public HashSet<string> Tags { get; set; }
-        public void Remove(TagCard tagCard) { _tagsPanel.Children.Remove(tagCard); }
 
         #region EventListener
-
-        //TODO
-        // private void InputTextBox_OnTextInput(object? sender, TextInputEventArgs e)
-        // {
-        //     InputTextBox_FinishWriting();
-        //     Console.WriteLine("ALARM");
-        // }
 
         private void InputTextBox_OnLostFocus(object? sender, RoutedEventArgs e) { InputTextBox_FinishWriting(); }
 
@@ -34,6 +27,13 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             if (e.Key == Key.Enter || e.Key == Key.OemComma) InputTextBox_FinishWriting();
             InvokeOnRender(_inputTextBox.Focus);
+        }
+
+        public void Remove(TagCard tagCard)
+        {
+            Tags.Remove(tagCard.Text);
+            OnChanged.Invoke(this, new EventArgs());
+            RefreshTags();
         }
 
         private void InputTextBox_FinishWriting(string? text = null)
@@ -45,6 +45,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             if (string.Join(",", Tags).Length + text.Length >= 500) throw new ArgumentException("tags are too long");
             Tags.Add(text);
             _inputTextBox.Text = "";
+            OnChanged.Invoke(this, new EventArgs());
             RefreshTags();
         }
 
@@ -65,12 +66,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             _isReadOnly = isReadOnly;
             _inputTextBox.IsVisible = !isReadOnly;
-        }
-
-        public TagEditor(IEnumerable<string> tags, bool isReadOnly = false) : this(isReadOnly)
-        {
-            Tags = tags.ToHashSet();
-            RefreshTags();
         }
 
         public void RefreshTags()

@@ -6,14 +6,20 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     public class TagCard : UserControl
     {
         // ReSharper disable once MemberCanBePrivate.Global
-        public TagCard() { AvaloniaXamlLoader.Load(this); }
+        public TagCard()
+        {
+            AvaloniaXamlLoader.Load(this);
+            Text = "";
+        }
 
         public TagCard(TagEditor tagEditor, string text, bool readOnly = false) : this()
         {
-            this.Find<TextBlock>("TextBlock").Text = text;
+            this.Find<TextBlock>("TextBlock").Text = Text = text;
             var closeButton = this.Find<Button>("CloseButton");
             if (readOnly) closeButton.IsVisible = false;
             else closeButton.Click += (s, e) => { tagEditor.Remove(this); };
         }
+
+        public string Text { get; }
     }
 }
