@@ -12,35 +12,41 @@
         <Color x:Key="WhiteColor">#ffffff</Color>
         <Color x:Key="BlackColor">#000000</Color>
         <Color x:Key="DarkGrayColor">#222222</Color>
+        <Color x:Key="GrayColor">#333333</Color>
+        <Color x:Key="LighterGrayColor">#383838</Color>
 
-        <Color x:Key="DarkMainBackgroundColor">#1a1816</Color>
-        <Color x:Key="MainBackgroundColor">#272521</Color>
-        <Color x:Key="LightMainBackgroundColor">#383530</Color>
+        <Color x:Key="DarkBackgroundColor">#121212</Color>
+        <Color x:Key="DarkMainBackgroundColor">#181818</Color>
+        <Color x:Key="MainBackgroundColor">#202020</Color>
+        <Color x:Key="ForegroundLowColor">#aaaaaa</Color>
+        <Color x:Key="ForegroundMidColor">#dddddd</Color>
         <Color x:Key="SuccessColor">#bcffbc</Color>
         <Color x:Key="ErrorColor">#a34235</Color>
 
         <!-- Avalonia brushes -->
         <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
         <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource PurpleColor}" />
-        <SolidColorBrush x:Key="HighlightForegroundBrush" Color="{DynamicResource WhiteColor}" Opacity="0.9" />
+        <SolidColorBrush x:Key="HighlightForegroundBrush" Color="{DynamicResource WhiteColor}" />
         <SolidColorBrush x:Key="ThemeAccentBrush" Color="{DynamicResource WhiteColor}" Opacity="0.3" />
         <SolidColorBrush x:Key="ThemeAccentBrush3" Color="{DynamicResource BrightPurpleColor}" />
         <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource PurpleColor}" />
-        <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource BlackColor}" Opacity="0.4" />
-        <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource WhiteColor}" Opacity="0.4" />
+        <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource BlackColor}" />
+        <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource LighterGrayColor}" />
+        <SolidColorBrush x:Key="ThemeBorderHighBrush" Color="{DynamicResource WhiteColor}" Opacity="0.4" />
         <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource BlackColor}" Opacity="0.2" />
-        <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource LightMainBackgroundColor}" />
+        <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource MainBackgroundColor}" />
         <SolidColorBrush x:Key="ThemeControlMidHighBrush" Color="{DynamicResource WhiteColor}" Opacity="0.3" />
         <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource WhiteColor}" Opacity="0.7" />
         <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource WhiteColor}" Opacity="0.7" />
         <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource MainBackgroundColor}" />
-        <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource WhiteColor}" Opacity="0.8" />
-        <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource WhiteColor}" Opacity="0.3" />
+        <SolidColorBrush x:Key="ThemeForegroundBrush" Color="{DynamicResource WhiteColor}" />
+        <SolidColorBrush x:Key="ThemeBackgroundLowBrush" Color="{DynamicResource DarkMainBackgroundColor}" />
+        <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource ForegroundLowColor}" />
 
-        <SolidColorBrush x:Key="BackgroundMainBackgroundBrush" Color="{DynamicResource DarkMainBackgroundColor}" />
 
         <!-- Custom brushes -->
-        <!-- <SolidColorBrush x:Key="AlternativeThemeBackgroundBrush" Color="{DynamicResource AlternativeMainBackgroundColor}" /> -->
+        <SolidColorBrush x:Key="ThemeBorderLowMidBrush" Color="{DynamicResource GrayColor}" />
+        <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource ForegroundMidColor}" />
 
         <!-- Images -->
         <imaging:Bitmap x:Key="SigninImage">

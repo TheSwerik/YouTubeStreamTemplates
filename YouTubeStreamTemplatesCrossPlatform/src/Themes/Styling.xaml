@@ -4,7 +4,7 @@
     x:Class="YouTubeStreamTemplatesCrossPlatform.Themes.Styling">
 
     <Style Selector="TabControl WrapPanel">
-        <Setter Property="Background" Value="{DynamicResource BackgroundMainBackgroundBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
     </Style>
     <Style Selector="TabItem">
         <Setter Property="Height" Value="34" />
@@ -38,23 +38,34 @@
         <Setter Property="CornerRadius" Value="3" />
     </Style>
 
-    <Style Selector="TextBox:pointerover /template/ Border, TextBox:focus /template/ Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
-    </Style>
+    <!-- <Style Selector="Button"> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" /> -->
+    <!-- </Style> -->
+    <!-- <Style Selector="Button:pointerover /template/ ContentPresenter"> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowMidBrush}" /> -->
+    <!-- </Style> -->
+    <!-- <Style Selector="Button.inverted"> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" /> -->
+    <!-- </Style> -->
+    <!-- <Style Selector="Button.inverted:pointerover /template/ ContentPresenter"> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" /> -->
+    <!-- </Style> -->
+
     <Style Selector="ComboBox:pointerover">
         <Setter Property="Cursor" Value="Hand" />
     </Style>
 
-    <Style Selector="Button">
+    <Style Selector="TextBox">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" />
+    </Style>
+    <Style Selector="TextBox:pointerover /template/ Border">
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
     </Style>
-    <Style Selector="Button:pointerover /template/ ContentPresenter">
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
+    <Style Selector="TextBox:focus /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush4}" />
     </Style>
-    <Style Selector="Button.inverted">
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
-    </Style>
-    <Style Selector="Button.inverted:pointerover /template/ ContentPresenter">
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
-    </Style>
+    <!-- <Style Selector="controls|TagEditor:pointerover > Border"> -->
+    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowMidBrush}" /> -->
+    <!-- </Style> -->
 </Styles>
