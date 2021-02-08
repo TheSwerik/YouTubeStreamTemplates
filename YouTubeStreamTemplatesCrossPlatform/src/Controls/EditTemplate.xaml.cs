@@ -17,8 +17,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly GenericComboBox<KeyValuePair<string, string>> _categoryComboBox;
         private readonly TextBox _descriptionTextBox;
         private readonly TagEditor _tagEditor;
+        private readonly GenericComboBox<Template> _templateComboBox;
         private readonly TextBox _titleTextBox;
-        private GenericComboBox<Template> _templateComboBox;
         public Template SelectedTemplate => _templateComboBox.SelectedItem!;
 
         public Template ChangedTemplate()
@@ -111,6 +111,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor = new TagEditor();
 
             InitializeComponent();
+            _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox");
             _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
             _titleTextBox = this.Find<TextBox>("TitleTextBox");
             _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
@@ -122,7 +123,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             AvaloniaXamlLoader.Load(this);
             var contentGrid = this.Find<Grid>("ContentGrid");
-            _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox");
 
             Grid.SetRow(_tagEditor, 11);
             Grid.SetColumn(_tagEditor, 1);
