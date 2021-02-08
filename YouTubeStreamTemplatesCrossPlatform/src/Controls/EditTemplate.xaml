@@ -31,7 +31,7 @@
                                           SelectionChanged="TemplateComboBox_OnSelectionChanged">
                     <ComboBox.ItemTemplate>
                         <DataTemplate DataType="templates:Template">
-                            <TextBlock Text="{Binding Title}" />
+                            <TextBlock Text="{Binding Name}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </controls:GenericComboBox>

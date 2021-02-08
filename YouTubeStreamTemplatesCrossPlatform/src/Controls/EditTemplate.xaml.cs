@@ -62,9 +62,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             FillValues(SelectedTemplate);
         }
 
-        public void OnSaveButtonClicked(object? sender, RoutedEventArgs routedEventArgs)
+        public async void OnSaveButtonClicked(object? sender, RoutedEventArgs routedEventArgs)
         {
-            Console.WriteLine("dfsjklsdflkkljhsdfjklföds");
+            await Service.TemplateService!.SaveTemplate(ChangedTemplate());
+            OnChanged(null, null);
         }
 
         public void OnHotKeyPressed(object? sender, KeyEventArgs keyEventArgs)

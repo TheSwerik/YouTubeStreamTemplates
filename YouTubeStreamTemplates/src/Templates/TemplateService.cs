@@ -87,6 +87,10 @@ namespace YouTubeStreamTemplates.Templates
             await file.WriteLineAsync($"AudioLanguage: {template.AudioLanguage}");
             await file.WriteLineAsync($"Tags: {string.Join(',', template.Tags)}");
             await file.WriteLineAsync($"ThumbnailPath: {template.ThumbnailPath}");
+
+            var index = Templates.FindIndex(t => t.Id.Equals(template.Id));
+            if (index < 0) Templates.Add(template);
+            else Templates[index] = template;
         }
 
         #endregion
