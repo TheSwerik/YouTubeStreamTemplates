@@ -124,8 +124,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             var contentGrid = this.Find<Grid>("ContentGrid");
             _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox");
 
-            Grid.SetRow(_tagEditor, 7);
-            Grid.SetColumn(_tagEditor, 2);
+            Grid.SetRow(_tagEditor, 11);
+            Grid.SetColumn(_tagEditor, 1);
             contentGrid.Children.Add(_tagEditor);
         }
 

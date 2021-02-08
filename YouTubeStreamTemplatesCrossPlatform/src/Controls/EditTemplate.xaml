@@ -13,10 +13,10 @@
             BorderBrush="{DynamicResource ThemeBorderMidBrush}"
             Padding="0,0,50,0">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              RowDefinitions="*,*,*,*,*,10*,*,10*,*,*,*" ColumnDefinitions="*,2*,15*,*"
+              RowDefinitions="*,*,*,*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"
               x:Name="ContentGrid">
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Template:" />
-            <controls:GenericComboBox Grid.Row="1" Grid.Column="2"
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Template: " VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <controls:GenericComboBox Grid.Row="2" Grid.Column="1"
                                       x:TypeArguments="templates:Template"
                                       x:Name="TemplateComboBox" SelectionChanged="TemplateComboBox_OnSelectionChanged">
                 <ComboBox.ItemTemplate>
@@ -26,17 +26,17 @@
                 </ComboBox.ItemTemplate>
             </controls:GenericComboBox>
 
-            <TextBlock Grid.Row="3" Grid.Column="1" Text="Title:" />
-            <TextBox Grid.Row="3" Grid.Column="2" x:Name="TitleTextBox" AcceptsReturn="False" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <TextBox Grid.Row="5" Grid.Column="1" x:Name="TitleTextBox" AcceptsReturn="False" />
 
-            <TextBlock Grid.Row="5" Grid.Column="1" Text="Description:" />
-            <TextBox Grid.Row="5" Grid.Column="2" x:Name="DescriptionTextBox" AcceptsReturn="True" />
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <TextBox Grid.Row="8" Grid.Column="1" x:Name="DescriptionTextBox" AcceptsReturn="True" />
 
-            <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" />
+            <TextBlock Grid.Row="10" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
             <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
 
-            <TextBlock Grid.Row="9" Grid.Column="1" Text="Category:" />
-            <controls:GenericComboBox Grid.Row="9" Grid.Column="2"
+            <TextBlock Grid.Row="13" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <controls:GenericComboBox Grid.Row="14" Grid.Column="1"
                                       x:TypeArguments="generic:KeyValuePair(system:String,system:String)"
                                       x:Name="CategoryComboBox">
                 <ComboBox.ItemTemplate>

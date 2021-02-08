@@ -83,8 +83,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             AvaloniaXamlLoader.Load(this);
 
-            Grid.SetRow(_tagEditor, 5);
-            Grid.SetColumn(_tagEditor, 2);
+            Grid.SetRow(_tagEditor, 8);
+            Grid.SetColumn(_tagEditor, 1);
             this.Find<Grid>("ContentGrid").Children.Add(_tagEditor);
         }
 
