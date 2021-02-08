@@ -10,25 +10,28 @@
             Padding="50,0,0,0">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                  RowDefinitions="*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"
+                  RowDefinitions="*,2*,*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"
                   x:Name="ContentGrid" IsVisible="False">
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-                <Border Grid.Row="2" Grid.Column="1"
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Current LiveStream" FontSize="40"
+                           HorizontalAlignment="Center" />
+
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <Border Grid.Row="4" Grid.Column="1"
                         BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
                     <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Padding="4" />
                 </Border>
 
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-                <Border Grid.Row="5" Grid.Column="1"
+                <TextBlock Grid.Row="6" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <Border Grid.Row="7" Grid.Column="1"
                         BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
                     <TextBlock x:Name="DescriptionTextBlock" VerticalAlignment="Stretch" Padding="3" />
                 </Border>
 
-                <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-                <!-- TagEditor here Grid.Row="7" Grid.Column="1" -->
+                <TextBlock Grid.Row="9" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <!-- TagEditor here Grid.Row="10" Grid.Column="1" -->
 
-                <TextBlock Grid.Row="10" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-                <Border Grid.Row="11" Grid.Column="1"
+                <TextBlock Grid.Row="12" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <Border Grid.Row="13" Grid.Column="1"
                         BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
                     <TextBlock x:Name="CategoryTextBlock" VerticalAlignment="Center" Padding="3" />
                 </Border>

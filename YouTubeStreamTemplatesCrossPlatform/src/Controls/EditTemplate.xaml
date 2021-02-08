@@ -18,8 +18,7 @@
         </Style>
     </UserControl.Styles>
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-            BorderThickness="0,0,1,0"
-            BorderBrush="{DynamicResource ThemeBorderMidBrush}"
+            BorderThickness="0,0,1,0" BorderBrush="{DynamicResource ThemeBorderMidBrush}"
             Padding="0,0,50,0">
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               RowDefinitions="*,*,*,*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"

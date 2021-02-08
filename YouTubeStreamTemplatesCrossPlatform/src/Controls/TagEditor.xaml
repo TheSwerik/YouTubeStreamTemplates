@@ -6,7 +6,7 @@
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.TagEditor">
     <Border BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <WrapPanel x:Name="TagsPanel" Background="{DynamicResource ThemeBackgroundBrush}">
+            <WrapPanel x:Name="TagsPanel" Background="Transparent">
                 <TextBox x:Name="InputTextBox"
                          KeyUp="InputTextBox_OnKeyUp" LostFocus="InputTextBox_OnLostFocus"
                          MinWidth="100" BorderThickness="0" />
