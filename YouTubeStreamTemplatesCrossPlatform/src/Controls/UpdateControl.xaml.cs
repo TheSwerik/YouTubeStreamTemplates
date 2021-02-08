@@ -68,15 +68,17 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
+            Logger.Debug("Clicked on Update.");
             var stream = _viewStream.CurrentLiveStream;
             if (stream == null) return;
+            Logger.Debug("Stream Found.");
             var template = bool.Parse(SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates])
                                ? _editTemplate.SelectedTemplate
                                : _editTemplate.ChangedTemplate();
             if (HasDifference(stream, template)) await Service.LiveStreamService!.UpdateStream(template);
         }
 
-        private void OnlySavedTemplatesCheckBox_OnChecked(object sender, RoutedEventArgs e)
+        private void OnlySavedTemplatesCheckBox_OnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             var checkBox = (CheckBox) sender;
             SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates] = "" + (checkBox.IsChecked ?? false);

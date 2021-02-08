@@ -15,14 +15,14 @@
             <DockPanel VerticalAlignment="Stretch" LastChildFill="False">
                 <TextBlock Text="AutoUpdate:" DockPanel.Dock="Left" VerticalAlignment="Center" Margin="1,0,0,0" />
                 <CheckBox DockPanel.Dock="Right" Margin="0,0,1,0"
-                          Checked="AutoUpdateCheckBox_OnChecked" x:Name="AutoUpdateCheckBox" />
+                          Click="AutoUpdateCheckBox_OnChecked" x:Name="AutoUpdateCheckBox" />
             </DockPanel>
 
             <DockPanel Grid.Row="1" VerticalAlignment="Stretch" LastChildFill="False">
                 <TextBlock Text="Only Saved Templates:" DockPanel.Dock="Left"
                            VerticalAlignment="Center" Margin="1,0,0,0" />
                 <CheckBox DockPanel.Dock="Right" Margin="0,0,1,0"
-                          Checked="OnlySavedTemplatesCheckBox_OnChecked" x:Name="OnlySavedTemplatesCheckBox" />
+                          Click="OnlySavedTemplatesCheckBox_OnClick" x:Name="OnlySavedTemplatesCheckBox" />
             </DockPanel>
 
             <Button Grid.Row="2" Content="Update" Click="UpdateButton_OnClick" />
