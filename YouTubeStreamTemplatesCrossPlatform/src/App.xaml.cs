@@ -16,6 +16,7 @@ namespace YouTubeStreamTemplatesCrossPlatform
 
         private void LoadTheme()
         {
+            Styles.Add(new Styling());
             Styles.Add(new DarkTheme());
             // Styles.Add(new LightTheme());
         }

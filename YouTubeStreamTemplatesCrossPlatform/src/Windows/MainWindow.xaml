@@ -6,25 +6,6 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="YouTubeStreamTemplatesCrossPlatform.Windows.MainWindow"
         Title="YouTubeStreamTemplatesCrossPlatform">
-    <Window.Styles>
-        <Style Selector="TabControl WrapPanel">
-            <Setter Property="Background" Value="{DynamicResource BackgroundMainBackgroundBrush}" />
-        </Style>
-        <Style Selector="TabItem">
-            <Setter Property="Height" Value="34" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Padding" Value="10 0" />
-        </Style>
-        <Style Selector="TabItem:pointerover">
-            <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}" />
-            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
-        </Style>
-        <Style Selector="TabItem:selected">
-            <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
-            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
-        </Style>
-    </Window.Styles>
-
     <TabControl>
         <TabItem Header="Home" VerticalContentAlignment="Center">
             <tabs:Home />

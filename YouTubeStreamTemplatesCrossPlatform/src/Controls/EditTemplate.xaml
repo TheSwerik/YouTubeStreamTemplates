@@ -9,21 +9,10 @@
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Runtime"
              xmlns:templates="clr-namespace:YouTubeStreamTemplates.Templates;assembly=YouTubeStreamTemplates"
              KeyUp="OnHotKeyPressed">
-    <UserControl.Styles>
-        <Style Selector="Button">
-            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
-        </Style>
-        <Style Selector="Button:pointerover /template/ ContentPresenter">
-            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
-        </Style>
-    </UserControl.Styles>
-    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-            BorderThickness="0,0,1,0" BorderBrush="{DynamicResource ThemeBorderMidBrush}"
-            Padding="0,0,50,0">
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              RowDefinitions="*,*,*,*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"
-              x:Name="ContentGrid">
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Template: " VerticalAlignment="Bottom" Margin="0,0,0,3" />
+    <Border BorderThickness="0,0,1,0" CornerRadius="0">
+        <Grid x:Name="ContentGrid" Margin="0,0,50,0"
+              RowDefinitions="*,*,*,*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*">
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Template" />
             <Grid Grid.Row="2" Grid.Column="1" ColumnDefinitions="5*,*">
                 <controls:GenericComboBox x:TypeArguments="templates:Template"
                                           x:Name="TemplateComboBox"
@@ -34,20 +23,21 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </controls:GenericComboBox>
-                <Button Grid.Column="1" Content="Save" x:Name="SaveButton" IsEnabled="False"
+                <Button x:Name="SaveButton" Grid.Column="1"
+                        Content="Save" IsEnabled="False"
                         Click="OnSaveButtonClicked" />
             </Grid>
 
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="Title" />
             <TextBox Grid.Row="5" Grid.Column="1" x:Name="TitleTextBox" AcceptsReturn="False" MaxLength="150" />
 
-            <TextBlock Grid.Row="7" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Description" />
             <TextBox Grid.Row="8" Grid.Column="1" x:Name="DescriptionTextBox" AcceptsReturn="True" />
 
-            <TextBlock Grid.Row="10" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <TextBlock Grid.Row="10" Grid.Column="1" Text="Tags" />
             <!-- TagEditor here Grid.Row="10" Grid.Column="1" -->
 
-            <TextBlock Grid.Row="13" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+            <TextBlock Grid.Row="13" Grid.Column="1" Text="Category" />
             <controls:GenericComboBox Grid.Row="14" Grid.Column="1"
                                       x:TypeArguments="generic:KeyValuePair(system:String,system:String)"
                                       x:Name="CategoryComboBox">

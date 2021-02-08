@@ -87,6 +87,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void ResizeInputBox()
         {
+            //TODO Fix calculation (add Margin)
             var maxWidth = _tagsPanel.Bounds.Width;
             var allWithoutTextBox = _tagsPanel.Children.Where(c => c is not TextBox).ToList();
             var highestY = allWithoutTextBox.Max(c => c.Bounds.Y);

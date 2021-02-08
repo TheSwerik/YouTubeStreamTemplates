@@ -6,7 +6,7 @@
         x:Class="YouTubeStreamTemplatesCrossPlatform.Windows.LoginWindow"
         Title="YouTubeStreamTemplatesCrossPlatform"
         Width="400" Height="200" CanResize="False">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RowDefinitions="*,2*,*" ColumnDefinitions="*,5*,*">
+    <Grid RowDefinitions="*,2*,*" ColumnDefinitions="*,5*,*">
         <Image Grid.Row="1" Grid.Column="1"
                Source="{DynamicResource SigninImage}" Stretch="None"
                PointerReleased="Login_OnClick" PointerPressed="Login_OnPress" />

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.TagEditor">
-    <Border BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+    <Border>
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
             <WrapPanel x:Name="TagsPanel" Background="Transparent">
                 <TextBox x:Name="InputTextBox"

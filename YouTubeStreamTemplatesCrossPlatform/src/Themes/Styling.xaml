@@ -1,0 +1,60 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="YouTubeStreamTemplatesCrossPlatform.Themes.Styling">
+
+    <Style Selector="TabControl WrapPanel">
+        <Setter Property="Background" Value="{DynamicResource BackgroundMainBackgroundBrush}" />
+    </Style>
+    <Style Selector="TabItem">
+        <Setter Property="Height" Value="34" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="10 0" />
+    </Style>
+    <Style Selector="TabItem:pointerover">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+    </Style>
+    <Style Selector="TabItem:selected">
+        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+    </Style>
+
+    <Style Selector="Grid">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+    </Style>
+    <Style Selector="Grid > TextBlock">
+        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+    <Style Selector="Grid > Border > TextBlock">
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Grid > Border, :is(UserControl) > Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border, TextBox:focus /template/ Border">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+    </Style>
+    <Style Selector="ComboBox:pointerover">
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style Selector="Button">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
+    </Style>
+    <Style Selector="Button.inverted">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
+    </Style>
+    <Style Selector="Button.inverted:pointerover /template/ ContentPresenter">
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
+    </Style>
+</Styles>
