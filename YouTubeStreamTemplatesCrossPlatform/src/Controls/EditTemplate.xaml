@@ -2,12 +2,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditTemplate"
              xmlns:controls="clr-namespace:YouTubeStreamTemplatesCrossPlatform.Controls"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
              xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Runtime"
-             xmlns:templates="clr-namespace:YouTubeStreamTemplates.Templates;assembly=YouTubeStreamTemplates"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="YouTubeStreamTemplatesCrossPlatform.Controls.EditTemplate">
+             xmlns:templates="clr-namespace:YouTubeStreamTemplates.Templates;assembly=YouTubeStreamTemplates">
     <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
             BorderThickness="0,0,1,0"
             BorderBrush="{DynamicResource ThemeBorderMidBrush}"
@@ -33,7 +33,7 @@
             <TextBox Grid.Row="8" Grid.Column="1" x:Name="DescriptionTextBox" AcceptsReturn="True" />
 
             <TextBlock Grid.Row="10" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-            <!-- TagEditor here Grid.Row="7" Grid.Column="2" -->
+            <!-- TagEditor here Grid.Row="10" Grid.Column="1" -->
 
             <TextBlock Grid.Row="13" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
             <controls:GenericComboBox Grid.Row="14" Grid.Column="1"
