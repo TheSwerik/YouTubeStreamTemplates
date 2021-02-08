@@ -27,7 +27,7 @@
             </controls:GenericComboBox>
 
             <TextBlock Grid.Row="4" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-            <TextBox Grid.Row="5" Grid.Column="1" x:Name="TitleTextBox" AcceptsReturn="False" />
+            <TextBox Grid.Row="5" Grid.Column="1" x:Name="TitleTextBox" AcceptsReturn="False" MaxLength="150" />
 
             <TextBlock Grid.Row="7" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
             <TextBox Grid.Row="8" Grid.Column="1" x:Name="DescriptionTextBox" AcceptsReturn="True" />

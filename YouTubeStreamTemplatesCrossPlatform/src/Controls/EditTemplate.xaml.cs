@@ -35,6 +35,13 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         #region EventListener
 
         private bool _ignoreDifferenceCheck;
+        private bool _hasDifference;
+
+        private void OnChanged(object? sender, EventArgs e)
+        {
+            _hasDifference = HasDifference();
+            if (_hasDifference) Console.WriteLine("changed");
+        }
 
         private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
@@ -115,7 +122,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
             _titleTextBox = this.Find<TextBox>("TitleTextBox");
             _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
-
+            AddOnChanged();
             InvokeOnRender(async () => await Init());
         }
 
@@ -127,6 +134,16 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Grid.SetRow(_tagEditor, 11);
             Grid.SetColumn(_tagEditor, 1);
             contentGrid.Children.Add(_tagEditor);
+        }
+
+        private void AddOnChanged()
+        {
+            _templateComboBox.SelectionChanged += OnChanged;
+            _categoryComboBox.SelectionChanged += OnChanged;
+            _titleTextBox.KeyUp += OnChanged;
+            _titleTextBox.LostFocus += OnChanged;
+            _descriptionTextBox.KeyUp += OnChanged;
+            _descriptionTextBox.LostFocus += OnChanged;
         }
 
         private async Task Init()
