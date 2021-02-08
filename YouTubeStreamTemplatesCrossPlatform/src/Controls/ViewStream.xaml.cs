@@ -107,7 +107,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 //-------- Until here -------------------
             }
 
-            // TagEditor.IsReadOnly = true;
             await Task.Run(() => CheckForStream());
         }
 
