@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using NLog;
@@ -16,6 +18,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly GenericComboBox<KeyValuePair<string, string>> _categoryComboBox;
         private readonly TextBox _descriptionTextBox;
+
+        private readonly Button _saveButton;
         private readonly TagEditor _tagEditor;
         private readonly GenericComboBox<Template> _templateComboBox;
         private readonly TextBox _titleTextBox;
@@ -35,13 +39,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         #region EventListener
 
         private bool _ignoreDifferenceCheck;
-        private bool _hasDifference;
 
-        private void OnChanged(object? sender, EventArgs e)
-        {
-            _hasDifference = HasDifference();
-            if (_hasDifference) Console.WriteLine("changed");
-        }
+        private void OnChanged(object? sender, EventArgs e) { _saveButton.IsEnabled = HasDifference(); }
 
         private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
@@ -61,6 +60,19 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             }
 
             FillValues(SelectedTemplate);
+        }
+
+        public void OnSaveButtonClicked(object? sender, RoutedEventArgs routedEventArgs)
+        {
+            Console.WriteLine("dfsjklsdflkkljhsdfjklföds");
+        }
+
+        public void OnHotKeyPressed(object? sender, KeyEventArgs keyEventArgs)
+        {
+            if (_saveButton.IsEnabled &&
+                (keyEventArgs.KeyModifiers & KeyModifiers.Control) != 0 &&
+                keyEventArgs.Key == Key.S)
+                OnSaveButtonClicked(null, new RoutedEventArgs());
         }
 
         #endregion
@@ -122,7 +134,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
             _titleTextBox = this.Find<TextBox>("TitleTextBox");
             _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
-            AddOnChanged();
+            _saveButton = this.Find<Button>("SaveButton");
+            AddEventListeners();
             InvokeOnRender(async () => await Init());
         }
 
@@ -136,7 +149,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             contentGrid.Children.Add(_tagEditor);
         }
 
-        private void AddOnChanged()
+        private void AddEventListeners()
         {
             _templateComboBox.SelectionChanged += OnChanged;
             _categoryComboBox.SelectionChanged += OnChanged;
