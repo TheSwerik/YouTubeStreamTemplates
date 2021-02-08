@@ -17,6 +17,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly EditTemplate _editTemplate = null!;
         private readonly ViewStream _viewStream = null!;
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public UpdateControl()
         {
             AvaloniaXamlLoader.Load(this);

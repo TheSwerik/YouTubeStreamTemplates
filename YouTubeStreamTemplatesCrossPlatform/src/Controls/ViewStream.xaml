@@ -8,29 +8,41 @@
             BorderThickness="0"
             BorderBrush="{DynamicResource ThemeBorderMidBrush}"
             Padding="50,0,0,0">
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              RowDefinitions="*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"
-              x:Name="ContentGrid">
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-            <Border Grid.Row="2" Grid.Column="1"
-                    BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-                <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Padding="4" />
-            </Border>
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  RowDefinitions="*,*,*,*,*,10*,*,*,10*,*,*,*,2*" ColumnDefinitions="*,10*,*"
+                  x:Name="ContentGrid" IsVisible="False">
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Title:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <Border Grid.Row="2" Grid.Column="1"
+                        BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+                    <TextBlock x:Name="TitleTextBlock" VerticalAlignment="Center" Padding="4" />
+                </Border>
 
-            <TextBlock Grid.Row="4" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-            <Border Grid.Row="5" Grid.Column="1"
-                    BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-                <TextBlock x:Name="DescriptionTextBlock" VerticalAlignment="Stretch" Padding="3" />
-            </Border>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="Description:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <Border Grid.Row="5" Grid.Column="1"
+                        BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+                    <TextBlock x:Name="DescriptionTextBlock" VerticalAlignment="Stretch" Padding="3" />
+                </Border>
 
-            <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-            <!-- TagEditor here Grid.Row="7" Grid.Column="1" -->
+                <TextBlock Grid.Row="7" Grid.Column="1" Text="Tags:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <!-- TagEditor here Grid.Row="7" Grid.Column="1" -->
 
-            <TextBlock Grid.Row="10" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
-            <Border Grid.Row="11" Grid.Column="1"
-                    BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
-                <TextBlock x:Name="CategoryTextBlock" VerticalAlignment="Center" Padding="3" />
-            </Border>
+                <TextBlock Grid.Row="10" Grid.Column="1" Text="Category:" VerticalAlignment="Bottom" Margin="0,0,0,3" />
+                <Border Grid.Row="11" Grid.Column="1"
+                        BorderBrush="{DynamicResource ThemeBorderMidBrush}" BorderThickness="1">
+                    <TextBlock x:Name="CategoryTextBlock" VerticalAlignment="Center" Padding="3" />
+                </Border>
+            </Grid>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  RowDefinitions="*,*,*,1.3*" ColumnDefinitions="*,10*,*"
+                  x:Name="NoStreamGrid" IsVisible="True">
+                <TextBlock Grid.Row="1" Grid.Column="1"
+                           Text="No Stream Detected." FontSize="50"
+                           HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,5,0,0"
+                           Text="Once you are live, the current LiveStream will be automatically detect." FontSize="15"
+                           HorizontalAlignment="Center" VerticalAlignment="Top" />
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

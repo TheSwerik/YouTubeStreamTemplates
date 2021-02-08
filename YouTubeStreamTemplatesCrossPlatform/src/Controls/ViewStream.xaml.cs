@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -15,7 +16,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly TextBlock _categoryTextBlock;
+        private readonly Grid _contentGrid;
         private readonly TextBlock _descriptionTextBlock;
+        private readonly Grid _noStreamGrid;
         private readonly TagEditor _tagEditor;
         private readonly TextBlock _titleTextBlock;
         public LiveStream? CurrentLiveStream { get; private set; }
@@ -42,6 +45,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 {
                     Logger.Debug("Not currently streaming...");
                     CurrentLiveStream = null;
+                    InvokeOnRender(ClearValues);
                 }
             }
         }
@@ -61,6 +65,17 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                                                                 .Value;
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
+            _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = false);
+        }
+
+        private void ClearValues()
+        {
+            _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = true);
+            _titleTextBlock.Text = "";
+            _descriptionTextBlock.Text = "";
+            _categoryTextBlock.Text = "";
+            _tagEditor.Tags = new HashSet<string>();
+            _tagEditor.RefreshTags();
         }
 
         #endregion
@@ -75,6 +90,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _categoryTextBlock = this.Find<TextBlock>("CategoryTextBlock");
             _titleTextBlock = this.Find<TextBlock>("TitleTextBlock");
             _descriptionTextBlock = this.Find<TextBlock>("DescriptionTextBlock");
+            _contentGrid = this.Find<Grid>("ContentGrid");
+            _noStreamGrid = this.Find<Grid>("NoStreamGrid");
+            _contentGrid.Children.Add(_tagEditor);
 
             InvokeOnRender(async () => await Init());
         }
@@ -85,7 +103,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
             Grid.SetRow(_tagEditor, 8);
             Grid.SetColumn(_tagEditor, 1);
-            this.Find<Grid>("ContentGrid").Children.Add(_tagEditor);
         }
 
         private async Task Init()
