@@ -38,6 +38,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void InputTextBox_FinishWriting(string? text = null)
         {
+            if (_inputTextBox.Text == null) return;
             text ??= _inputTextBox.Text.Replace(",", "");
             if (string.IsNullOrWhiteSpace(text)) return;
             if (text.Length > 100) throw new ArgumentException("text is too long");
