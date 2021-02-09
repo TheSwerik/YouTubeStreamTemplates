@@ -127,7 +127,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             Logger.Debug("Updating Video:\t{0} -> {1}", template.Name, liveStream.Id);
             var response = await request.ExecuteAsync();
-            if (!response.Snippet.Thumbnails.Maxres.Url.Equals(template.ThumbnailPath))
+            if (!liveStream.ThumbnailPath.Equals(template.ThumbnailPath))
                 template.ThumbnailPath = await SetThumbnail(liveStream.Id, template.ThumbnailPath);
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
         }

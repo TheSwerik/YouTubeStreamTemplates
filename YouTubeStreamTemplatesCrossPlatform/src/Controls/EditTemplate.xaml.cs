@@ -147,6 +147,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.RefreshTags();
             SettingsService.Instance.Settings[Settings.CurrentTemplate] = template.Id;
             Task.Run(SettingsService.Instance.Save);
+            _thumbnail.Source = ImageHelper.PathToImage(template.ThumbnailPath, true, template.Id);
+            _thumbnailPath = template.ThumbnailPath;
         }
 
         private bool HasDifference(Template? template = null)
