@@ -36,8 +36,14 @@
                     <Image x:Name="ThumbnailImage"
                            Source="D:\Projects\YouTubeStreamTemplates\YouTubeStreamTemplates\TestThumbnail.png" />
                     <Image x:Name="ThumbnailImageOverlay" Source="{DynamicResource OverlayImage}" Classes="overlay"
-                           PointerReleased="ThumbnailImage_OnClick" />
-
+                           PointerReleased="ThumbnailImage_OnClick">
+                        <Image.ContextMenu>
+                            <ContextMenu Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+                                <MenuItem Header="File" Click="FileContextButton_OnClick" />
+                                <MenuItem Header="URL" Click="URLContextButton_OnClick" />
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                    </Image>
                 </Grid>
             </Grid>
 

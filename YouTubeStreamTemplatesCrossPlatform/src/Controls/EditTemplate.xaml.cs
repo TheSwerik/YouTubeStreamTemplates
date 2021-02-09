@@ -24,6 +24,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly GenericComboBox<Template> _templateComboBox;
         private readonly Image _thumbnail;
         private readonly TextBox _titleTextBox;
+        private string _thumbnailPath;
         public Template SelectedTemplate => _templateComboBox.SelectedItem!;
 
         public Template ChangedTemplate()
@@ -33,7 +34,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                        Title = _titleTextBox.Text,
                        Description = _descriptionTextBox.Text,
                        Category = _categoryComboBox.SelectedItem.Key,
-                       Tags = _tagEditor.Tags.ToList()
+                       Tags = _tagEditor.Tags.ToList(),
+                       ThumbnailPath = _thumbnailPath
                    };
         }
 
@@ -79,12 +81,36 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async void ThumbnailImage_OnClick(object? sender, PointerReleasedEventArgs e)
         {
-            // var fileDialog = new OpenFileDialog {AllowMultiple = false, Title = "Select a Thumbnail"};
-            // // fileDialog.Filters=false;
-            // var strings = await fileDialog.ShowAsync((Window) this.Parent.Parent.Parent.Parent.Parent);
-            // Console.WriteLine(string.Join("\n", strings));
-            // _thumbnail.Source =
-            //     await ImageHelper.PathToImageAsync(SelectedTemplate.ThumbnailPath, true, SelectedTemplate.Id);
+            if (e.InitialPressMouseButton == MouseButton.Left) FileContextButton_OnClick(null, new RoutedEventArgs());
+        }
+
+        private async void FileContextButton_OnClick(object? sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog
+                             {
+                                 AllowMultiple = false,
+                                 Title = "Select a Thumbnail",
+                                 Filters = new List<FileDialogFilter>
+                                           {
+                                               new()
+                                               {
+                                                   Extensions = new List<string> {"png", "jpg", "jpeg"},
+                                                   Name = "Image"
+                                               }
+                                           }
+                             };
+            var strings = await fileDialog.ShowAsync((Window) Parent.Parent.Parent.Parent.Parent);
+            if (strings == null || strings.Length == 0) return;
+            _thumbnailPath = strings[0];
+            _thumbnail.Source = await ImageHelper.PathToImageAsync(_thumbnailPath, true, SelectedTemplate.Id);
+        }
+
+        private async void URLContextButton_OnClick(object? sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("URl");
+            // TODO Paste Link and get Image
+            // _thumbnailPath = URL;
+            // _thumbnail.Source = await ImageHelper.PathToImageAsync(_thumbnailPath, true, SelectedTemplate.Id);
         }
 
         #endregion
@@ -129,6 +155,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             return !(template.Title.Equals(_titleTextBox.Text) &&
                      template.Description.Equals(_descriptionTextBox.Text) &&
                      template.Category.Equals(_categoryComboBox.SelectedItem.Key) &&
+                     template.ThumbnailPath.Equals(_thumbnailPath) &&
                      template.Tags.Count == _tagEditor.Tags.Count &&
                      template.Tags.All(t => _tagEditor.Tags.Contains(t)));
         }

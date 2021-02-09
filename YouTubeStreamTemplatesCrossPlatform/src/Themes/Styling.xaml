@@ -76,4 +76,16 @@
     <Style Selector="Image.overlay:pointerover">
         <Setter Property="Opacity" Value="1" />
     </Style>
+    <Style Selector="Image.overlay > ContextMenu">
+        <Setter Property="Opacity" Value="1" />
+    </Style>
+
+    <Style Selector="ContextMenu">
+        <Setter Property="Padding" Value="0" />
+    </Style>
+    <Style Selector="MenuItem">
+        <Setter Property="Padding" Value="0,0,3,0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+    </Style>
 </Styles>

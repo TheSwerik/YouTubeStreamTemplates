@@ -54,6 +54,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             return !(template.Title.Equals(stream.Title) &&
                      template.Description.Equals(stream.Description) &&
                      template.Category.Equals(stream.Category) &&
+                     template.ThumbnailPath.Equals(stream.ThumbnailPath) &&
                      template.Tags.Count == stream.Tags.Count &&
                      template.Tags.All(t => stream.Tags.Contains(t)));
         }
