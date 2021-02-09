@@ -82,5 +82,10 @@
             </x:Arguments>
         </imaging:Bitmap>
         <ImageBrush Source="/res/Youtube/google_signin_dark.png" x:Key="SigninBrush" />
+        <imaging:Bitmap x:Key="OverlayImage">
+            <x:Arguments>
+                <x:String>res/Overlay.png</x:String>
+            </x:Arguments>
+        </imaging:Bitmap>
     </Style.Resources>
 </Style>

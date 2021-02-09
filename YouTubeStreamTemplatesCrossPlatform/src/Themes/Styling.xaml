@@ -30,7 +30,7 @@
         <Setter Property="Padding" Value="4" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Grid > Border, :is(UserControl) > Border">
+    <Style Selector="Grid > Border, :is(UserControl) > Border, TextBox > Border">
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="3" />
@@ -44,7 +44,6 @@
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush4}" />
     </Style>
 
-    <!-- TODO Hmm idk -->
     <Style Selector="Border.dark">
         <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
     </Style>
@@ -54,5 +53,27 @@
     </Style>
     <Style Selector="controls|TagCard > Border">
         <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
+    </Style>
+    <Style Selector="Border > TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" />
+    </Style>
+
+    <Style Selector="Image">
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Stretch" Value="Uniform" />
+    </Style>
+    <Style Selector="Image.overlay">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="RenderOptions.BitmapInterpolationMode" Value="HighQuality" />
+        <Setter Property="Transitions">
+            <Transitions>
+                <DoubleTransition Property="Opacity" Duration="0:0:0.1" />
+            </Transitions>
+        </Setter>
+    </Style>
+    <Style Selector="Image.overlay:pointerover">
+        <Setter Property="Opacity" Value="1" />
     </Style>
 </Styles>
