@@ -1,5 +1,6 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:YouTubeStreamTemplatesCrossPlatform.Controls"
         x:Class="YouTubeStreamTemplatesCrossPlatform.Themes.Styling">
 
     <Style Selector="TabControl WrapPanel"> <!-- TopBar -->
@@ -29,7 +30,7 @@
         <Setter Property="Padding" Value="4" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-    <Style Selector="Grid > Border, :is(UserControl) > Border, TextBox > Border">
+    <Style Selector="Grid > Border, :is(UserControl) > Border">
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="3" />
@@ -39,13 +40,19 @@
         <Setter Property="Cursor" Value="Hand" />
     </Style>
 
-    <Style Selector="TextBox">
-        <!-- TODO Hmm idk -->
-        <!-- <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" /> -->
-        <!-- <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" /> -->
-    </Style>
-
     <Style Selector="TextBox:focus /template/ Border">
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush4}" />
+    </Style>
+
+    <!-- TODO Hmm idk -->
+    <Style Selector="Border.dark">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
+    </Style>
+    <Style Selector="TextBox, controls|TagEditor, ComboBox, ComboBoxItem">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" />
+    </Style>
+    <Style Selector="controls|TagCard > Border">
+        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundBrush}" />
     </Style>
 </Styles>
