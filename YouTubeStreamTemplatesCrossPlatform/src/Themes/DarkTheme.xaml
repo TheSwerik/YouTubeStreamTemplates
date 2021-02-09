@@ -22,23 +22,24 @@
         <Color x:Key="ForegroundMidColor">#dddddd</Color>
         <Color x:Key="SuccessColor">#bcffbc</Color>
         <Color x:Key="ErrorColor">#a34235</Color>
-        <Color x:Key="Red">#ff0000</Color>
+        <Color x:Key="DebugRed">#ff0000</Color>
 
         <!-- Avalonia brushes -->
 
+        <!-- ? -->
         <SolidColorBrush x:Key="ErrorBrush" Color="{DynamicResource ErrorColor}" />
         <!-- Checkbox-mark & Selected Text Background -->
         <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource PurpleColor}" />
         <!-- Selected Text -->
         <SolidColorBrush x:Key="HighlightForegroundBrush" Color="{DynamicResource WhiteColor}" />
         <!-- ? -->
-        <!-- <SolidColorBrush x:Key="ThemeAccentBrush" Color="{DynamicResource Red}" /> -->
-        <!-- Focused & Highlighted & Selected Tab -->
-        <SolidColorBrush x:Key="ThemeAccentBrush2" Color="{DynamicResource PurpleColor}" />
-        <!-- Highlighted & Selected Tab -->
-        <SolidColorBrush x:Key="ThemeAccentBrush3" Color="{DynamicResource PurpleColor}" />
-        <!-- Selected Tab / ComboBoxItem -->
-        <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource PurpleColor}" />
+        <SolidColorBrush x:Key="ThemeAccentBrush" Color="{DynamicResource DebugRed}" />
+        <!-- Focused & Selected & Highlighted Tab -->
+        <SolidColorBrush x:Key="ThemeAccentBrush2" Color="{DynamicResource BrightPurpleColor}" />
+        <!-- Focused & Selected & Not Highlighted Tab -->
+        <SolidColorBrush x:Key="ThemeAccentBrush3" Color="{DynamicResource BrightPurpleColor}" />
+        <!-- Selected Tab / ComboBoxItem / focused TextBox -->
+        <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource BrightPurpleColor}" />
         <!-- Button Border -->
         <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource LighterGrayColor}" />
         <!-- Default Border -->
@@ -46,7 +47,7 @@
         <!-- pointerover/selected Border -->
         <SolidColorBrush x:Key="ThemeBorderHighBrush" Color="{DynamicResource LighterGrayColor}" />
         <!-- ? -->
-        <!-- <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource BlackColor}" /> -->
+        <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{DynamicResource DebugRed}" />
         <!-- Button & Scrollbar BackGround -->
         <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{DynamicResource MainBackgroundColor}" />
         <!-- Scrollbar -->
@@ -54,13 +55,13 @@
         <!-- Button OnClick & ComboBox OpenButton OnOpen -->
         <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource GrayColor}" />
         <!-- ? -->
-        <!-- <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource Red}"  /> -->
+        <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource DebugRed}" />
         <!-- ? -->
-        <!-- <SolidColorBrush x:Key="ThemeControlHighlightLowBrush" Color="{DynamicResource Red}" /> -->
+        <SolidColorBrush x:Key="ThemeControlHighlightLowBrush" Color="{DynamicResource DebugRed}" />
         <!-- pointerover Controls -->
-        <SolidColorBrush x:Key="ThemeControlHighlightMidBrush" Color="{DynamicResource BrightPurpleColor}" />
+        <SolidColorBrush x:Key="ThemeControlHighlightMidBrush" Color="{DynamicResource PurpleColor}" />
         <!-- ? -->
-        <!-- <SolidColorBrush x:Key="ThemeControlHighlightHighBrush" Color="{DynamicResource Red}" /> -->
+        <SolidColorBrush x:Key="ThemeControlHighlightHighBrush" Color="{DynamicResource DebugRed}" />
         <!-- Background of Everything -->
         <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{DynamicResource MainBackgroundColor}" />
         <!-- Text -->
