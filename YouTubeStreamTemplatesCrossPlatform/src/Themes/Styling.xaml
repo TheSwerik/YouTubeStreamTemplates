@@ -1,9 +1,8 @@
-﻿<Styles
-    xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:Class="YouTubeStreamTemplatesCrossPlatform.Themes.Styling">
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="YouTubeStreamTemplatesCrossPlatform.Themes.Styling">
 
-    <Style Selector="TabControl WrapPanel">
+    <Style Selector="TabControl WrapPanel"> <!-- TopBar -->
         <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
     </Style>
     <Style Selector="TabItem">
@@ -12,11 +11,9 @@
         <Setter Property="Padding" Value="10 0" />
     </Style>
     <Style Selector="TabItem:pointerover">
-        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush4}" />
         <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
     </Style>
     <Style Selector="TabItem:selected">
-        <Setter Property="Background" Value="{DynamicResource ThemeAccentBrush3}" />
         <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
     </Style>
 
@@ -56,16 +53,12 @@
     </Style>
 
     <Style Selector="TextBox">
-        <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" />
+        <!-- TODO Hmm idk -->
+        <!-- <Setter Property="Background" Value="{DynamicResource ThemeBackgroundLowBrush}" /> -->
+        <!-- <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" /> -->
     </Style>
-    <Style Selector="TextBox:pointerover /template/ Border">
-        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderMidBrush}" />
-    </Style>
+
     <Style Selector="TextBox:focus /template/ Border">
         <Setter Property="BorderBrush" Value="{DynamicResource ThemeAccentBrush4}" />
     </Style>
-    <!-- <Style Selector="controls|TagEditor:pointerover > Border"> -->
-    <!--     <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowMidBrush}" /> -->
-    <!-- </Style> -->
 </Styles>

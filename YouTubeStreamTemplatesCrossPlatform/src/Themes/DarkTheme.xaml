@@ -41,7 +41,7 @@
         <!-- Selected Tab / ComboBoxItem -->
         <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource PurpleColor}" />
         <!-- Button Border -->
-        <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource BlackColor}" />
+        <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource LighterGrayColor}" />
         <!-- Default Border -->
         <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource LighterGrayColor}" />
         <!-- pointerover/selected Border -->
@@ -55,7 +55,7 @@
         <!-- Button OnClick & ComboBox OpenButton OnOpen -->
         <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{DynamicResource WhiteColor}" />
         <!-- ? -->
-        <!-- <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource WhiteColor}"  /> -->
+        <!-- <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{DynamicResource ErrorColor}"  /> -->
         <!-- ? -->
         <!-- <SolidColorBrush x:Key="ThemeControlHighlightLowBrush" Color="{DynamicResource ErrorColor}" /> -->
         <!-- pointerover Controls -->
