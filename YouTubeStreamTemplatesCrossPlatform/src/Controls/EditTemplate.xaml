@@ -35,7 +35,9 @@
                 <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="1">
                     <Image x:Name="ThumbnailImage"
                            Source="D:\Projects\YouTubeStreamTemplates\YouTubeStreamTemplates\TestThumbnail.png" />
-                    <Image x:Name="ThumbnailImageOverlay" Source="{DynamicResource OverlayImage}" Classes="overlay" />
+                    <Image x:Name="ThumbnailImageOverlay" Source="{DynamicResource OverlayImage}" Classes="overlay"
+                           PointerReleased="ThumbnailImage_OnClick" />
+
                 </Grid>
             </Grid>
 

@@ -22,6 +22,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly Button _saveButton;
         private readonly TagEditor _tagEditor;
         private readonly GenericComboBox<Template> _templateComboBox;
+        private readonly Image _thumbnail;
         private readonly TextBox _titleTextBox;
         public Template SelectedTemplate => _templateComboBox.SelectedItem!;
 
@@ -74,6 +75,16 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 (keyEventArgs.KeyModifiers & KeyModifiers.Control) != 0 &&
                 keyEventArgs.Key == Key.S)
                 OnSaveButtonClicked(null, new RoutedEventArgs());
+        }
+
+        private async void ThumbnailImage_OnClick(object? sender, PointerReleasedEventArgs e)
+        {
+            // var fileDialog = new OpenFileDialog {AllowMultiple = false, Title = "Select a Thumbnail"};
+            // // fileDialog.Filters=false;
+            // var strings = await fileDialog.ShowAsync((Window) this.Parent.Parent.Parent.Parent.Parent);
+            // Console.WriteLine(string.Join("\n", strings));
+            // _thumbnail.Source =
+            //     await ImageHelper.PathToImageAsync(SelectedTemplate.ThumbnailPath, true, SelectedTemplate.Id);
         }
 
         #endregion
@@ -132,10 +143,11 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
             InitializeComponent();
             _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox");
-            _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
-            _titleTextBox = this.Find<TextBox>("TitleTextBox");
-            _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
             _saveButton = this.Find<Button>("SaveButton");
+            _titleTextBox = this.Find<TextBox>("TitleTextBox");
+            _thumbnail = this.Find<Image>("ThumbnailImage");
+            _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
+            _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
             AddEventListeners();
             InvokeOnRender(async () => await Init());
         }

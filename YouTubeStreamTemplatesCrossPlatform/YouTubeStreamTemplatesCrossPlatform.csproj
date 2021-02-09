@@ -5,6 +5,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
         <!--        <TargetFramework>net5.0-windows</TargetFramework>-->
+        <ProjectGuid>{FFEEFFF0-611A-4302-A17C-5F38A8D163B1}</ProjectGuid>
     </PropertyGroup>
 
     <ItemGroup>
