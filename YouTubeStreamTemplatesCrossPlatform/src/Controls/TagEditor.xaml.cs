@@ -87,11 +87,11 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void ResizeInputBox()
         {
-            //TODO Fix calculation (add Margin)
             var maxWidth = _tagsPanel.Bounds.Width;
-            var allWithoutTextBox = _tagsPanel.Children.Where(c => c is not TextBox).ToList();
-            var highestY = allWithoutTextBox.Max(c => c.Bounds.Y);
-            var lineWidth = allWithoutTextBox.Where(c => Math.Abs(c.Bounds.Y - highestY) < 1).Sum(c => c.Bounds.Width);
+            var allTags = _tagsPanel.Children.Where(c => c is not TextBox).ToList();
+            var highestY = allTags.Max(c => c.Bounds.Y);
+            var lineWidth = allTags.Where(c => Math.Abs(c.Bounds.Y - highestY) < 1)
+                                   .Sum(c => c.Bounds.Width + c.Margin.Left + c.Margin.Right);
             var desiredWidth = maxWidth - lineWidth;
             _inputTextBox.Width = desiredWidth < _inputTextBox.MinWidth ? maxWidth : desiredWidth;
         }

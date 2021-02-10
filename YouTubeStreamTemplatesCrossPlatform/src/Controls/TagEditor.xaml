@@ -9,7 +9,7 @@
             <WrapPanel x:Name="TagsPanel" Background="Transparent">
                 <TextBox x:Name="InputTextBox"
                          KeyUp="InputTextBox_OnKeyUp" LostFocus="InputTextBox_OnLostFocus"
-                         MinWidth="100" BorderThickness="0" />
+                         MinWidth="100" BorderThickness="0" Margin="0,5,0,0" />
             </WrapPanel>
         </ScrollViewer>
     </Border>
