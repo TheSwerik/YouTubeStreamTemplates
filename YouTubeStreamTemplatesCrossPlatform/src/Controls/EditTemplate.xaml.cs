@@ -6,6 +6,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using NLog;
 using YouTubeStreamTemplates.Settings;
@@ -148,8 +149,15 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.RefreshTags();
             SettingsService.Instance.Settings[Settings.CurrentTemplate] = template.Id;
             Task.Run(SettingsService.Instance.Save);
-            _thumbnail.Source = ImageHelper.PathToImage(template.ThumbnailPath, true, template.Id);
-            _thumbnailPath = template.ThumbnailPath;
+            if (string.IsNullOrWhiteSpace(template.ThumbnailPath))
+            {
+                _thumbnail.Source = new Bitmap("res/Overlay.png");
+            }
+            else
+            {
+                _thumbnail.Source = ImageHelper.PathToImage(template.ThumbnailPath, true, template.Id);
+                _thumbnailPath = template.ThumbnailPath;
+            }
         }
 
         private bool HasDifference(Template? template = null)
