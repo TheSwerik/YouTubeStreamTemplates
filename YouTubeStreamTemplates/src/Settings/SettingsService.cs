@@ -41,6 +41,8 @@ namespace YouTubeStreamTemplates.Settings
             await Instance.Save();
         }
 
+        public bool GetBool(Settings setting) { return bool.Parse(Settings[setting]); }
+
         #endregion
 
         #region Initialisation

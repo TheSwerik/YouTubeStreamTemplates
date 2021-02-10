@@ -30,6 +30,44 @@ namespace YouTubeStreamTemplates.LiveStreaming
         /// </summary>
         public Dictionary<string, string> Category { get; }
 
+        #region Private Methods
+
+        private async Task<string> SetThumbnail(string videoId, string filePath)
+        {
+            Stream fileStream;
+            if (filePath.StartsWith("http"))
+            {
+                using var webClient = new WebClient();
+                fileStream = webClient.OpenRead(filePath);
+            }
+            else
+            {
+                fileStream = File.OpenRead(filePath);
+            }
+
+            if (fileStream.Length > LiveStream.MaxThumbnailSize)
+                throw new ThumbnailTooLargeException(fileStream.Length);
+
+            var request =
+                _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
+            var response = await request.UploadAsync();
+            await fileStream.DisposeAsync();
+
+            if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
+
+            return "";
+
+            // // Get ThumbnailPath:
+            // var videoRequest = _youTubeService.Videos.List("id,snippet");
+            // videoRequest.Id = videoId;
+            // var video = await videoRequest.ExecuteAsync();
+            // if (video?.Items == null || video.Items.Count < 1)
+            //     throw new OhPleaseNeverHappenException("Can't find Video");
+            // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
+        }
+
+        #endregion
+
         #region Initialisation
 
         private static bool _isInitializing;
@@ -143,46 +181,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
             var request = _youTubeService.Videos.Update(video, "id,snippet,liveStreamingDetails");
 
             Logger.Debug("Updating Video:\t{0} -> {1}", template.Name, liveStream.Id);
-            var response = await request.ExecuteAsync();
-            if (!liveStream.ThumbnailPath.Equals(template.ThumbnailPath))
-                await SetThumbnail(liveStream.Id, template.ThumbnailPath);
-            Console.WriteLine(template.ThumbnailPath);
-            Console.WriteLine(liveStream.ThumbnailPath);
+            await request.ExecuteAsync();
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
-        }
-
-        private async Task<string> SetThumbnail(string videoId, string filePath)
-        {
-            Stream fileStream;
-            if (filePath.StartsWith("http"))
-            {
-                using var webClient = new WebClient();
-                fileStream = webClient.OpenRead(filePath);
-            }
-            else
-            {
-                fileStream = File.OpenRead(filePath);
-            }
-
-            if (fileStream.Length > LiveStream.MaxThumbnailSize)
-                throw new ThumbnailTooLargeException(fileStream.Length);
-
-            var request =
-                _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
-            var response = await request.UploadAsync();
-            await fileStream.DisposeAsync();
-
-            if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
-
-            return "";
-
-            // // Get ThumbnailPath:
-            // var videoRequest = _youTubeService.Videos.List("id,snippet");
-            // videoRequest.Id = videoId;
-            // var video = await videoRequest.ExecuteAsync();
-            // if (video?.Items == null || video.Items.Count < 1)
-            //     throw new OhPleaseNeverHappenException("Can't find Video");
-            // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
         }
 
         public async IAsyncEnumerable<LiveStream?> CheckForStream(int delay = 1000)
@@ -206,6 +206,30 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
                 yield return CurrentLiveStream;
             }
+        }
+
+        private async Task AutoUpdate(Func<Template> getTemplate, Func<Template> getEditedTemplate) //TODO start this
+        {
+            while (true)
+            {
+                Logger.Debug("Checking If Should Update..");
+                while (CurrentLiveStream == null || !SettingsService.Instance.GetBool(Settings.Settings.AutoUpdate))
+                    await Task.Delay(300);
+
+                await CheckedUpdate(getTemplate, getEditedTemplate);
+                await Task.Delay(20000);
+            }
+        }
+
+        public async Task CheckedUpdate(Func<Template> getTemplate, Func<Template> getEditedTemplate)
+        {
+            if (CurrentLiveStream == null) return;
+            var stream = CurrentLiveStream;
+            var onlySaved = SettingsService.Instance.GetBool(Settings.Settings.OnlyUpdateSavedTemplates);
+            var template = (onlySaved ? getTemplate : getEditedTemplate).Invoke();
+            if (stream.HasDifference(template)) await UpdateStream(template);
+            //TODO Compare & Update Thumbnails
+            // if (template.CompareThumbnail(stream)) await SetThumbnail(template.Id, template.ThumbnailPath);         
         }
 
         #endregion

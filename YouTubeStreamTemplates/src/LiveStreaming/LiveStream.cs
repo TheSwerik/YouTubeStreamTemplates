@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Google.Apis.YouTube.v3.Data;
 
 namespace YouTubeStreamTemplates.LiveStreaming
@@ -22,6 +23,17 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+
+        #region Methods
+
+        public bool HasDifference(LiveStream other)
+        {
+            return !(Title.Equals(other.Title) &&
+                     Description.Equals(other.Description) &&
+                     Category.Equals(other.Category) &&
+                     Tags.Count == other.Tags.Count &&
+                     Tags.All(t => other.Tags.Contains(t)));
+        }
 
         public int CompareTo(LiveStream? other) { return StartTime.CompareTo(other?.StartTime); }
 
@@ -49,5 +61,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                    StartTime + "\n" +
                    EndTime;
         }
+
+        #endregion
     }
 }
