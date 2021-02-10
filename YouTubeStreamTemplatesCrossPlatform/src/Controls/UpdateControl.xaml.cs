@@ -38,8 +38,12 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             {
                 Logger.Debug("Checking If Should Update..");
                 LiveStream? stream;
-                while ((stream = _viewStream.CurrentLiveStream) == null) await Task.Delay(2000);
-                if (!CheckBoxIsChecked()) return;
+                while ((stream = Service.LiveStreamService!.CurrentLiveStream) == null)
+                {
+                    await Task.Delay(200);
+                    if (!CheckBoxIsChecked()) return;
+                }
+
                 var onlySavedTemplate =
                     bool.Parse(SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates]);
                 var template = onlySavedTemplate ? _editTemplate.SelectedTemplate : _editTemplate.ChangedTemplate();
@@ -77,7 +81,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
             Logger.Debug("Clicked on Update.");
-            var stream = _viewStream.CurrentLiveStream;
+            var stream = Service.LiveStreamService!.CurrentLiveStream;
             if (stream == null) return;
             Logger.Debug("Stream Found.");
             var onlySavedTemplate = bool.Parse(SettingsService.Instance.Settings[Settings.OnlyUpdateSavedTemplates]);

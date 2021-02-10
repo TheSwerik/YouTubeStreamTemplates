@@ -22,6 +22,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly YouTubeService _youTubeService;
+        public LiveStream? CurrentLiveStream { get; private set; }
 
         #region Initialisation
 
@@ -31,8 +32,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             if (_isInitializing) throw new AlreadyInitializingException(typeof(LiveStreamService));
             _isInitializing = true;
-            var ytService =
-                await CreateYouTubeService(YouTubeService.Scope.YoutubeReadonly, YouTubeService.Scope.YoutubeForceSsl);
+            var ytService = await CreateDefaultYouTubeService();
             if (ytService == null) throw new CouldNotCreateServiceException();
             var liveStreamService = new LiveStreamService(ytService);
             await liveStreamService.InitCategories();
@@ -40,23 +40,12 @@ namespace YouTubeStreamTemplates.LiveStreaming
             return liveStreamService;
         }
 
-        private LiveStreamService(YouTubeService youTubeService)
-        {
-            _youTubeService = youTubeService;
-            Category = new Dictionary<string, string>();
-        }
+        #region YouTubeService
 
-        ~LiveStreamService() { _youTubeService.Dispose(); }
-
-        private static async Task<UserCredential> GetCredentials(IEnumerable<string> scopes)
+        private static async Task<YouTubeService> CreateDefaultYouTubeService()
         {
-            await using var stream = new FileStream(@"..\..\..\..\client_id.json", FileMode.Open, FileAccess.Read);
-            return await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                       GoogleClientSecrets.Load(stream).Secrets,
-                       scopes,
-                       "user",
-                       CancellationToken.None,
-                       new FileDataStore("YouTube.Test2"));
+            return await CreateYouTubeService(YouTubeService.Scope.YoutubeReadonly,
+                                              YouTubeService.Scope.YoutubeForceSsl);
         }
 
         private static async Task<YouTubeService> CreateYouTubeService(params string[] scopes)
@@ -69,19 +58,40 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        });
         }
 
+        private static async Task<UserCredential> GetCredentials(IEnumerable<string> scopes)
+        {
+            await using var stream = new FileStream(@"..\..\..\..\client_id.json", FileMode.Open, FileAccess.Read);
+            return await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                       GoogleClientSecrets.Load(stream).Secrets,
+                       scopes,
+                       "user",
+                       CancellationToken.None,
+                       new FileDataStore("YouTube.Test2"));
+        }
+
+        #endregion
+
+        private LiveStreamService(YouTubeService youTubeService)
+        {
+            _youTubeService = youTubeService;
+            Category = new Dictionary<string, string>();
+        }
+
         private async Task InitCategories()
         {
             var request = _youTubeService.VideoCategories.List("snippet");
-            request.RegionCode = "DE";
+            request.RegionCode = "DE"; //TODO get current locale
             request.Hl = bool.Parse(SettingsService.Instance.Settings[Settings.Settings.ForceEnglish])
                              ? "en_US"
-                             : "de_DE";
+                             : "de_DE"; //TODO get current locale
             var result = await request.ExecuteAsync();
             foreach (var videoCategory in result.Items.Where(v => v.Snippet.Assignable == true))
                 Category.Add(videoCategory.Id, videoCategory.Snippet.Title);
 
             Logger.Debug("Found Categories: {0}", string.Join(", ", Category));
         }
+
+        public void Dispose() { _youTubeService.Dispose(); }
 
         #endregion
 
@@ -116,12 +126,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
             videoRequest.Id = liveStream.Id;
             var videos = await videoRequest.ExecuteAsync();
             if (videos.Items == null || videos.Items.Count <= 0) throw new NoVideoFoundException(liveStream.Id);
-            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Default__.ETag);
-            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Default__.Url);
-            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.High.Url);
-            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Maxres.Url);
-            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Medium.Url);
-            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Standard.Url);
             return videos.Items[0].ToLiveStream();
         }
 
@@ -180,6 +184,29 @@ namespace YouTubeStreamTemplates.LiveStreaming
         ///     Second string is the Category Name
         /// </summary>
         public Dictionary<string, string> Category { get; }
+
+        public async IAsyncEnumerable<LiveStream?> CheckForStream(int delay = 1000)
+        {
+            var longDelay = delay * 20;
+            while (true)
+            {
+                await Task.Delay(CurrentLiveStream == null ? delay : longDelay);
+                try
+                {
+                    var stream = await GetCurrentStreamAsVideo();
+                    if (CurrentLiveStream == null)
+                        Logger.Debug("Stream Detected:\tid: {0} \tTitle: {1}", stream.Id, stream.Title);
+                    CurrentLiveStream = stream;
+                }
+                catch (NoCurrentStreamException)
+                {
+                    Logger.Debug("Not currently streaming...");
+                    CurrentLiveStream = null;
+                }
+
+                yield return CurrentLiveStream;
+            }
+        }
 
         #endregion
     }
