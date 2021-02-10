@@ -7,6 +7,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
     //TODO rename
     public record LiveStream : IComparable<LiveStream>
     {
+        public const int MaxThumbnailSize = 2097152;
         public string Id { get; init; } = null!;
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;

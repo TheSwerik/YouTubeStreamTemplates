@@ -46,7 +46,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void OnChanged(object? sender, EventArgs e) { _saveButton.IsEnabled = HasDifference(); }
 
-        private void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
+        private async void TemplateComboBox_OnSelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
             if (_ignoreDifferenceCheck)
             {
@@ -137,7 +137,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             if (_templateComboBox.SelectedItem == null) _templateComboBox.SelectedIndex = 0;
         }
 
-        private void FillValues(Template template)
+        private async void FillValues(Template template)
         {
             // Logger.Debug($"Fill Values with:\n{template}");
             _titleTextBox.Text = template.Title;
@@ -148,14 +148,14 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.Tags = template.Tags.ToHashSet();
             _tagEditor.RefreshTags();
             SettingsService.Instance.Settings[Settings.CurrentTemplate] = template.Id;
-            Task.Run(SettingsService.Instance.Save);
+            await SettingsService.Instance.Save();
             if (string.IsNullOrWhiteSpace(template.ThumbnailPath))
             {
                 _thumbnail.Source = new Bitmap("res/Overlay.png");
             }
             else
             {
-                _thumbnail.Source = ImageHelper.PathToImage(template.ThumbnailPath, true, template.Id);
+                _thumbnail.Source = await ImageHelper.PathToImageAsync(template.ThumbnailPath, true, template.Id);
                 _thumbnailPath = template.ThumbnailPath;
             }
         }

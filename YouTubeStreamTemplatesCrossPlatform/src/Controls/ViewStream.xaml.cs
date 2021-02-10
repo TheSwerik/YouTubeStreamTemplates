@@ -55,7 +55,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Dispatcher.UIThread.InvokeAsync(action, DispatcherPriority.Render);
         }
 
-        private void FillValues(LiveStream liveStream)
+        private async void FillValues(LiveStream liveStream)
         {
             // Logger.Debug($"Fill Values with:\n{liveStream}");
             _titleTextBlock.Text = liveStream.Title;
@@ -66,7 +66,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
             _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = false);
-            _thumbnail.Source = ImageHelper.PathToImage(liveStream.ThumbnailPath, false, liveStream.Id);
+            _thumbnail.Source = await ImageHelper.PathToImageAsync(liveStream.ThumbnailPath, false, liveStream.Id);
         }
 
         private void ClearValues()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -115,6 +116,12 @@ namespace YouTubeStreamTemplates.LiveStreaming
             videoRequest.Id = liveStream.Id;
             var videos = await videoRequest.ExecuteAsync();
             if (videos.Items == null || videos.Items.Count <= 0) throw new NoVideoFoundException(liveStream.Id);
+            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Default__.ETag);
+            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Default__.Url);
+            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.High.Url);
+            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Maxres.Url);
+            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Medium.Url);
+            Console.WriteLine(videos.Items[0].Snippet.Thumbnails.Standard.Url);
             return videos.Items[0].ToLiveStream();
         }
 
@@ -128,7 +135,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
             Logger.Debug("Updating Video:\t{0} -> {1}", template.Name, liveStream.Id);
             var response = await request.ExecuteAsync();
             if (!liveStream.ThumbnailPath.Equals(template.ThumbnailPath))
-                template.ThumbnailPath = await SetThumbnail(liveStream.Id, template.ThumbnailPath);
+                await SetThumbnail(liveStream.Id, template.ThumbnailPath);
+            Console.WriteLine(template.ThumbnailPath);
+            Console.WriteLine(liveStream.ThumbnailPath);
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
         }
 
@@ -145,18 +154,25 @@ namespace YouTubeStreamTemplates.LiveStreaming
                 fileStream = File.OpenRead(filePath);
             }
 
+            if (fileStream.Length > LiveStream.MaxThumbnailSize)
+                throw new ThumbnailTooLargeException(fileStream.Length);
+
             var request =
                 _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
-            await request.UploadAsync();
+            var response = await request.UploadAsync();
             await fileStream.DisposeAsync();
 
-            // Get ThumbnailPath:
-            var videoRequest = _youTubeService.Videos.List("id,snippet");
-            videoRequest.Id = videoId;
-            var video = await videoRequest.ExecuteAsync();
-            if (video?.Items == null || video.Items.Count < 1)
-                throw new OhPleaseNeverHappenException("Can't find Video");
-            return video.Items[0].Snippet.Thumbnails.Maxres.Url;
+            if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
+
+            return "";
+
+            // // Get ThumbnailPath:
+            // var videoRequest = _youTubeService.Videos.List("id,snippet");
+            // videoRequest.Id = videoId;
+            // var video = await videoRequest.ExecuteAsync();
+            // if (video?.Items == null || video.Items.Count < 1)
+            //     throw new OhPleaseNeverHappenException("Can't find Video");
+            // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
         }
 
         /// <summary>

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -83,6 +84,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             var template = onlySavedTemplate ? _editTemplate.SelectedTemplate : _editTemplate.ChangedTemplate();
             if (!HasDifference(stream, template)) return;
 
+            Console.WriteLine(onlySavedTemplate);
+            Console.WriteLine(template.ThumbnailPath);
             await Service.LiveStreamService!.UpdateStream(template); //TODO split into thumbnail and video change
             if (onlySavedTemplate) await Service.TemplateService!.SaveTemplate(template);
         }
