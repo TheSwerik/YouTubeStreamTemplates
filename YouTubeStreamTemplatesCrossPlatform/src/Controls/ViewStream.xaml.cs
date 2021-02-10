@@ -66,7 +66,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
             _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = false);
-            Console.WriteLine("Path: " + liveStream.ThumbnailPath);
             _thumbnail.Source = ImageHelper.PathToImage(liveStream.ThumbnailPath, true, liveStream.Id);
         }
 
