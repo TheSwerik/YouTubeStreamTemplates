@@ -42,7 +42,7 @@
         <SolidColorBrush x:Key="ThemeAccentBrush4" Color="{DynamicResource BrightPurpleColor}" />
         <!-- Button Border -->
         <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{DynamicResource LighterGrayColor}" />
-        <!-- Default Border -->
+        <!-- Default Border, Button pointerover border -->
         <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{DynamicResource LighterGrayColor}" />
         <!-- pointerover/selected Border -->
         <SolidColorBrush x:Key="ThemeBorderHighBrush" Color="{DynamicResource LighterGrayColor}" />
