@@ -13,6 +13,7 @@ namespace YouTubeStreamTemplates.Templates
     {
         private const string LineSeparator = "■\\n■";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public readonly List<Template> Templates;
         private List<string> _templatePaths;
 
         public TemplateService()
@@ -20,8 +21,6 @@ namespace YouTubeStreamTemplates.Templates
             _templatePaths = new List<string>();
             Templates = new List<Template>();
         }
-
-        public List<Template> Templates { get; }
 
         #region Helper Methods
 
@@ -74,6 +73,10 @@ namespace YouTubeStreamTemplates.Templates
 
         public async Task SaveTemplate(Template template)
         {
+            var index = Templates.FindIndex(t => t.Id.Equals(template.Id));
+            if (index < 0) Templates.Add(template);
+            else Templates[index] = template;
+
             var path = SettingsService.Instance.Settings[Settings.Settings.SavePath] + $"/{template.Id}.tlpt";
             await using var file = File.CreateText(path);
 
@@ -87,10 +90,14 @@ namespace YouTubeStreamTemplates.Templates
             await file.WriteLineAsync($"AudioLanguage: {template.AudioLanguage}");
             await file.WriteLineAsync($"Tags: {string.Join(',', template.Tags)}");
             await file.WriteLineAsync($"ThumbnailPath: {template.ThumbnailPath}");
+        }
 
+        public void DeleteTemplate(Template template)
+        {
             var index = Templates.FindIndex(t => t.Id.Equals(template.Id));
-            if (index < 0) Templates.Add(template);
-            else Templates[index] = template;
+            if (index >= 0) Templates.Remove(template);
+            var path = SettingsService.Instance.Settings[Settings.Settings.SavePath] + $"/{template.Id}.tlpt";
+            File.Delete(path);
         }
 
         #endregion
