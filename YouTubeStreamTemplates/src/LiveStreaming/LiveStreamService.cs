@@ -24,6 +24,12 @@ namespace YouTubeStreamTemplates.LiveStreaming
         private readonly YouTubeService _youTubeService;
         public LiveStream? CurrentLiveStream { get; private set; }
 
+        /// <summary>
+        ///     First string is the Category ID
+        ///     Second string is the Category Name
+        /// </summary>
+        public Dictionary<string, string> Category { get; }
+
         #region Initialisation
 
         private static bool _isInitializing;
@@ -178,12 +184,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
             //     throw new OhPleaseNeverHappenException("Can't find Video");
             // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
         }
-
-        /// <summary>
-        ///     First string is the Category ID
-        ///     Second string is the Category Name
-        /// </summary>
-        public Dictionary<string, string> Category { get; }
 
         public async IAsyncEnumerable<LiveStream?> CheckForStream(int delay = 1000)
         {
