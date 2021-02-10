@@ -23,7 +23,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly Image _thumbnail;
 
         private readonly TextBlock _titleTextBlock;
-        // public LiveStream? CurrentLiveStream { get; private set; }
 
         #region Init
 
