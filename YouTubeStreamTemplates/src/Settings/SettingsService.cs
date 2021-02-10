@@ -35,6 +35,12 @@ namespace YouTubeStreamTemplates.Settings
             await File.WriteAllLinesAsync(Path, lines);
         }
 
+        public async Task UpdateSetting(Settings setting, string value)
+        {
+            Settings[setting] = value;
+            await Instance.Save();
+        }
+
         #endregion
 
         #region Initialisation

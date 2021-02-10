@@ -50,25 +50,13 @@ namespace YouTubeStreamTemplates.Templates
 
         #region Public Methods
 
-        public async Task LoadAllTemplates(string folderPath)
+        public Template GetCurrentTemplate()
         {
-            foreach (var filePath in Directory.EnumerateFiles(folderPath)) await LoadTemplate(filePath);
-            Logger.Debug("Loaded {0} Templates.", Templates.Count);
-        }
-
-        public async Task<Template> LoadTemplate(string path)
-        {
-            path = path.Trim();
-            if (string.IsNullOrWhiteSpace(path)) throw new EmptyPathException();
-            if (!File.Exists(path)) throw new InvalidPathException(path);
-
-            var id = Path.GetFileNameWithoutExtension(path);
+            var id = SettingsService.Instance.Settings[Settings.Settings.CurrentTemplate];
             var template = Templates.FirstOrDefault(t => t.Id.Equals(id));
-            if (template != null) Templates.Remove(template);
-
-            template = await GetTemplateFromPath(path);
-            Templates.Add(template);
-            return template;
+            if (template != null) return template;
+            if (Templates.Count <= 0) throw new NoTemplateException();
+            return Templates[0];
         }
 
         public async Task SaveTemplate(Template template)
@@ -90,6 +78,27 @@ namespace YouTubeStreamTemplates.Templates
             await file.WriteLineAsync($"AudioLanguage: {template.AudioLanguage}");
             await file.WriteLineAsync($"Tags: {string.Join(',', template.Tags)}");
             await file.WriteLineAsync($"ThumbnailPath: {template.ThumbnailPath}");
+        }
+
+        public async Task LoadAllTemplates(string folderPath)
+        {
+            foreach (var filePath in Directory.EnumerateFiles(folderPath)) await LoadTemplate(filePath);
+            Logger.Debug("Loaded {0} Templates.", Templates.Count);
+        }
+
+        public async Task<Template> LoadTemplate(string path)
+        {
+            path = path.Trim();
+            if (string.IsNullOrWhiteSpace(path)) throw new EmptyPathException();
+            if (!File.Exists(path)) throw new InvalidPathException(path);
+
+            var id = Path.GetFileNameWithoutExtension(path);
+            var template = Templates.FirstOrDefault(t => t.Id.Equals(id));
+            if (template != null) Templates.Remove(template);
+
+            template = await GetTemplateFromPath(path);
+            Templates.Add(template);
+            return template;
         }
 
         public void DeleteTemplate(Template template)

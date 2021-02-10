@@ -81,6 +81,12 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                            });
         }
 
+        public void RefreshTags(IEnumerable<string> tags)
+        {
+            Tags = tags.ToHashSet();
+            RefreshTags();
+        }
+
         #endregion
 
         #region Helper Methods
