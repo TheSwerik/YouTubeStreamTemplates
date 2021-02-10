@@ -37,7 +37,7 @@
                     <Image x:Name="ThumbnailImageOverlay" Source="{DynamicResource OverlayImage}" Classes="overlay"
                            PointerReleased="ThumbnailImage_OnClick">
                         <Image.ContextMenu>
-                            <ContextMenu Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+                            <ContextMenu>
                                 <MenuItem Header="File" Click="FileContextButton_OnClick" />
                                 <MenuItem Header="URL" Click="URLContextButton_OnClick" />
                             </ContextMenu>

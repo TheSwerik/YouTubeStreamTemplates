@@ -20,6 +20,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly TextBlock _descriptionTextBlock;
         private readonly Grid _noStreamGrid;
         private readonly TagEditor _tagEditor;
+        private readonly Image _thumbnail;
         private readonly TextBlock _titleTextBlock;
         public LiveStream? CurrentLiveStream { get; private set; }
 
@@ -35,7 +36,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 try
                 {
                     var stream = await Service.LiveStreamService.GetCurrentStreamAsVideo();
-                    // TODO check for unsaved Changes
                     if (CurrentLiveStream == null)
                         Logger.Debug("Stream Detected:\tid: {0} \tTitle: {1}", stream.Id, stream.Title);
                     CurrentLiveStream = stream;
@@ -66,6 +66,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
             _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = false);
+            Console.WriteLine("Path: " + liveStream.ThumbnailPath);
+            _thumbnail.Source = ImageHelper.PathToImage(liveStream.ThumbnailPath, true, liveStream.Id);
         }
 
         private void ClearValues()
@@ -89,6 +91,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             InitializeComponent();
             _categoryTextBlock = this.Find<TextBlock>("CategoryTextBlock");
             _titleTextBlock = this.Find<TextBlock>("TitleTextBlock");
+            _thumbnail = this.Find<Image>("ThumbnailImage");
             _descriptionTextBlock = this.Find<TextBlock>("DescriptionTextBlock");
             _contentGrid = this.Find<Grid>("ContentGrid");
             _noStreamGrid = this.Find<Grid>("NoStreamGrid");

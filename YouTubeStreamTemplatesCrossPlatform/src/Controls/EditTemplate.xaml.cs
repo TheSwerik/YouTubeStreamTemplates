@@ -103,6 +103,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             if (strings == null || strings.Length == 0) return;
             _thumbnailPath = strings[0];
             _thumbnail.Source = await ImageHelper.PathToImageAsync(_thumbnailPath, true, SelectedTemplate.Id);
+            OnChanged(null, null);
         }
 
         private async void URLContextButton_OnClick(object? sender, RoutedEventArgs e)
