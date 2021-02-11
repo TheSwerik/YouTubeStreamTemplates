@@ -134,7 +134,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             var request = _youTubeService.LiveBroadcasts.List("id,snippet,contentDetails,status");
             request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
-            request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
+            // TODO Change back to Active:
+            // request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
+            request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Upcoming;
 
             var response = await request.ExecuteAsync();
             if (response.Items == null || response.Items.Count <= 0) throw new NoCurrentStreamException();
@@ -142,7 +144,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             // Get the latest Stream if there is more than one:
             var streams = response.Items.ToList();
-            streams.Sort(LiveBroadcastComparer.ByDateDesc);
+            // TODO Change back to Actual (not Planned):
+            // streams.Sort(LiveBroadcastComparer.ByDateDesc);
+            streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
             return streams[0];
         }
 
