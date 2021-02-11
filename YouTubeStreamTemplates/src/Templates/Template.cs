@@ -9,8 +9,10 @@ namespace YouTubeStreamTemplates.Templates
         {
             Id = Guid.NewGuid().ToString();
             Name = name;
+            Thumbnail = new Thumbnail();
         }
 
         public string Name { get; set; }
+        public Thumbnail Thumbnail { get; set; }
     }
 }

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using NLog;
+using YouTubeStreamTemplates.Helpers;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplatesCrossPlatform.Exceptions;
 
@@ -89,7 +91,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
             _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = false);
-            _thumbnail.Source = await ImageHelper.PathToImageAsync(liveStream.ThumbnailPath, false, liveStream.Id);
+            _thumbnail.Source = new Bitmap(await ImageHelper.GetLiveStreamImagePathAsync(liveStream.Id));
         }
 
         private void ClearValues()

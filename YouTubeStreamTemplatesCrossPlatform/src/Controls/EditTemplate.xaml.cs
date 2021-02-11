@@ -9,6 +9,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using NLog;
+using YouTubeStreamTemplates.Helpers;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
@@ -23,9 +24,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private readonly Button _saveButton;
         private readonly TagEditor _tagEditor;
         private readonly GenericComboBox<Template> _templateComboBox;
-        private readonly Image _thumbnail;
+        private readonly Image _thumbnailImage;
         private readonly TextBox _titleTextBox;
-        private string _thumbnailPath;
+        private Thumbnail _thumbnail;
         public Template SelectedTemplate => _templateComboBox.SelectedItem!;
 
         public Template ChangedTemplate()
@@ -36,7 +37,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                        Description = _descriptionTextBox.Text,
                        Category = _categoryComboBox.SelectedItem.Key,
                        Tags = _tagEditor.Tags.ToList(),
-                       ThumbnailPath = _thumbnailPath
+                       Thumbnail = _thumbnail
                    };
         }
 
@@ -50,10 +51,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _templateComboBox = this.Find<GenericComboBox<Template>>("TemplateComboBox");
             _saveButton = this.Find<Button>("SaveButton");
             _titleTextBox = this.Find<TextBox>("TitleTextBox");
-            _thumbnail = this.Find<Image>("ThumbnailImage");
+            _thumbnailImage = this.Find<Image>("ThumbnailImage");
             _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
             _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
-            _thumbnailPath = "";
+            _thumbnail = new Thumbnail();
             AddEventListeners();
             InvokeOnRender(async () => await Init());
         }
@@ -115,14 +116,15 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _categoryComboBox.SelectedItem = LiveStreamService.Instance!.Category.FirstMatching(template.Category);
             _tagEditor.RefreshTags(template.Tags);
             await SettingsService.Instance.UpdateSetting(Setting.CurrentTemplate, template.Id);
-            if (string.IsNullOrWhiteSpace(template.ThumbnailPath))
+            if (string.IsNullOrWhiteSpace(template.Thumbnail.Source))
             {
-                _thumbnail.Source = new Bitmap("res/Overlay.png");
+                _thumbnailImage.Source = new Bitmap("res/Overlay.png");
             }
             else
             {
-                _thumbnail.Source = await ImageHelper.PathToImageAsync(template.ThumbnailPath, true, template.Id);
-                _thumbnailPath = template.ThumbnailPath;
+                _thumbnailImage.Source =
+                    new Bitmap(await ImageHelper.GetImagePathAsync(template.Thumbnail.Source, true, template.Id));
+                _thumbnail = template.Thumbnail with { };
             }
         }
 
@@ -132,7 +134,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             return !(template.Title.Equals(_titleTextBox.Text) &&
                      template.Description.Equals(_descriptionTextBox.Text) &&
                      template.Category.Equals(_categoryComboBox.SelectedItem.Key) &&
-                     template.ThumbnailPath.Equals(_thumbnailPath) &&
+                     template.Thumbnail.Source.Equals(_thumbnail.Source) &&
                      template.Tags.Count == _tagEditor.Tags.Count &&
                      template.Tags.All(t => _tagEditor.Tags.Contains(t)));
         }
@@ -209,8 +211,9 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                              };
             var strings = await fileDialog.ShowAsync((Window) Parent.Parent.Parent.Parent.Parent);
             if (strings == null || strings.Length == 0) return;
-            _thumbnailPath = strings[0];
-            _thumbnail.Source = await ImageHelper.PathToImageAsync(_thumbnailPath, true, SelectedTemplate.Id);
+            _thumbnail.Source = strings[0];
+            _thumbnailImage.Source =
+                new Bitmap(await ImageHelper.GetImagePathAsync(_thumbnail.Source, true, SelectedTemplate.Id));
             OnChanged(null, null);
         }
 
@@ -219,7 +222,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             Console.WriteLine("URl");
             // TODO Paste Link and get Image
             // _thumbnailPath = URL;
-            // _thumbnail.Source = await ImageHelper.PathToImageAsync(_thumbnailPath, true, SelectedTemplate.Id);
+            // _thumbnailImage.Source = await ImageHelper.GetImagePathAsync(_thumbnailPath, true, SelectedTemplate.Id);
         }
 
         #endregion

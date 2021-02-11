@@ -166,7 +166,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
             await fileStream.DisposeAsync();
 
             if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
-
             return "";
 
             // // Get ThumbnailPath:

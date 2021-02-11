@@ -9,7 +9,6 @@ namespace YouTubeStreamTemplatesCrossPlatform
         // yet and stuff might break.
         public static void Main(string[] args)
         {
-            ImageHelper.CreateDirectories();
             BuildAvaloniaApp()
                 .StartWithClassicDesktopLifetime(args);
         }
