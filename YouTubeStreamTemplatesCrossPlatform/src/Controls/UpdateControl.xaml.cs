@@ -4,7 +4,6 @@ using Avalonia.Markup.Xaml;
 using NLog;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
-using YouTubeStreamTemplates.Templates;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
 {
@@ -37,13 +36,13 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void AutoUpdateCheckBox_OnChecked(object? sender, RoutedEventArgs e)
         {
-            SettingsService.UpdateSetting(Setting.AutoUpdate, CheckBoxIsChecked() + "");
+            if (CheckBoxIsChecked()) LiveStreamService.Instance.StartAutoUpdate(_editTemplate.ChangedTemplate);
+            else LiveStreamService.Instance.StopAutoUpdate();
         }
 
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
-            await LiveStreamService.Instance.CheckedUpdate(TemplateService.Instance.GetCurrentTemplate,
-                                                           _editTemplate.ChangedTemplate);
+            await LiveStreamService.Instance.CheckedUpdate(_editTemplate.ChangedTemplate);
         }
 
         private void OnlySavedTemplatesCheckBox_OnClick(object sender, RoutedEventArgs routedEventArgs)
