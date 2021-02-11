@@ -20,7 +20,7 @@ namespace YouTubeStreamTemplates.Helpers
             task.Wait(timeout);
             if (!task.IsCompleted) Logger.Error($"Image Loading timeout: {path}");
             if (task.Exception != null) Logger.Error(task.Exception.Message);
-            return PathToImageAsync(path, template, id).Result;
+            return task.Result;
         }
 
         public static async Task<string> PathToImageAsync(string path, bool template, string id)
