@@ -32,6 +32,13 @@ namespace YouTubeStreamTemplates.Helpers
             return savePath;
         }
 
+        public static async Task<byte[]> GetStreamThumbnailBytesAsync(string id)
+        {
+            var path = $"{TempStreamThumbnailFolderPath}{id}.png";
+            if (!File.Exists(path)) await GetLiveStreamImagePathAsync(id);
+            return await File.ReadAllBytesAsync(path);
+        }
+
         public static async Task<string> GetLiveStreamImagePathAsync(string id)
         {
             var savePath = $"{TempStreamThumbnailFolderPath}{id}.png";

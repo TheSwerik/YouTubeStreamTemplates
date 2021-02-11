@@ -144,7 +144,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             return streams[0];
         }
 
-        private async Task<string> SetThumbnail(string videoId, string filePath)
+        private async Task SetThumbnail(string videoId, string filePath)
         {
             Stream fileStream;
             if (filePath.StartsWith("http"))
@@ -160,21 +160,15 @@ namespace YouTubeStreamTemplates.LiveStreaming
             if (fileStream.Length > LiveStream.MaxThumbnailSize)
                 throw new ThumbnailTooLargeException(fileStream.Length);
 
+            Logger.Debug($"Changing Thumbnail for {videoId} to {filePath}...");
             var request =
                 _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
             var response = await request.UploadAsync();
             await fileStream.DisposeAsync();
+            Logger.Debug($"Changed Thumbnail for {videoId} to {filePath}.");
 
-            if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
-            return "";
-
-            // // Get ThumbnailPath:
-            // var videoRequest = _youTubeService.Videos.List("id,snippet");
-            // videoRequest.Id = videoId;
-            // var video = await videoRequest.ExecuteAsync();
-            // if (video?.Items == null || video.Items.Count < 1)
-            //     throw new OhPleaseNeverHappenException("Can't find Video");
-            // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
+            if (response.Exception != null)
+                throw new Exception($"Error happened:\n{response.Exception.Message}"); //TODO
         }
 
         #endregion
@@ -212,8 +206,11 @@ namespace YouTubeStreamTemplates.LiveStreaming
             var onlySaved = SettingsService.GetBool(Setting.OnlyUpdateSavedTemplates);
             var template = (onlySaved ? getTemplate : getEditedTemplate).Invoke();
             if (stream.HasDifference(template)) await UpdateStream(template);
-            //TODO Compare & Update Thumbnails
-            // if (template.CompareThumbnail(stream)) await SetThumbnail(template.Id, template.ThumbnailPath);         
+            if (!template.Thumbnail.HasSameResult(await ImageHelper.GetStreamThumbnailBytesAsync(stream.Id)))
+            {
+                await SetThumbnail(stream.Id, template.Thumbnail.Source);
+                template.Thumbnail.Result = await ImageHelper.GetStreamThumbnailBytesAsync(stream.Id);
+            }
         }
 
         #region Looping
