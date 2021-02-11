@@ -133,9 +133,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             var request = _youTubeService.LiveBroadcasts.List("id,snippet,contentDetails,status");
             request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
-            // TODO Change back to Active:
-            // request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
-            request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Upcoming;
+            request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
 
             var response = await request.ExecuteAsync();
             if (response.Items == null || response.Items.Count <= 0) throw new NoCurrentStreamException();
@@ -143,9 +141,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
             // Get the latest Stream if there is more than one:
             var streams = response.Items.ToList();
-            // TODO Change back to Actual (not Planned):
-            // streams.Sort(LiveBroadcastComparer.ByDateDesc);
-            streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
+            streams.Sort(LiveBroadcastComparer.ByDateDesc);
             return streams[0];
         }
 
@@ -173,7 +169,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             Logger.Debug($"Changed Thumbnail for {videoId} to {filePath}.");
 
             if (response.Exception != null)
-                throw new Exception($"Error happened:\n{response.Exception.Message}"); //TODO
+                throw new YouTubeStreamTemplateException($"Error happened:\n{response.Exception.Message}");
         }
 
         #endregion
