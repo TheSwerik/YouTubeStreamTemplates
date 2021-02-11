@@ -55,6 +55,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _descriptionTextBox = this.Find<TextBox>("DescriptionTextBox");
             _categoryComboBox = this.Find<GenericComboBox<KeyValuePair<string, string>>>("CategoryComboBox");
             _thumbnail = new Thumbnail();
+            TemplateService.Instance.GetEditedTemplate = ChangedTemplate;
             AddEventListeners();
             InvokeOnRender(async () => await Init());
         }

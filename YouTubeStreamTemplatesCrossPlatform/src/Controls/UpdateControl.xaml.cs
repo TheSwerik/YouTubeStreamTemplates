@@ -34,22 +34,20 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         #region EventListeners
 
-        private void AutoUpdateCheckBox_OnChecked(object? sender, RoutedEventArgs e)
+        private async void AutoUpdateCheckBox_OnChecked(object? sender, RoutedEventArgs e)
         {
-            if (CheckBoxIsChecked()) LiveStreamService.Instance.StartAutoUpdate(_editTemplate.ChangedTemplate);
-            else LiveStreamService.Instance.StopAutoUpdate();
+            await SettingsService.UpdateSetting(Setting.AutoUpdate, CheckBoxIsChecked() + "");
         }
 
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
-            await LiveStreamService.Instance.CheckedUpdate(_editTemplate.ChangedTemplate);
+            await LiveStreamService.Instance.CheckedUpdate();
         }
 
-        private void OnlySavedTemplatesCheckBox_OnClick(object sender, RoutedEventArgs routedEventArgs)
+        private async void OnlySavedTemplatesCheckBox_OnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             var checkBox = (CheckBox) sender;
-            SettingsService.UpdateSetting(Setting.OnlyUpdateSavedTemplates,
-                                          (checkBox.IsChecked ?? false) + "");
+            await SettingsService.UpdateSetting(Setting.OnlyUpdateSavedTemplates, (checkBox.IsChecked ?? false) + "");
         }
 
         #endregion

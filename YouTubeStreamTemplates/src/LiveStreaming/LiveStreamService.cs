@@ -66,6 +66,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             if (ytService == null) throw new CouldNotCreateServiceException();
             _instance = new LiveStreamService(ytService);
             await _instance.InitCategories();
+            _instance.AutoUpdate();
             IsInitialized = true;
             _coolDownTimer.Reset();
         }
@@ -200,7 +201,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
         }
 
-        public async Task CheckedUpdate(Func<Template> getEditedTemplate)
+        public async Task CheckedUpdate()
         {
             if (_coolDownTimer.IsRunning)
             {
@@ -212,7 +213,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
             if (CurrentLiveStream == null) return;
             var stream = CurrentLiveStream;
             var onlySaved = SettingsService.GetBool(Setting.OnlyUpdateSavedTemplates);
-            var template = (onlySaved ? TemplateService.Instance.GetCurrentTemplate : getEditedTemplate).Invoke();
+            var template = (onlySaved
+                                ? TemplateService.Instance.GetCurrentTemplate
+                                : TemplateService.Instance.GetEditedTemplate).Invoke();
             if (stream.HasDifference(template)) await UpdateStream(template);
             if (!template.Thumbnail.HasSameResult(await ImageHelper.GetStreamThumbnailBytesAsync(stream.Id)))
             {
@@ -223,23 +226,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             _coolDownTimer.ReStart();
         }
 
-        public async Task StartAutoUpdate(Func<Template> getEditedTemplate)
-        {
-            await SettingsService.UpdateSetting(Setting.AutoUpdate, "true");
-#pragma warning disable 4014
-            _autoUpdateTask = AutoUpdate(getEditedTemplate);
-#pragma warning restore 4014
-        }
-
-        public async Task StopAutoUpdate()
-        {
-            await SettingsService.UpdateSetting(Setting.AutoUpdate, "false");
-            _autoUpdateTask.Dispose();
-        }
-
         #region Looping
-
-        private Task _autoUpdateTask;
 
         public async IAsyncEnumerable<LiveStream?> CheckForStream(int delay = 1000)
         {
@@ -264,15 +251,13 @@ namespace YouTubeStreamTemplates.LiveStreaming
             }
         }
 
-        private async Task AutoUpdate(Func<Template> getEditedTemplate)
+        private async Task AutoUpdate()
         {
             while (true)
             {
-                Logger.Debug("Checking If Should Update..");
-                while (CurrentLiveStream == null || !SettingsService.GetBool(Setting.AutoUpdate))
-                    await Task.Delay(300);
-
-                await CheckedUpdate(getEditedTemplate);
+                while (!SettingsService.GetBool(Setting.AutoUpdate) || CurrentLiveStream == null) await Task.Delay(300);
+                Logger.Debug("Checking If Should Update...");
+                await CheckedUpdate();
                 await Task.Delay(20000);
             }
         }

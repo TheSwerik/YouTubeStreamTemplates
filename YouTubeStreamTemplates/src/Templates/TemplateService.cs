@@ -17,11 +17,13 @@ namespace YouTubeStreamTemplates.Templates
         private static TemplateService _instance = null!;
         public readonly List<Template> Templates;
         private List<string> _templatePaths;
+        public Func<Template> GetEditedTemplate;
 
         private TemplateService()
         {
             _templatePaths = new List<string>();
             Templates = new List<Template>();
+            GetEditedTemplate = GetCurrentTemplate;
         }
 
         private static SettingsService SettingsService => SettingsService.Instance;
