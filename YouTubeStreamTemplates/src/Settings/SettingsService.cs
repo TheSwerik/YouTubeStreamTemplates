@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using YouTubeStreamTemplates.Exceptions;
+using YouTubeStreamTemplates.Helpers;
 using YouTubeStreamTemplates.Templates;
 
 namespace YouTubeStreamTemplates.Settings
@@ -30,8 +31,8 @@ namespace YouTubeStreamTemplates.Settings
             if (!File.Exists(Path)) File.Copy(DefaultPath, Path);
             AddAllSettings(Settings, Path);
 
-            if (!Directory.Exists(Settings[Setting.SavePath]))
-                Directory.CreateDirectory(Settings[Setting.SavePath]);
+            Directory.CreateDirectory(Settings[Setting.SavePath]);
+            ImageHelper.CreateDirectories();
         }
 
         private void AddAllSettings(IDictionary<Setting, string> settings, string path)
@@ -56,9 +57,7 @@ namespace YouTubeStreamTemplates.Settings
         {
             if (string.IsNullOrWhiteSpace(Instance.Settings[Setting.SavePath]))
                 throw new InvalidPathException(Instance.Settings[Setting.SavePath]);
-            foreach (var path in Directory.GetFiles(
-                Instance.Settings[Setting.SavePath]))
-                await TemplateService.Instance.LoadTemplate(path);
+            await TemplateService.Instance.LoadAllTemplates(Instance.Settings[Setting.SavePath]);
         }
 
         #endregion
