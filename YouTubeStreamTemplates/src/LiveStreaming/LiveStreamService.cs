@@ -22,7 +22,19 @@ namespace YouTubeStreamTemplates.LiveStreaming
     public class LiveStreamService
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static LiveStreamService _instance = null!;
         private readonly YouTubeService _youTubeService;
+        public static bool IsInitialized { get; private set; }
+
+        public static LiveStreamService Instance
+        {
+            get
+            {
+                if (_instance == null) throw new Exception("INSTANCE IS NULL");
+                return _instance;
+            }
+        }
+
         public LiveStream? CurrentLiveStream { get; private set; }
 
         /// <summary>
@@ -31,58 +43,16 @@ namespace YouTubeStreamTemplates.LiveStreaming
         /// </summary>
         public Dictionary<string, string> Category { get; }
 
-        #region Private Methods
-
-        private async Task<string> SetThumbnail(string videoId, string filePath)
-        {
-            Stream fileStream;
-            if (filePath.StartsWith("http"))
-            {
-                using var webClient = new WebClient();
-                fileStream = webClient.OpenRead(filePath);
-            }
-            else
-            {
-                fileStream = File.OpenRead(filePath);
-            }
-
-            if (fileStream.Length > LiveStream.MaxThumbnailSize)
-                throw new ThumbnailTooLargeException(fileStream.Length);
-
-            var request =
-                _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
-            var response = await request.UploadAsync();
-            await fileStream.DisposeAsync();
-
-            if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
-
-            return "";
-
-            // // Get ThumbnailPath:
-            // var videoRequest = _youTubeService.Videos.List("id,snippet");
-            // videoRequest.Id = videoId;
-            // var video = await videoRequest.ExecuteAsync();
-            // if (video?.Items == null || video.Items.Count < 1)
-            //     throw new OhPleaseNeverHappenException("Can't find Video");
-            // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
-        }
-
-        #endregion
-
         #region Initialisation
 
-        private static bool _isInitializing;
-
-        public static async Task<LiveStreamService> Init()
+        public static async Task Init()
         {
-            if (_isInitializing) throw new AlreadyInitializingException(typeof(LiveStreamService));
-            _isInitializing = true;
+            if (IsInitialized) throw new AlreadyInitializedException(typeof(LiveStreamService));
             var ytService = await CreateDefaultYouTubeService();
             if (ytService == null) throw new CouldNotCreateServiceException();
-            var liveStreamService = new LiveStreamService(ytService);
-            await liveStreamService.InitCategories();
-            _isInitializing = false;
-            return liveStreamService;
+            _instance = new LiveStreamService(ytService);
+            await _instance.InitCategories();
+            IsInitialized = true;
         }
 
         #region YouTubeService
@@ -137,6 +107,46 @@ namespace YouTubeStreamTemplates.LiveStreaming
         }
 
         public void Dispose() { _youTubeService.Dispose(); }
+
+        #endregion
+
+        #region Methods
+
+        #region Private Methods
+
+        private async Task<string> SetThumbnail(string videoId, string filePath)
+        {
+            Stream fileStream;
+            if (filePath.StartsWith("http"))
+            {
+                using var webClient = new WebClient();
+                fileStream = webClient.OpenRead(filePath);
+            }
+            else
+            {
+                fileStream = File.OpenRead(filePath);
+            }
+
+            if (fileStream.Length > LiveStream.MaxThumbnailSize)
+                throw new ThumbnailTooLargeException(fileStream.Length);
+
+            var request =
+                _youTubeService.Thumbnails.Set(videoId, fileStream, ExtensionGetter.GetJsonExtension(filePath));
+            var response = await request.UploadAsync();
+            await fileStream.DisposeAsync();
+
+            if (response.Exception != null) throw new Exception($"Error happened:\n{response.Exception.Message}");
+
+            return "";
+
+            // // Get ThumbnailPath:
+            // var videoRequest = _youTubeService.Videos.List("id,snippet");
+            // videoRequest.Id = videoId;
+            // var video = await videoRequest.ExecuteAsync();
+            // if (video?.Items == null || video.Items.Count < 1)
+            //     throw new OhPleaseNeverHappenException("Can't find Video");
+            // return video.Items[0].Snippet.Thumbnails.Maxres.Url;
+        }
 
         #endregion
 
@@ -232,6 +242,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
             //TODO Compare & Update Thumbnails
             // if (template.CompareThumbnail(stream)) await SetThumbnail(template.Id, template.ThumbnailPath);         
         }
+
+        #endregion
 
         #endregion
     }

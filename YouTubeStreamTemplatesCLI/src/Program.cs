@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplatesCLI
@@ -9,7 +10,7 @@ namespace YouTubeStreamTemplatesCLI
         {
             try
             {
-                var liveStreamService = LiveStreamService.Init().Result;
+                Task.Run(LiveStreamService.Init).Wait();
             }
             catch (AggregateException e)
             {

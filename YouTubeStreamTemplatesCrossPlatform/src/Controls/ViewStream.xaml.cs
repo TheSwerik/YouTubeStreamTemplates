@@ -6,7 +6,6 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using NLog;
-using YouTubeStreamTemplates.Exceptions;
 using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplatesCrossPlatform.Exceptions;
 
@@ -52,21 +51,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async Task Init()
         {
-            while (Service.LiveStreamService == null)
+            while (!LiveStreamService.IsInitialized)
             {
                 Logger.Debug("Waiting for LiveStreamService to initialize...");
                 await Task.Delay(100);
-
-                //TODO REMOVE THIS:
-                try
-                {
-                    Service.LiveStreamService ??= await LiveStreamService.Init();
-                }
-                catch (AlreadyInitializingException)
-                {
-                }
-
-                //-------- Until here -------------------
             }
 
             await Task.Run(() => CheckForStream());
@@ -83,8 +71,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async Task CheckForStream(int delay = 1000)
         {
-            if (Service.LiveStreamService == null) throw new ServiceNotInitializedException(typeof(LiveStreamService));
-            await foreach (var stream in Service.LiveStreamService.CheckForStream(delay))
+            if (LiveStreamService.Instance == null) throw new ServiceNotInitializedException(typeof(LiveStreamService));
+            await foreach (var stream in LiveStreamService.Instance.CheckForStream(delay))
                 if (stream == null) InvokeOnRender(ClearValues);
                 else InvokeOnRender(() => FillValues(stream));
         }
@@ -94,9 +82,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             // Logger.Debug($"Fill Values with:\n{liveStream}");
             _titleTextBlock.Text = liveStream.Title;
             _descriptionTextBlock.Text = liveStream.Description;
-            _categoryTextBlock.Text = Service.LiveStreamService!.Category
-                                                                .First(kp => kp.Key.Equals(liveStream.Category))
-                                                                .Value;
+            _categoryTextBlock.Text = LiveStreamService.Instance
+                                                       .Category
+                                                       .First(kp => kp.Key.Equals(liveStream.Category))
+                                                       .Value;
             _tagEditor.Tags = liveStream.Tags.ToHashSet();
             _tagEditor.RefreshTags();
             _contentGrid.IsVisible = !(_noStreamGrid.IsVisible = false);

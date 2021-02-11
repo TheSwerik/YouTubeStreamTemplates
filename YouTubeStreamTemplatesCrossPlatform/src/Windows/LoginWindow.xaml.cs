@@ -33,7 +33,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Windows
         {
             var img = (Image) sender!;
             img.Opacity = 1;
-            Service.LiveStreamService = await LiveStreamService.Init();
+            await LiveStreamService.Init();
 
             if (Application.Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) return;
             desktop.MainWindow = new MainWindow();

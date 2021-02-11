@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using NLog;
+using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 
 namespace YouTubeStreamTemplatesCrossPlatform.Controls
@@ -39,7 +40,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
             Logger.Debug("Clicked on Update.");
-            await Service.LiveStreamService!.CheckedUpdate(Service.TemplateService!.GetCurrentTemplate,
+            await LiveStreamService.Instance.CheckedUpdate(Service.TemplateService!.GetCurrentTemplate,
                                                            _editTemplate.ChangedTemplate);
         }
 

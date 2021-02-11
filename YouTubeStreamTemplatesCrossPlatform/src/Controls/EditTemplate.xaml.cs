@@ -9,6 +9,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
 using Avalonia.Threading;
 using NLog;
+using YouTubeStreamTemplates.LiveStreaming;
 using YouTubeStreamTemplates.Settings;
 using YouTubeStreamTemplates.Templates;
 
@@ -80,13 +81,13 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async Task Init()
         {
-            while (Service.LiveStreamService == null)
+            while (!LiveStreamService.IsInitialized)
             {
                 Logger.Debug("Waiting for LiveStreamService to initialize...");
                 await Task.Delay(100);
             }
 
-            _categoryComboBox.Items = Service.LiveStreamService.Category;
+            _categoryComboBox.Items = LiveStreamService.Instance.Category;
 
             while (Service.TemplateService == null)
             {
@@ -123,7 +124,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             // Logger.Debug($"Fill Values with:\n{template}");
             _titleTextBox.Text = template.Title;
             _descriptionTextBox.Text = template.Description;
-            _categoryComboBox.SelectedItem = Service.LiveStreamService!.Category.FirstMatching(template.Category);
+            _categoryComboBox.SelectedItem = LiveStreamService.Instance!.Category.FirstMatching(template.Category);
             _tagEditor.RefreshTags(template.Tags);
             await SettingsService.Instance.UpdateSetting(Settings.CurrentTemplate, template.Id);
             if (string.IsNullOrWhiteSpace(template.ThumbnailPath))
