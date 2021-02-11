@@ -22,6 +22,21 @@ namespace YouTubeStreamTemplates.LiveStreaming
                    };
         }
 
+        public static LiveBroadcast ToLiveBroadcast(this LiveStream liveStream)
+        {
+            return new()
+                   {
+                       Id = liveStream.Id,
+                       Kind = "youtube#liveBroadcast",
+                       Snippet = new LiveBroadcastSnippet
+                                 {
+                                     Title = liveStream.Title,
+                                     Description = liveStream.Description,
+                                     ScheduledStartTime = liveStream.StartTime.ToUniversalTime()
+                                 }
+                   };
+        }
+
         public static Video ToVideo(this LiveStream liveStream)
         {
             return new()

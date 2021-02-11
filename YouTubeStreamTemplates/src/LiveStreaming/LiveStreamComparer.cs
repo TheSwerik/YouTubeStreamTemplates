@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Google.Apis.YouTube.v3.Data;
-using static YouTubeStreamTemplates.LiveStreaming.LiveStreamSortMode;
+using static YouTubeStreamTemplates.LiveStreaming.LiveBroadcastComparer.LiveStreamSortMode;
 
 namespace YouTubeStreamTemplates.LiveStreaming
 {
@@ -53,6 +53,20 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        TitleAsc => string.Compare(xSnippet.Title, ySnippet.Title, StringComparison.InvariantCulture),
                        _ => throw new ArgumentOutOfRangeException(nameof(_sortMode), _sortMode + "", "wrong")
                    };
+        }
+
+        internal enum LiveStreamSortMode
+        {
+            DateDesc,
+            DateAsc,
+            TitleDesc,
+            TitleAsc
+        }
+
+        private enum LiveStreamTimeCompareMode
+        {
+            Actual,
+            Planned
         }
     }
 }

@@ -21,9 +21,12 @@ namespace YouTubeStreamTemplates.LiveStreaming
 {
     public class LiveStreamService
     {
+        #region Attributes
+
+        #region Static
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static LiveStreamService _instance = null!;
-        private readonly YouTubeService _youTubeService;
         private static SettingsService SettingsService => SettingsService.Instance;
         public static bool IsInitialized { get; private set; }
 
@@ -36,6 +39,10 @@ namespace YouTubeStreamTemplates.LiveStreaming
             }
         }
 
+        #endregion
+
+        private readonly YouTubeService _youTubeService;
+
         public LiveStream? CurrentLiveStream { get; private set; }
 
         /// <summary>
@@ -43,6 +50,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
         ///     Second string is the Category Name
         /// </summary>
         public Dictionary<string, string> Category { get; }
+
+        #endregion
 
         #region Initialisation
 
@@ -69,7 +78,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             return new(new BaseClientService.Initializer
                        {
                            HttpClientInitializer = await GetCredentials(scopes),
-                           ApplicationName = "YouTube Sample",
+                           ApplicationName = "YouTubeStreamTemplates",
                            ApiKey = await File.ReadAllTextAsync(@"..\..\..\..\apikey.txt")
                        });
         }
@@ -82,7 +91,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        scopes,
                        "user",
                        CancellationToken.None,
-                       new FileDataStore("YouTube.Test2"));
+                       new FileDataStore("YouTubeStreamTemplates.Dev")); //TODO
         }
 
         #endregion
@@ -114,6 +123,26 @@ namespace YouTubeStreamTemplates.LiveStreaming
         #region Methods
 
         #region Private Methods
+
+        private async Task<LiveBroadcast> GetCurrentBroadcast()
+        {
+            var request = _youTubeService.LiveBroadcasts.List("id,snippet,contentDetails,status");
+            request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
+            // TODO Change back to Active:
+            // request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
+            request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Upcoming;
+
+            var response = await request.ExecuteAsync();
+            if (response.Items == null || response.Items.Count <= 0) throw new NoCurrentStreamException();
+            if (response.Items.Count == 1) return response.Items[0];
+
+            // Get the latest Stream if there is more than one:
+            var streams = response.Items.ToList();
+            // TODO Change back to Actual (not Planned):
+            // streams.Sort(LiveBroadcastComparer.ByDateDesc);
+            streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
+            return streams[0];
+        }
 
         private async Task<string> SetThumbnail(string videoId, string filePath)
         {
@@ -153,26 +182,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         #region Public Methods
 
-        public async Task<LiveBroadcast> GetCurrentBroadcast()
-        {
-            var request = _youTubeService.LiveBroadcasts.List("id,snippet,contentDetails,status");
-            request.BroadcastType = LiveBroadcastsResource.ListRequest.BroadcastTypeEnum.All;
-            // TODO Change back to Active:
-            // request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Active;
-            request.BroadcastStatus = LiveBroadcastsResource.ListRequest.BroadcastStatusEnum.Upcoming;
-
-            var response = await request.ExecuteAsync();
-            if (response.Items == null || response.Items.Count <= 0) throw new NoCurrentStreamException();
-            if (response.Items.Count == 1) return response.Items[0];
-
-            // Get the latest Stream if there is more than one:
-            var streams = response.Items.ToList();
-            // TODO Change back to Actual (not Planned):
-            // streams.Sort(LiveBroadcastComparer.ByDateDesc);
-            streams.Sort(LiveBroadcastComparer.ByDateDescPlanned);
-            return streams[0];
-        }
-
         public async Task<LiveStream> GetCurrentStream() { return (await GetCurrentBroadcast()).ToLiveStream(); }
 
         public async Task<LiveStream> GetCurrentStreamAsVideo()
@@ -196,6 +205,19 @@ namespace YouTubeStreamTemplates.LiveStreaming
             await request.ExecuteAsync();
             Logger.Debug("Updated Video:\t{0} -> {1}", template.Name, liveStream.Id);
         }
+
+        public async Task CheckedUpdate(Func<Template> getTemplate, Func<Template> getEditedTemplate)
+        {
+            if (CurrentLiveStream == null) return;
+            var stream = CurrentLiveStream;
+            var onlySaved = SettingsService.GetBool(Setting.OnlyUpdateSavedTemplates);
+            var template = (onlySaved ? getTemplate : getEditedTemplate).Invoke();
+            if (stream.HasDifference(template)) await UpdateStream(template);
+            //TODO Compare & Update Thumbnails
+            // if (template.CompareThumbnail(stream)) await SetThumbnail(template.Id, template.ThumbnailPath);         
+        }
+
+        #region Looping
 
         public async IAsyncEnumerable<LiveStream?> CheckForStream(int delay = 1000)
         {
@@ -233,16 +255,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             }
         }
 
-        public async Task CheckedUpdate(Func<Template> getTemplate, Func<Template> getEditedTemplate)
-        {
-            if (CurrentLiveStream == null) return;
-            var stream = CurrentLiveStream;
-            var onlySaved = SettingsService.GetBool(Setting.OnlyUpdateSavedTemplates);
-            var template = (onlySaved ? getTemplate : getEditedTemplate).Invoke();
-            if (stream.HasDifference(template)) await UpdateStream(template);
-            //TODO Compare & Update Thumbnails
-            // if (template.CompareThumbnail(stream)) await SetThumbnail(template.Id, template.ThumbnailPath);         
-        }
+        #endregion
 
         #endregion
 

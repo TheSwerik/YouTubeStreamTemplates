@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Google.Apis.YouTube.v3.Data;
 
 namespace YouTubeStreamTemplates.LiveStreaming
 {
@@ -36,21 +35,6 @@ namespace YouTubeStreamTemplates.LiveStreaming
         }
 
         public int CompareTo(LiveStream? other) { return StartTime.CompareTo(other?.StartTime); }
-
-        public LiveBroadcast ToLiveBroadcast()
-        {
-            return new()
-                   {
-                       Id = Id,
-                       Snippet = new LiveBroadcastSnippet
-                                 {
-                                     Title = Title,
-                                     Description = Description,
-                                     ScheduledStartTime = StartTime.ToUniversalTime()
-                                 }
-                       // Kind = 
-                   };
-        }
 
         public override string ToString()
         {
