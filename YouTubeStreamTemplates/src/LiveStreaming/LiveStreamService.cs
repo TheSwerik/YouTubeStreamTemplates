@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -124,10 +125,10 @@ namespace YouTubeStreamTemplates.LiveStreaming
         private async Task InitCategories()
         {
             var request = _youTubeService.VideoCategories.List("snippet");
-            request.RegionCode = "DE"; //TODO get current locale
+            request.RegionCode = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
             request.Hl = bool.Parse(SettingsService.Instance.Settings[Settings.Settings.ForceEnglish])
-                             ? "en_US"
-                             : "de_DE"; //TODO get current locale
+                             ? CultureInfo.GetCultureInfo("en_us").IetfLanguageTag
+                             : CultureInfo.InstalledUICulture.IetfLanguageTag;
             var result = await request.ExecuteAsync();
             foreach (var videoCategory in result.Items.Where(v => v.Snippet.Assignable == true))
                 Category.Add(videoCategory.Id, videoCategory.Snippet.Title);
