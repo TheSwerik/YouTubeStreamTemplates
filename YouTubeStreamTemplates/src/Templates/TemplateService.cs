@@ -56,7 +56,7 @@ namespace YouTubeStreamTemplates.Templates
 
         public Template GetCurrentTemplate()
         {
-            var id = SettingsService.Instance.Settings[Settings.Settings.CurrentTemplate];
+            var id = SettingsService.Instance.Settings[Setting.CurrentTemplate];
             var template = Templates.FirstOrDefault(t => t.Id.Equals(id));
             if (template != null) return template;
             if (Templates.Count <= 0) throw new NoTemplateException();
@@ -69,7 +69,7 @@ namespace YouTubeStreamTemplates.Templates
             if (index < 0) Templates.Add(template);
             else Templates[index] = template;
 
-            var path = SettingsService.Instance.Settings[Settings.Settings.SavePath] + $"/{template.Id}.tlpt";
+            var path = SettingsService.Instance.Settings[Setting.SavePath] + $"/{template.Id}.tlpt";
             await using var file = File.CreateText(path);
 
             await file.WriteLineAsync($"Name: {template.Name}");
@@ -109,7 +109,7 @@ namespace YouTubeStreamTemplates.Templates
         {
             var index = Templates.FindIndex(t => t.Id.Equals(template.Id));
             if (index >= 0) Templates.Remove(template);
-            var path = SettingsService.Instance.Settings[Settings.Settings.SavePath] + $"/{template.Id}.tlpt";
+            var path = SettingsService.Instance.Settings[Setting.SavePath] + $"/{template.Id}.tlpt";
             File.Delete(path);
         }
 

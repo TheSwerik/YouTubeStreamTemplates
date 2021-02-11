@@ -13,16 +13,16 @@ namespace YouTubeStreamTemplates.Settings
         private const string DefaultPath = @"res/Default.cfg";
         private const string Path = @"settings.cfg";
         private static SettingsService? _instance;
-        private readonly Dictionary<Settings, string> _defaultSettings;
+        private readonly Dictionary<Setting, string> _defaultSettings;
         public static SettingsService Instance => _instance ??= new SettingsService();
-        public Dictionary<Settings, string> Settings { get; }
+        public Dictionary<Setting, string> Settings { get; }
 
         #region Initialisation
 
         private SettingsService()
         {
-            Settings = new Dictionary<Settings, string>();
-            _defaultSettings = new Dictionary<Settings, string>();
+            Settings = new Dictionary<Setting, string>();
+            _defaultSettings = new Dictionary<Setting, string>();
 
             if (!File.Exists(DefaultPath)) throw new CorruptInstallationException(DefaultPath);
             AddAllSettings(_defaultSettings, DefaultPath);
@@ -30,14 +30,14 @@ namespace YouTubeStreamTemplates.Settings
             if (!File.Exists(Path)) File.Copy(DefaultPath, Path);
             AddAllSettings(Settings, Path);
 
-            if (!Directory.Exists(Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
-                Directory.CreateDirectory(Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]);
+            if (!Directory.Exists(Settings[Setting.SavePath]))
+                Directory.CreateDirectory(Settings[Setting.SavePath]);
         }
 
-        private void AddAllSettings(IDictionary<Settings, string> settings, string path)
+        private void AddAllSettings(IDictionary<Setting, string> settings, string path)
         {
             var lines = File.ReadLines(path).Where(l => l.Contains('=')).Select(l => l.Split('=')).ToArray();
-            var settingNames = Enum.GetValues<Settings>();
+            var settingNames = Enum.GetValues<Setting>();
 
             if (path.Equals(DefaultPath) &&
                 (lines.Length != settingNames.Length ||
@@ -54,10 +54,10 @@ namespace YouTubeStreamTemplates.Settings
 
         public static async Task Init()
         {
-            if (string.IsNullOrWhiteSpace(Instance.Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
-                throw new InvalidPathException(Instance.Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]);
+            if (string.IsNullOrWhiteSpace(Instance.Settings[Setting.SavePath]))
+                throw new InvalidPathException(Instance.Settings[Setting.SavePath]);
             foreach (var path in Directory.GetFiles(
-                Instance.Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
+                Instance.Settings[Setting.SavePath]))
                 await TemplateService.Instance.LoadTemplate(path);
         }
 
@@ -67,19 +67,19 @@ namespace YouTubeStreamTemplates.Settings
 
         public async Task Save()
         {
-            var lines = Enum.GetValues<Settings>()
+            var lines = Enum.GetValues<Setting>()
                             .Select(setting => $"{setting} = {Settings[setting]}")
                             .ToList();
             await File.WriteAllLinesAsync(Path, lines);
         }
 
-        public async Task UpdateSetting(Settings setting, string value)
+        public async Task UpdateSetting(Setting setting, string value)
         {
             Settings[setting] = value;
             await Instance.Save();
         }
 
-        public bool GetBool(Settings setting) { return bool.Parse(Settings[setting]); }
+        public bool GetBool(Setting setting) { return bool.Parse(Settings[setting]); }
 
         #endregion
     }

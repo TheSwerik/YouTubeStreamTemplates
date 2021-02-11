@@ -1,6 +1,6 @@
 ﻿namespace YouTubeStreamTemplates.Settings
 {
-    public enum Settings
+    public enum Setting
     {
         SavePath,
         ForceEnglish,

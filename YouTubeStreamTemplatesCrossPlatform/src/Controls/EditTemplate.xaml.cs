@@ -114,7 +114,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             _descriptionTextBox.Text = template.Description;
             _categoryComboBox.SelectedItem = LiveStreamService.Instance!.Category.FirstMatching(template.Category);
             _tagEditor.RefreshTags(template.Tags);
-            await SettingsService.Instance.UpdateSetting(Settings.CurrentTemplate, template.Id);
+            await SettingsService.Instance.UpdateSetting(Setting.CurrentTemplate, template.Id);
             if (string.IsNullOrWhiteSpace(template.ThumbnailPath))
             {
                 _thumbnail.Source = new Bitmap("res/Overlay.png");
