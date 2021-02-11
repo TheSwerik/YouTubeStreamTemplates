@@ -42,6 +42,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         #endregion
 
         private readonly YouTubeService _youTubeService;
+        private static CoolDownTimer _coolDownTimer = null!;
 
         public LiveStream? CurrentLiveStream { get; private set; }
 
@@ -57,12 +58,16 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         public static async Task Init()
         {
-            if (IsInitialized) throw new AlreadyInitializedException(typeof(LiveStreamService));
+            _coolDownTimer ??= new CoolDownTimer();
+            if (_coolDownTimer.IsRunning) return;
+            if (_instance != null) throw new AlreadyInitializedException(typeof(LiveStreamService));
+            _coolDownTimer.StartBlock();
             var ytService = await CreateDefaultYouTubeService();
             if (ytService == null) throw new CouldNotCreateServiceException();
             _instance = new LiveStreamService(ytService);
             await _instance.InitCategories();
             IsInitialized = true;
+            _coolDownTimer.Reset();
         }
 
         #region YouTubeService
@@ -201,6 +206,13 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         public async Task CheckedUpdate(Func<Template> getTemplate, Func<Template> getEditedTemplate)
         {
+            if (_coolDownTimer.IsRunning)
+            {
+                Logger.Debug("Not Updating Video because of CoolDown.");
+                return;
+            }
+
+            _coolDownTimer.StartBlock();
             if (CurrentLiveStream == null) return;
             var stream = CurrentLiveStream;
             var onlySaved = SettingsService.GetBool(Setting.OnlyUpdateSavedTemplates);
@@ -211,6 +223,8 @@ namespace YouTubeStreamTemplates.LiveStreaming
                 await SetThumbnail(stream.Id, template.Thumbnail.Source);
                 template.Thumbnail.Result = await ImageHelper.GetStreamThumbnailBytesAsync(stream.Id);
             }
+
+            _coolDownTimer.ReStart();
         }
 
         #region Looping

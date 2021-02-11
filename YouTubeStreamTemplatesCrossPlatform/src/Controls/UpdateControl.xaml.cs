@@ -42,7 +42,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
         {
-            Logger.Debug("Clicked on Update.");
             await LiveStreamService.Instance.CheckedUpdate(TemplateService.Instance.GetCurrentTemplate,
                                                            _editTemplate.ChangedTemplate);
         }
