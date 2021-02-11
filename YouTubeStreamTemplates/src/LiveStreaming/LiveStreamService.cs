@@ -24,6 +24,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static LiveStreamService _instance = null!;
         private readonly YouTubeService _youTubeService;
+        private static SettingsService SettingsService => SettingsService.Instance;
         public static bool IsInitialized { get; private set; }
 
         public static LiveStreamService Instance
@@ -96,7 +97,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             var request = _youTubeService.VideoCategories.List("snippet");
             request.RegionCode = CultureInfo.InstalledUICulture.TwoLetterISOLanguageName;
-            request.Hl = bool.Parse(SettingsService.Instance.Settings[Setting.ForceEnglish])
+            request.Hl = SettingsService.GetBool(Setting.ForceEnglish)
                              ? CultureInfo.GetCultureInfo("en_us").IetfLanguageTag
                              : CultureInfo.InstalledUICulture.IetfLanguageTag;
             var result = await request.ExecuteAsync();
@@ -224,7 +225,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             while (true)
             {
                 Logger.Debug("Checking If Should Update..");
-                while (CurrentLiveStream == null || !SettingsService.Instance.GetBool(Setting.AutoUpdate))
+                while (CurrentLiveStream == null || !SettingsService.GetBool(Setting.AutoUpdate))
                     await Task.Delay(300);
 
                 await CheckedUpdate(getTemplate, getEditedTemplate);
@@ -236,7 +237,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             if (CurrentLiveStream == null) return;
             var stream = CurrentLiveStream;
-            var onlySaved = SettingsService.Instance.GetBool(Setting.OnlyUpdateSavedTemplates);
+            var onlySaved = SettingsService.GetBool(Setting.OnlyUpdateSavedTemplates);
             var template = (onlySaved ? getTemplate : getEditedTemplate).Invoke();
             if (stream.HasDifference(template)) await UpdateStream(template);
             //TODO Compare & Update Thumbnails

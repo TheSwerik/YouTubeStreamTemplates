@@ -26,8 +26,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         {
             _editTemplate = editTemplate;
             _viewStream = viewStream;
-            _autoUpdateCheckBox.IsChecked = bool.Parse(SettingsService.Instance.Settings[Setting.AutoUpdate]);
+            _autoUpdateCheckBox.IsChecked = bool.Parse(SettingsService.Settings[Setting.AutoUpdate]);
         }
+
+        private static SettingsService SettingsService => SettingsService.Instance;
 
         private bool CheckBoxIsChecked() { return _autoUpdateCheckBox.IsChecked ?? false; }
 
@@ -35,7 +37,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void AutoUpdateCheckBox_OnChecked(object? sender, RoutedEventArgs e)
         {
-            SettingsService.Instance.UpdateSetting(Setting.AutoUpdate, CheckBoxIsChecked() + "");
+            SettingsService.UpdateSetting(Setting.AutoUpdate, CheckBoxIsChecked() + "");
         }
 
         private async void UpdateButton_OnClick(object? sender, RoutedEventArgs e)
@@ -48,8 +50,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
         private void OnlySavedTemplatesCheckBox_OnClick(object sender, RoutedEventArgs routedEventArgs)
         {
             var checkBox = (CheckBox) sender;
-            SettingsService.Instance.UpdateSetting(Setting.OnlyUpdateSavedTemplates,
-                                                   (checkBox.IsChecked ?? false) + "");
+            SettingsService.UpdateSetting(Setting.OnlyUpdateSavedTemplates,
+                                          (checkBox.IsChecked ?? false) + "");
         }
 
         #endregion
