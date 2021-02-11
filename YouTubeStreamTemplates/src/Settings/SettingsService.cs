@@ -17,34 +17,6 @@ namespace YouTubeStreamTemplates.Settings
         public static SettingsService Instance => _instance ??= new SettingsService();
         public Dictionary<Settings, string> Settings { get; }
 
-        #region Public Methods
-
-        public async Task Init(TemplateService templateService)
-        {
-            if (string.IsNullOrWhiteSpace(Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
-                throw new InvalidPathException(Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]);
-            foreach (var path in Directory.GetFiles(Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
-                await templateService.LoadTemplate(path);
-        }
-
-        public async Task Save()
-        {
-            var lines = Enum.GetValues<Settings>()
-                            .Select(setting => $"{setting} = {Settings[setting]}")
-                            .ToList();
-            await File.WriteAllLinesAsync(Path, lines);
-        }
-
-        public async Task UpdateSetting(Settings setting, string value)
-        {
-            Settings[setting] = value;
-            await Instance.Save();
-        }
-
-        public bool GetBool(Settings setting) { return bool.Parse(Settings[setting]); }
-
-        #endregion
-
         #region Initialisation
 
         private SettingsService()
@@ -79,6 +51,35 @@ namespace YouTubeStreamTemplates.Settings
                 else settings.Add(setting, _defaultSettings[setting].Trim());
             }
         }
+
+        public static async Task Init()
+        {
+            if (string.IsNullOrWhiteSpace(Instance.Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
+                throw new InvalidPathException(Instance.Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]);
+            foreach (var path in Directory.GetFiles(
+                Instance.Settings[YouTubeStreamTemplates.Settings.Settings.SavePath]))
+                await TemplateService.Instance.LoadTemplate(path);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public async Task Save()
+        {
+            var lines = Enum.GetValues<Settings>()
+                            .Select(setting => $"{setting} = {Settings[setting]}")
+                            .ToList();
+            await File.WriteAllLinesAsync(Path, lines);
+        }
+
+        public async Task UpdateSetting(Settings setting, string value)
+        {
+            Settings[setting] = value;
+            await Instance.Save();
+        }
+
+        public bool GetBool(Settings setting) { return bool.Parse(Settings[setting]); }
 
         #endregion
     }

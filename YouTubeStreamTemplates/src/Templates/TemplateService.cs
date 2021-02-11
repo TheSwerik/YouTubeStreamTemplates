@@ -13,14 +13,18 @@ namespace YouTubeStreamTemplates.Templates
     {
         private const string LineSeparator = "■\\n■";
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private static TemplateService _instance = null!;
         public readonly List<Template> Templates;
         private List<string> _templatePaths;
 
-        public TemplateService()
+        private TemplateService()
         {
             _templatePaths = new List<string>();
             Templates = new List<Template>();
         }
+
+        public static TemplateService Instance => _instance ??= new TemplateService();
 
         #region Helper Methods
 

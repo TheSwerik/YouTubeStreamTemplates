@@ -88,18 +88,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
             }
 
             _categoryComboBox.Items = LiveStreamService.Instance.Category;
-
-            while (Service.TemplateService == null)
-            {
-                Logger.Debug("Waiting for TemplateService to initialize...");
-                await Task.Delay(100);
-
-                //TODO REMOVE THIS:
-                Service.TemplateService = new TemplateService();
-                await Service.TemplateService.LoadAllTemplates(SettingsService.Instance.Settings[Settings.SavePath]);
-                //-------- Until here -------------------
-            }
-
             Refresh();
         }
 
@@ -114,8 +102,8 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private void Refresh()
         {
-            _templateComboBox.Items = Service.TemplateService!.Templates;
-            _templateComboBox.SelectedItem = Service.TemplateService!.GetCurrentTemplate();
+            _templateComboBox.Items = TemplateService.Instance.Templates;
+            _templateComboBox.SelectedItem = TemplateService.Instance.GetCurrentTemplate();
             if (_templateComboBox.SelectedItem == null) _templateComboBox.SelectedIndex = 0;
         }
 
@@ -191,7 +179,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         public async void OnSaveButtonClicked(object? sender, RoutedEventArgs routedEventArgs)
         {
-            await Service.TemplateService!.SaveTemplate(ChangedTemplate());
+            await TemplateService.Instance.SaveTemplate(ChangedTemplate());
             OnChanged(null, null);
         }
 
