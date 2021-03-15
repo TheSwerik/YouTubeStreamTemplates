@@ -17,9 +17,6 @@
 
     <ItemGroup>
         <None Include="res/**" CopyToOutputDirectory="PreserveNewest"/>
-
-        <!--TODO: Remove this line, this is for Debugging-->
-        <None Include="Templates/**" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
     <ItemGroup>
         <None Include="nlog.debug.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Debug' " Link="nlog.config"/>

@@ -11,7 +11,6 @@ namespace YouTubeStreamTemplatesCrossPlatform.Windows
     {
         public MainWindow()
         {
-            InitAPI(); //TODO remove
             AvaloniaXamlLoader.Load(this);
             Closing += Dispose;
         }

@@ -97,7 +97,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                        scopes,
                        "user",
                        CancellationToken.None,
-                       new FileDataStore("YouTubeStreamTemplates.Dev")); //TODO
+                       new FileDataStore("YouTubeStreamTemplates"));
         }
 
         #endregion
