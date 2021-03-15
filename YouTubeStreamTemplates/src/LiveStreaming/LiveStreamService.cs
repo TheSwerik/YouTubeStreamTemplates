@@ -259,8 +259,9 @@ namespace YouTubeStreamTemplates.LiveStreaming
         {
             while (true)
             {
+                Logger.Debug("Checking If AutoUpdate is true...");
                 while (!SettingsService.GetBool(Setting.AutoUpdate)) await Task.Delay(300);
-                Logger.Debug("Checking If Should Update..");
+                Logger.Debug("Checking If you are live...");
                 while (CurrentLiveStream == null) await Task.Delay(300);
                 if (!SettingsService.GetBool(Setting.AutoUpdate)) continue;
 
