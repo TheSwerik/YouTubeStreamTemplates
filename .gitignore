@@ -11,3 +11,5 @@
 **/Publish
 *.snk
 *.pfx
+**/Debug
+**/Release
