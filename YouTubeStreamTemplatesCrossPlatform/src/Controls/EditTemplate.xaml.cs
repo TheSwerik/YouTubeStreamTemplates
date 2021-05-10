@@ -227,7 +227,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                                                }
                                            }
                              };
-            var strings = await fileDialog.ShowAsync((Window) Parent.Parent.Parent.Parent.Parent);
+            var strings = await fileDialog.ShowAsync((Window) Parent!.Parent.Parent.Parent.Parent);
             if (strings == null || strings.Length == 0) return;
             _thumbnail = new Thumbnail {Source = strings[0]};
             _thumbnailImage.Source =
