@@ -2,7 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:YouTubeStreamTemplates.UI.ViewModels"
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="200"
         x:Class="YouTubeStreamTemplates.UI.Views.LoginWindow"
         Title="YouTubeStreamTemplates"
@@ -10,9 +9,6 @@
         ShowActivated="True"
         ExtendClientAreaToDecorationsHint="True"
         WindowStartupLocation="CenterScreen">
-    <Design.DataContext>
-        <viewModels:LoginViewModel />
-    </Design.DataContext>
     <Grid RowDefinitions="*,2*,*" ColumnDefinitions="*,5*,*">
         <Grid.Styles>
             <Style Selector="Button:disabled Image">
