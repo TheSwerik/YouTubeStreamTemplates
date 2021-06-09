@@ -1,4 +1,6 @@
-﻿using Avalonia;
+﻿using System;
+using System.IO;
+using Avalonia;
 using Avalonia.ReactiveUI;
 
 namespace YouTubeStreamTemplates.UI
@@ -10,8 +12,18 @@ namespace YouTubeStreamTemplates.UI
         // yet and stuff might break.
         public static void Main(string[] args)
         {
-            BuildAvaloniaApp()
-                .StartWithClassicDesktopLifetime(args);
+            try
+            {
+                BuildAvaloniaApp()
+                    .StartWithClassicDesktopLifetime(args);
+            }
+            catch (Exception e)
+            {
+                File.WriteAllText(
+                    $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\YouTubeStreamTemplates\error logs {DateTime.Now.ToFileTime()}.txt",
+                    e.GetType() + ": " + e.Message + "\n" + e.StackTrace);
+                throw;
+            }
         }
 
         // Avalonia configuration, don't remove; also used by visual designer.
