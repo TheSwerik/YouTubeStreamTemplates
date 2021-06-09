@@ -1,5 +1,6 @@
 using System;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Themes.Fluent;
@@ -36,6 +37,13 @@ namespace YouTubeStreamTemplates.UI
             // desktop.MainWindow = new MainWindow {DataContext = new MainWindowViewModel()};
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        public static void ChangeMainWindow(Window mainWindow)
+        {
+            if (Current.ApplicationLifetime is not IClassicDesktopStyleApplicationLifetime desktop) return;
+            desktop.MainWindow = mainWindow;
+            desktop.MainWindow.Show();
         }
     }
 }

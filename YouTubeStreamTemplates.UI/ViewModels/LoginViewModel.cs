@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Windows.Input;
+using System.Reactive;
 using ReactiveUI;
 
 namespace YouTubeStreamTemplates.UI.ViewModels
@@ -8,9 +8,13 @@ namespace YouTubeStreamTemplates.UI.ViewModels
     {
         public LoginViewModel()
         {
-            LoginCommand = ReactiveCommand.CreateFromTask(async () => { Console.WriteLine("LOGIN"); });
+            LoginCommand = ReactiveCommand.CreateFromTask(async () =>
+                                                          {
+                                                              Console.WriteLine("LOGIN");
+                                                              return true;
+                                                          });
         }
 
-        public ICommand LoginCommand { get; }
+        public ReactiveCommand<Unit, bool> LoginCommand { get; }
     }
 }
