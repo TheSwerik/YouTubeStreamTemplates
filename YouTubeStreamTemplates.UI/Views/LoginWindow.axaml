@@ -14,6 +14,17 @@
         <viewModels:LoginViewModel />
     </Design.DataContext>
     <Grid RowDefinitions="*,2*,*" ColumnDefinitions="*,5*,*">
+        <Grid.Styles>
+            <Style Selector="Button:disabled Image">
+                <Setter Property="Opacity" Value="0.2" />
+            </Style>
+            <Style Selector="Button:pointerover Image">
+                <Setter Property="Opacity" Value="0.5" />
+            </Style>
+            <Style Selector="Button:pressed Image">
+                <Setter Property="Opacity" Value="1" />
+            </Style>
+        </Grid.Styles>
         <Button Padding="0" Grid.Row="1" Grid.Column="1" Command="{Binding LoginCommand}">
             <Image Margin="0" Source="/Assets/google_signin_dark.png" />
         </Button>
