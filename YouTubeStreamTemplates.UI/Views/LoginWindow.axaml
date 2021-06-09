@@ -14,9 +14,8 @@
         <viewModels:LoginViewModel />
     </Design.DataContext>
     <Grid RowDefinitions="*,2*,*" ColumnDefinitions="*,5*,*">
-        <TextBlock Grid.Row="1" Grid.Column="1">Login</TextBlock>
-        <!-- <Image Grid.Row="1" Grid.Column="1" -->
-        <!--        Source="{DynamicResource SigninImage}" Stretch="None" -->
-        <!--        PointerReleased="Login_OnClick"  /> -->
+        <Button Padding="0" Grid.Row="1" Grid.Column="1" Command="{Binding LoginCommand}">
+            <Image Margin="0" Source="/Assets/google_signin_dark.png" />
+        </Button>
     </Grid>
 </Window>
