@@ -12,9 +12,9 @@
         <PackageReference Include="Google.Apis.Auth" Version="1.51.0"/>
         <PackageReference Include="Google.Apis.Core" Version="1.51.0"/>
         <PackageReference Include="Google.Apis.Discovery.v1" Version="1.51.0"/>
-        <PackageReference Include="Google.Apis.YouTube.v3" Version="1.51.0.2294"/>
-        <PackageReference Include="NLog" Version="4.7.9"/>
-        <PackageReference Include="NLog.Schema" Version="4.7.9"/>
+        <PackageReference Include="Google.Apis.YouTube.v3" Version="1.51.0.2343"/>
+        <PackageReference Include="NLog" Version="4.7.10"/>
+        <PackageReference Include="NLog.Schema" Version="4.7.10"/>
     </ItemGroup>
 
     <ItemGroup>
