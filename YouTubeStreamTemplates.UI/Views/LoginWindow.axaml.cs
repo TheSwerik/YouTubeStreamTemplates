@@ -1,13 +1,13 @@
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using YouTubeStreamTemplates.UI.ViewModels;
 
 namespace YouTubeStreamTemplates.UI.Views
 {
-    public class MainWindow : ReactiveWindow<MainWindowViewModel>
+    public class LoginWindow : ReactiveWindow<LoginViewModel>
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
             #if DEBUG

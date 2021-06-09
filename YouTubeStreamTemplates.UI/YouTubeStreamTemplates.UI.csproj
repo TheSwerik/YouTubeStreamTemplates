@@ -1,6 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <OutputType>WinExe</OutputType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputType>Exe</OutputType>
+        <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
+    </PropertyGroup>
+    <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -14,5 +20,14 @@
         <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6"/>
         <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6"/>
         <PackageReference Include="NLog" Version="4.7.10"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="nlog.debug.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Debug' " Link="nlog.config"/>
+        <None Include="nlog.release.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Release' " Link="nlog.config"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Styles\LightTheme.axaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
     </ItemGroup>
 </Project>

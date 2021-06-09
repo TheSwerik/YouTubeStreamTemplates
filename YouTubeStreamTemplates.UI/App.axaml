@@ -5,8 +5,4 @@
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
-
-    <Application.Styles>
-        <FluentTheme Mode="Dark" />
-    </Application.Styles>
 </Application>
