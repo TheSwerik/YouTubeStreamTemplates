@@ -30,4 +30,7 @@
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\YouTubeStreamTemplates\YouTubeStreamTemplates.csproj"/>
+    </ItemGroup>
 </Project>
