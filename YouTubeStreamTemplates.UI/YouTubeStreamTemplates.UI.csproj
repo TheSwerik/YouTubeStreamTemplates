@@ -13,6 +13,8 @@
     <ItemGroup>
         <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
+        <Folder Include="ViewModels\Tabs"/>
+        <Folder Include="ViewModels\UserControl"/>
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.10.6"/>
