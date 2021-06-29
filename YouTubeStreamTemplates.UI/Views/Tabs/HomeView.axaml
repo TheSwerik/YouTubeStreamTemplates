@@ -7,5 +7,6 @@
              x:Class="YouTubeStreamTemplates.UI.Views.Tabs.HomeView">
     <DockPanel>
         <userControl:StreamView DockPanel.Dock="Right" />
+        <userControl:TemplateView DockPanel.Dock="Left" />
     </DockPanel>
 </UserControl>
