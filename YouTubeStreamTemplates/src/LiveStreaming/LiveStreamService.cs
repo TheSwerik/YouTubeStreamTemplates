@@ -97,7 +97,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
             if (File.Exists("client_id.json"))
             {
                 await using var stream = new FileStream("client_id.json", FileMode.Open, FileAccess.Read);
-                secrets = GoogleClientSecrets.Load(stream).Secrets;
+                secrets = (await GoogleClientSecrets.FromStreamAsync(stream)).Secrets;
             }
             else
             {

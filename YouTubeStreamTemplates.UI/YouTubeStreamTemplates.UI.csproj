@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputType>WinExe</OutputType>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputType>Exe</OutputType>
+        <DisableWinExeOutputInference>true</DisableWinExeOutputInference>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <Folder Include="Models\"/>
+        <AvaloniaResource Include="Assets\**"/>
+        <Folder Include="ViewModels\Tabs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.6"/>
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.6"/>
+        <PackageReference Include="Avalonia.Diagnostics" Version="0.10.6"/>
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.6"/>
+        <PackageReference Include="NLog" Version="4.7.10"/>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="nlog.debug.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Debug' " Link="nlog.config"/>
+        <None Include="nlog.release.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Release' " Link="nlog.config"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Update="Styles\LightTheme.axaml.cs">
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\UserControl\TemplateView.axaml.cs">
+            <DependentUpon>TemplateView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\YouTubeStreamTemplates\YouTubeStreamTemplates.csproj"/>
+    </ItemGroup>
+</Project>

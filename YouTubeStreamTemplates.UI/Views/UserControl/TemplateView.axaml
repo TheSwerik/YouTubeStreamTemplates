@@ -1,0 +1,48 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="960" d:DesignHeight="1080"
+             x:Class="YouTubeStreamTemplates.UI.Views.UserControl.TemplateView">
+    <Border BorderThickness="0,0,1,0" CornerRadius="0">
+        <Grid x:Name="ContentGrid" Margin="0,0,50,0"
+              RowDefinitions="*,*,*,*,*,*,*,*,10*,*,*,10*,*,*,*,*,*,*,2*" ColumnDefinitions="*,10*,*">
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Template" />
+            <Grid Grid.Row="2" Grid.Column="1" ColumnDefinitions="5*,*">
+
+                <Button x:Name="SaveButton" Grid.Column="1" Content="Save" IsEnabled="False" />
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.Column="1" Grid.RowSpan="3" ColumnDefinitions="5*,*" RowDefinitions="*,*,*">
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Title" />
+                <TextBox Grid.Row="2" Grid.Column="0" x:Name="TitleTextBox" AcceptsReturn="False" MaxLength="150"
+                         VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="1">
+                    <Image x:Name="ThumbnailImage" />
+                    <Image x:Name="ThumbnailImageOverlay" Source="{DynamicResource OverlayFileImage}" Classes="overlay">
+                        <Image.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="File" />
+                                <MenuItem Header="URL" />
+                            </ContextMenu>
+                        </Image.ContextMenu>
+                    </Image>
+                </Grid>
+            </Grid>
+
+            <TextBlock Grid.Row="7" Grid.Column="1" Text="Description" />
+            <TextBox Grid.Row="8" Grid.Column="1" x:Name="DescriptionTextBox" AcceptsReturn="True" />
+
+            <TextBlock Grid.Row="10" Grid.Column="1" Text="Tags" />
+
+            <TextBlock Grid.Row="13" Grid.Column="1" Text="Category" />
+
+
+            <Grid Grid.Row="16" Grid.Column="1" Grid.RowSpan="2" ColumnDefinitions="*,*,*" RowDefinitions="*,*">
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Playlist" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="Stream Visibility" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="VOD Visibility" />
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

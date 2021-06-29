@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YouTubeStreamTemplates", "Y
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YouTubeStreamTemplatesCrossPlatform", "YouTubeStreamTemplatesCrossPlatform\YouTubeStreamTemplatesCrossPlatform.csproj", "{FFEEFFF0-611A-4302-A17C-5F38A8D163B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YouTubeStreamTemplates.UI", "YouTubeStreamTemplates.UI\YouTubeStreamTemplates.UI.csproj", "{AB9A6680-0958-4171-9CCB-5948E572532A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FFEEFFF0-611A-4302-A17C-5F38A8D163B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFEEFFF0-611A-4302-A17C-5F38A8D163B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFEEFFF0-611A-4302-A17C-5F38A8D163B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB9A6680-0958-4171-9CCB-5948E572532A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB9A6680-0958-4171-9CCB-5948E572532A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB9A6680-0958-4171-9CCB-5948E572532A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB9A6680-0958-4171-9CCB-5948E572532A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
