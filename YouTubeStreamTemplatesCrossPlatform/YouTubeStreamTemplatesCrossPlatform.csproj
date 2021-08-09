@@ -8,7 +8,7 @@
         <!--        <TargetFramework>net5.0-windows</TargetFramework>-->
         <Nullable>enable</Nullable>
         <ProjectGuid>{FFEEFFF0-611A-4302-A17C-5F38A8D163B1}</ProjectGuid>
-<!--        <PublishTrimmed>true</PublishTrimmed>-->
+        <!--        <PublishTrimmed>true</PublishTrimmed>-->
         <ApplicationIcon>..\YouTubeStreamTemplates.ico</ApplicationIcon>
     </PropertyGroup>
 

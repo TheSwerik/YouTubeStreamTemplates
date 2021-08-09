@@ -46,7 +46,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         private async void OnlySavedTemplatesCheckBox_OnClick(object sender, RoutedEventArgs routedEventArgs)
         {
-            var checkBox = (CheckBox) sender;
+            var checkBox = (CheckBox)sender;
             await SettingsService.UpdateSetting(Setting.OnlyUpdateSavedTemplates, (checkBox.IsChecked ?? false) + "");
         }
 

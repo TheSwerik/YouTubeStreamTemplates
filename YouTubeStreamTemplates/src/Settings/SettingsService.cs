@@ -52,7 +52,7 @@ namespace YouTubeStreamTemplates.Settings
             foreach (var setting in settingNames)
             {
                 var value = lines.SingleOrDefault(line => line[0].Trim().Equals(setting.ToString()));
-                settings.Add(setting, value is {Length: 2} ? value[1].Trim() : _defaultSettings[setting].Trim());
+                settings.Add(setting, value is { Length: 2 } ? value[1].Trim() : _defaultSettings[setting].Trim());
             }
         }
 

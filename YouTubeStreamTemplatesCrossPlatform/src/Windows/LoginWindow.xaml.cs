@@ -16,12 +16,12 @@ namespace YouTubeStreamTemplatesCrossPlatform.Windows
 
         private void Login_OnPress(object sender, PointerPressedEventArgs pointerPressedEventArgs)
         {
-            ((Image) sender).Opacity = .75;
+            ((Image)sender).Opacity = .75;
         }
 
         private async void Login_OnClick(object sender, PointerReleasedEventArgs e)
         {
-            ((Image) sender).Opacity = 1;
+            ((Image)sender).Opacity = 1;
             await SettingsService.Init();
             await LiveStreamService.Init();
 

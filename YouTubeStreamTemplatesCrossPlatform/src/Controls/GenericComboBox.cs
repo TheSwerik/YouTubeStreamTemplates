@@ -8,7 +8,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
     {
         public new T? SelectedItem
         {
-            get => (T?) (base.SelectedItem ?? default(T));
+            get => (T?)(base.SelectedItem ?? default(T));
             set => base.SelectedItem = value;
         }
 

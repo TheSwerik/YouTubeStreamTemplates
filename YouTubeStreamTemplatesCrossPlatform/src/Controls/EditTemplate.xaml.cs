@@ -173,10 +173,10 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                 return;
             }
 
-            if (e.RemovedItems.Count > 0 && e.RemovedItems[0] != null && HasDifference((Template?) e.RemovedItems[0]))
+            if (e.RemovedItems.Count > 0 && e.RemovedItems[0] != null && HasDifference((Template?)e.RemovedItems[0]))
             {
                 _ignoreDifferenceCheck = true;
-                _templateComboBox.SelectedItem = (Template?) e.RemovedItems[0];
+                _templateComboBox.SelectedItem = (Template?)e.RemovedItems[0];
                 Logger.Warn("You have unsaved changes!");
                 //TODO MessageBox
                 return;
@@ -222,14 +222,14 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
                                            {
                                                new()
                                                {
-                                                   Extensions = new List<string> {"png", "jpg", "jpeg"},
+                                                   Extensions = new List<string> { "png", "jpg", "jpeg" },
                                                    Name = "Image"
                                                }
                                            }
                              };
-            var strings = await fileDialog.ShowAsync((Window) Parent.Parent.Parent.Parent.Parent);
+            var strings = await fileDialog.ShowAsync((Window)Parent.Parent.Parent.Parent.Parent);
             if (strings == null || strings.Length == 0) return;
-            _thumbnail = new Thumbnail {Source = strings[0]};
+            _thumbnail = new Thumbnail { Source = strings[0] };
             _thumbnailImage.Source =
                 new Bitmap(await ImageHelper.GetImagePathAsync(_thumbnail.Source, true, SelectedTemplate.Id));
             OnChanged(null, null);

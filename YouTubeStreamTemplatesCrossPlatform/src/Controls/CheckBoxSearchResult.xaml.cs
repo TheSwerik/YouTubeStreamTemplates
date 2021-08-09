@@ -16,7 +16,7 @@ namespace YouTubeStreamTemplatesCrossPlatform.Controls
 
         public CheckBoxSearchResult(string text) : this()
         {
-            ((TextBlock) _grid.Children.First(c => c is TextBlock)).Text = text;
+            ((TextBlock)_grid.Children.First(c => c is TextBlock)).Text = text;
             Text = text;
         }
 

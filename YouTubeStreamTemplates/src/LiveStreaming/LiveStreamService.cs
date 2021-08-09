@@ -84,11 +84,11 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         private static async Task<YouTubeService> CreateYouTubeService(params string[] scopes)
         {
-            return new(new BaseClientService.Initializer
-                       {
-                           HttpClientInitializer = await GetCredentials(scopes),
-                           ApplicationName = "YouTubeStreamTemplates"
-                       });
+            return new YouTubeService(new BaseClientService.Initializer
+                                      {
+                                          HttpClientInitializer = await GetCredentials(scopes),
+                                          ApplicationName = "YouTubeStreamTemplates"
+                                      });
         }
 
         private static async Task<UserCredential> GetCredentials(IEnumerable<string> scopes)
