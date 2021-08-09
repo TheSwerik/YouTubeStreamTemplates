@@ -10,6 +10,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+
     <ItemGroup>
         <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
@@ -32,6 +33,10 @@
         </Compile>
         <Compile Update="Views\UserControl\TemplateView.axaml.cs">
             <DependentUpon>TemplateView.axaml</DependentUpon>
+            <SubType>Code</SubType>
+        </Compile>
+        <Compile Update="Views\UserControl\StreamView.axaml.cs">
+            <DependentUpon>StreamView.axaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
     </ItemGroup>

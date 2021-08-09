@@ -4,11 +4,12 @@ using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplates.UI.ViewModels.UserControl
 {
-    public class StreamViewViewModel : ViewModelBase
+    public class StreamViewModel : ViewModelBase
     {
-        public StreamViewViewModel() { Console.WriteLine("VIEW MODEL"); }
+        public StreamViewModel() { Console.WriteLine("------------VIEW MODEL-------------------"); }
 
         public string Categories => "Test";
+        public string Title => "Test123";
 
         public void OpenStream()
         {

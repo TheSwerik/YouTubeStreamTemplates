@@ -22,7 +22,7 @@ namespace YouTubeStreamTemplates.UI.Views
         {
             if (!b) return;
 
-            App.ChangeMainWindow(new MainWindow {DataContext = new MainWindowViewModel()});
+            App.ChangeMainWindow(new MainWindow { DataContext = new MainWindowViewModel() });
             Close();
         }
 

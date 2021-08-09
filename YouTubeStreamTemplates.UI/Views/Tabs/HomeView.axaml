@@ -3,10 +3,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:userControl="clr-namespace:YouTubeStreamTemplates.UI.Views.UserControl"
+             xmlns:views="clr-namespace:YouTubeStreamTemplates.UI.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="YouTubeStreamTemplates.UI.Views.Tabs.HomeView">
-    <DockPanel>
-        <userControl:StreamView DockPanel.Dock="Right" />
-        <userControl:TemplateView DockPanel.Dock="Left" />
-    </DockPanel>
+    <Grid x:Name="ContentGrid" Margin="0,0,0,0"
+          RowDefinitions="*" ColumnDefinitions="*,*">
+        <userControl:TemplateView Grid.Column="0" DockPanel.Dock="Left" />
+        <userControl:StreamView Grid.Column="1" DockPanel.Dock="Right" />
+    </Grid>
 </UserControl>

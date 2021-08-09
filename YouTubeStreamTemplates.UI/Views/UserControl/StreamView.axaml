@@ -12,10 +12,8 @@
 
             <Grid Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" ColumnDefinitions="5*,*" RowDefinitions="*,*,*">
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Title" />
-                <!-- <TextBox Grid.Row="2" Grid.Column="0" x:Name="TitleTextBox" AcceptsReturn="False" MaxLength="150" -->
-                <!--          VerticalAlignment="Stretch" HorizontalAlignment="Stretch" /> -->
                 <Border Grid.Row="2" Grid.Column="0">
-                    <TextBlock x:Name="TitleTextBlock" />
+                    <TextBlock x:Name="TitleTextBlock" Text="{Binding Title}" />
                 </Border>
                 <Grid Grid.Row="0" Grid.RowSpan="3" Grid.Column="1">
                     <Image x:Name="ThumbnailImage" />
