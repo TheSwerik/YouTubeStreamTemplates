@@ -1,13 +1,10 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using YouTubeStreamTemplates.LiveStreaming;
 
 namespace YouTubeStreamTemplates.UI.ViewModels.UserControl
 {
     public class StreamViewModel : ViewModelBase
     {
-        public StreamViewModel() { Console.WriteLine("------------VIEW MODEL-------------------"); }
-
         public string Categories => "Test";
         public string Title => "Test123";
 
