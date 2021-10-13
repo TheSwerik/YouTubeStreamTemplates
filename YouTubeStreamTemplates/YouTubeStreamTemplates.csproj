@@ -5,6 +5,11 @@
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RuntimeIdentifiers>win-x64;win-x86;osx-x64;linux-x64</RuntimeIdentifiers>
+
+        <PackageId>YouTubeStreamTemplates</PackageId>
+        <Version>0.9.3</Version>
+        <Authors>Swerik</Authors>
+        <Company>Swerik</Company>
     </PropertyGroup>
 
     <ItemGroup>
