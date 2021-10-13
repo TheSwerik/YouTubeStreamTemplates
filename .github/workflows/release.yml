@@ -41,5 +41,5 @@ jobs:
       - name: Push to GitHub
         run: dotnet nuget push YouTubeStreamTemplates.${VERSION}.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/TheSwerik/index.json"
           
-#      - name: Push to Nuget
-#        run: dotnet nuget push YouTubeStreamTemplates.${VERSION}.nupkg --api-key ${{ secrets.NUGET_TOKEN }} --source https://api.nuget.org/v3/index.json
+      - name: Push to Nuget
+        run: dotnet nuget push YouTubeStreamTemplates.${VERSION}.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
