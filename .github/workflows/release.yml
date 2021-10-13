@@ -6,135 +6,42 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+' # Push events to matching [0-9]+.[0-9]+.[0-9]+, i.e. 1.0.0, 187.753.5
 
 env:
-  PROJECT_NAME: YouTubeStreamTemplatesCrossPlatform
+  PROJECT_NAME: YouTubeStreamTemplates
   FILENAME: YouTubeStreamTemplates
   ARTIFACT_WIN: windows-artifact
-  ARTIFACT_UNIX: unix-artifact
 
 jobs:
-  build-unix:
-    if: github.event.base_ref == 'refs/heads/main'
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: microsoft/setup-msbuild@v1.0.2
-
-      - name: Change Project Variables
-        run: |
-          (gc "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj") -replace '<OutputType>Exe</OutputType>', '<OutputType>WinExe</OutputType>' | Out-File -encoding ASCII "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj"
-          (gc "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj") -replace '<DisableWinExeOutputInference>true</DisableWinExeOutputInference>', '<DisableWinExeOutputInference>false</DisableWinExeOutputInference>' | Out-File -encoding ASCII "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj"
-
-      - name: Paste Client Id and Secret
-        run: |
-          (gc "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs") -replace '"CLIENT_ID"', '"${{ secrets.CLIENT_ID }}"' | Out-File -encoding ASCII "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs"
-          (gc "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs") -replace '"CLIENT_SECRET"', '"${{ secrets.CLIENT_SECRET }}"' | Out-File -encoding ASCII "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs"
-
-      - name: Get PFX-Cert
-        run: |
-          $bytes = [Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
-          [IO.File]::WriteAllBytes('developer-cert.pfx', $bytes)
-          Import-PfxCertificate -FilePath .\developer-cert.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String '${{ secrets.PFX_KEY }}' -AsPlainText -Force)
-
-      - name: Publish Ubuntu
-        run: msbuild /t:restore,publish  -v:m /p:Configuration=Release /p:PublishProfile=PublishSigned /p:PublishDir=..\Publish\linux -property:RuntimeIdentifiers=linux-x64 -property:RuntimeIdentifier=linux-x64
-
-      - name: Clean obj
-        run: get-childitem -Include obj -Recurse -force | Remove-Item -Force -Recurse
-
-      - name: Publish MacOS
-        run: msbuild /t:restore,publish  -v:m /p:Configuration=Release /p:PublishProfile=PublishSigned /p:PublishDir=..\Publish\mac -property:RuntimeIdentifiers=osx-x64 -property:RuntimeIdentifier=osx-x64
-
-      - name: add Publish-Files to Ubuntu
-        run: cp Release\* Publish\linux
-        
-      - name: Zip Ubuntu
-        run: |
-          New-Item -Path . -Name "Installer" -ItemType "directory"
-          tar -C Publish/linux -czf "Installer/${{ env.FILENAME }}.tar.gz" .
-
-      - name: Zip MacOS 
-        run: 7z a "Installer/${{ env.FILENAME }}.zip" ./Publish/mac/*
-
-      - uses: actions/upload-artifact@v2 
-        with:
-          name: ${{ env.ARTIFACT_UNIX }}
-          path: |
-            Installer/${{ env.FILENAME }}.tar.gz
-            Installer/${{ env.FILENAME }}.zip
-
-  build-windows:
-    if: github.event.base_ref == 'refs/heads/main'
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: microsoft/setup-msbuild@v1.0.2
-
-      - name: Get the version
-        id: version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: Change Project Variables
-        run: |
-          (gc "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj") -replace '<OutputType>Exe</OutputType>', '<OutputType>WinExe</OutputType>' | Out-File -encoding ASCII "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj"
-          (gc "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj") -replace '<DisableWinExeOutputInference>true</DisableWinExeOutputInference>', '<DisableWinExeOutputInference>false</DisableWinExeOutputInference>' | Out-File -encoding ASCII "${{ env.PROJECT_NAME }}\${{ env.PROJECT_NAME }}.csproj"
-          (gc "Inno Config.iss") -replace '"0.0.0"', '"${{ steps.version.outputs.VERSION }}"' | Out-File -encoding ASCII "Inno Config.iss"
-
-      - name: Paste Client Id and Secret
-        run: |
-          (gc "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs") -replace '"CLIENT_ID"', '"${{ secrets.CLIENT_ID }}"' | Out-File -encoding ASCII "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs"
-          (gc "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs") -replace '"CLIENT_SECRET"', '"${{ secrets.CLIENT_SECRET }}"' | Out-File -encoding ASCII "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs"
-
-      - name: Get PFX-Cert
-        run: |
-          $bytes = [Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
-          [IO.File]::WriteAllBytes('developer-cert.pfx', $bytes)
-          Import-PfxCertificate -FilePath .\developer-cert.pfx -CertStoreLocation Cert:\CurrentUser\My -Password (ConvertTo-SecureString -String '${{ secrets.PFX_KEY }}' -AsPlainText -Force)
-
-      - name: Publish 64bit
-        run: msbuild /t:restore,publish -v:m /p:Configuration=Release /p:PublishProfile=PublishSigned /p:PublishDir=..\Publish\bin\64bit -property:RuntimeIdentifiers=win-x64 -property:RuntimeIdentifier=win-x64
-
-      - name: Clean obj
-        run: get-childitem -Include obj -Recurse -force | Remove-Item -Force -Recurse
-
-      - name: Publish 32bit
-        run: msbuild /t:restore,publish  -v:m /p:Configuration=Release /p:PublishProfile=PublishSigned /p:PublishDir=..\Publish\bin\32bit -property:RuntimeIdentifiers=win-x86 -property:RuntimeIdentifier=win-x86
-
-      - name: Create Installer
-        run: iscc "/ssigntool=`$qC:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe`$q sign /f developer-cert.pfx /t http://timestamp.comodoca.com/authenticode /p ${{ secrets.PFX_KEY }} /fd sha256 $f" /qp "Inno Config.iss"
-
-      - uses: actions/upload-artifact@v2
-        with:
-          name: ${{ env.ARTIFACT_WIN }}
-          path: Installer/${{ env.FILENAME }}.exe
-
-  create-release:
-    needs: [ build-unix, build-windows ]
+  build:
     if: github.event.base_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Download Artifacts
-        uses: actions/download-artifact@v2
-        with:
-          path: Installer
+      - name: Paste Client Id and Secret
+        run: |
+          (gc "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs") -replace '"CLIENT_ID"', '"${{ secrets.CLIENT_ID }}"' | Out-File -encoding ASCII "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs"
+          (gc "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs") -replace '"CLIENT_SECRET"', '"${{ secrets.CLIENT_SECRET }}"' | Out-File -encoding ASCII "YouTubeStreamTemplates\src\LiveStreaming\LiveStreamService.cs"
+     
+      - name: Set VERSION variable from tag
+        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
 
-      - name: Get the version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          fail_on_unmatched_files: true
-          prerelease: ${{ startsWith(steps.get_version.outputs.VERSION, '0.') }}
-          draft: false
-          files: |
-            Installer/${{ env.ARTIFACT_WIN }}/${{ env.FILENAME }}.exe
-            Installer/${{ env.ARTIFACT_UNIX }}/${{ env.FILENAME }}.zip
-            Installer/${{ env.ARTIFACT_UNIX }}/${{ env.FILENAME }}.tar.gz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install dependencies
+        run: nuget restore
+        
+      - name: Build
+        run: dotnet build --configuration Release /p:Version=${VERSION} --no-restore
+        
+      - name: Test
+        run: dotnet test --configuration Release /p:Version=${VERSION} --no-restore --no-build
+        
+      - name: Pack
+        run: dotnet pack --configuration Release /p:Version=${VERSION} --no-restore --no-build --output .
+        
+      - name: Check
+        run: ls
+        
+#      - name: Push
+#        run: dotnet nuget push ${VERSION}.nupkg --source https://nuget.pkg.github.com/acraven/index.json --api-key ${GITHUB_TOKEN}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
