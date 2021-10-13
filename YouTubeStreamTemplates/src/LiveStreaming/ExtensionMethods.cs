@@ -9,7 +9,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
     {
         public static LiveStream ToLiveStream(this LiveBroadcast liveBroadcast)
         {
-            return new()
+            return new LiveStream
                    {
                        Id = liveBroadcast.Id,
                        Title = liveBroadcast.Snippet.Title,
@@ -21,7 +21,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         public static LiveBroadcast ToLiveBroadcast(this LiveStream liveStream)
         {
-            return new()
+            return new LiveBroadcast
                    {
                        Id = liveStream.Id,
                        Kind = "youtube#liveBroadcast",
@@ -36,7 +36,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         public static Video ToVideo(this LiveStream liveStream)
         {
-            return new()
+            return new Video
                    {
                        Id = liveStream.Id,
                        Snippet = new VideoSnippet
@@ -59,7 +59,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         public static LiveStream ToLiveStream(this Video video)
         {
-            return new()
+            return new LiveStream
                    {
                        Id = video.Id,
                        Title = video.Snippet.Title,

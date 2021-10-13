@@ -50,7 +50,7 @@ namespace YouTubeStreamTemplates.Templates
                           TextLanguage = lines.GetValue("TextLanguage"),
                           AudioLanguage = lines.GetValue("AudioLanguage"),
                           Tags = lines.GetValue("Tags").Split(",").ToList(),
-                          Thumbnail = new Thumbnail {Source = lines.GetValue("ThumbnailPath")},
+                          Thumbnail = new Thumbnail { Source = lines.GetValue("ThumbnailPath") },
                           PlaylistIDs = string.IsNullOrWhiteSpace(lines.GetValue("PlaylistIDs"))
                                             ? new List<string>()
                                             : lines.GetValue("PlaylistIDs").Split(',').ToList()
