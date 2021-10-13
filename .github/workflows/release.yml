@@ -27,7 +27,7 @@ jobs:
           sed -i 's/CLIENT_SECRET/${{ secrets.CLIENT_SECRET }}/g' YouTubeStreamTemplates/src/LiveStreaming/LiveStreamService.cs
      
       - name: Set VERSION variable from tag
-        run: echo "VERSION=${GITHUB_REF/refs\/tags\/v/}" >> $GITHUB_ENV
+        run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: nuget restore
