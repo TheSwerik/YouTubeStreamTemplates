@@ -17,9 +17,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.x
+#      - uses: actions/setup-dotnet@v1
+#        with:
+#          dotnet-version: 5.0.x
 
       - name: Paste Client Id and Secret
         run: |
@@ -36,15 +36,12 @@ jobs:
         run: dotnet build --configuration Release /p:Version=${VERSION} --no-restore
         
       - name: Test
-        run: dotnet test --configuration Release /p:Version=${VERSION} --no-restore --no-build
+        run: dotnet test  --configuration Release /p:Version=${VERSION} --no-restore --no-build
         
       - name: Pack
-        run: dotnet pack --configuration Release /p:Version=${VERSION} --no-restore --no-build --output .
+        run: dotnet pack  --configuration Release /p:Version=${VERSION} --no-restore --no-build --output .
         
-      - name: Check
-        run: ls
-        
-#      - name: Push
-#        run: dotnet nuget push ${VERSION}.nupkg --source https://nuget.pkg.github.com/acraven/index.json --api-key ${GITHUB_TOKEN}
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push
+        run: dotnet nuget push YouTubeStreamTemplates.${VERSION}.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "github"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
