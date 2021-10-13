@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>YouTubeStreamTemplates</id>
+        <!--        <version>0.9.3</version>-->
+        <description>Templates for YouTube LiveStreams</description>
+        <authors>Swerik</authors>
+        <projectUrl>https://github.com/TheSwerik/YouTubeStreamTemplates</projectUrl>
+        <icon>YouTubeStreamTemplates.png</icon>
+        <tags>YouTube</tags>
+        <repository>https://github.com/TheSwerik/YouTubeStreamTemplates</repository>
+    </metadata>
+    <files>
+        <file src="YouTubeStreamTemplates.png" target="./"/>
+    </files>
+</package>
