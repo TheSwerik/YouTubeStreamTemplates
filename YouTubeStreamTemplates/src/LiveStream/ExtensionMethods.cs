@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Google.Apis.YouTube.v3.Data;
 
-namespace YouTubeStreamTemplates.LiveStreaming
+namespace YouTubeStreamTemplates.LiveStream
 {
     public static class ExtensionMethods
     {
-        public static LiveStream ToLiveStream(this LiveBroadcast liveBroadcast)
+        public static Stream ToLiveStream(this LiveBroadcast liveBroadcast)
         {
-            return new LiveStream
+            return new Stream
                    {
                        Id = liveBroadcast.Id,
                        Title = liveBroadcast.Snippet.Title,
@@ -19,47 +19,47 @@ namespace YouTubeStreamTemplates.LiveStreaming
                    };
         }
 
-        public static LiveBroadcast ToLiveBroadcast(this LiveStream liveStream)
+        public static LiveBroadcast ToLiveBroadcast(this Stream stream)
         {
             return new LiveBroadcast
                    {
-                       Id = liveStream.Id,
+                       Id = stream.Id,
                        Kind = "youtube#liveBroadcast",
                        Snippet = new LiveBroadcastSnippet
                                  {
-                                     Title = liveStream.Title,
-                                     Description = liveStream.Description,
-                                     ScheduledStartTime = liveStream.StartTime.ToUniversalTime()
+                                     Title = stream.Title,
+                                     Description = stream.Description,
+                                     ScheduledStartTime = stream.StartTime.ToUniversalTime()
                                  }
                    };
         }
 
-        public static Video ToVideo(this LiveStream liveStream)
+        public static Video ToVideo(this Stream stream)
         {
             return new Video
                    {
-                       Id = liveStream.Id,
+                       Id = stream.Id,
                        Snippet = new VideoSnippet
                                  {
-                                     Title = liveStream.Title,
-                                     Description = liveStream.Description,
-                                     CategoryId = liveStream.Category,
-                                     Tags = liveStream.Tags,
-                                     DefaultLanguage = liveStream.TextLanguage,
-                                     DefaultAudioLanguage = liveStream.AudioLanguage
+                                     Title = stream.Title,
+                                     Description = stream.Description,
+                                     CategoryId = stream.Category,
+                                     Tags = stream.Tags,
+                                     DefaultLanguage = stream.TextLanguage,
+                                     DefaultAudioLanguage = stream.AudioLanguage
                                  },
                        LiveStreamingDetails = new VideoLiveStreamingDetails
                                               {
-                                                  ScheduledStartTime = liveStream.StartTime.ToUniversalTime(),
-                                                  ScheduledEndTime = liveStream.EndTime.ToUniversalTime()
+                                                  ScheduledStartTime = stream.StartTime.ToUniversalTime(),
+                                                  ScheduledEndTime = stream.EndTime.ToUniversalTime()
                                               },
                        Status = new VideoStatus()
                    };
         }
 
-        public static LiveStream ToLiveStream(this Video video)
+        public static Stream ToLiveStream(this Video video)
         {
-            return new LiveStream
+            return new Stream
                    {
                        Id = video.Id,
                        Title = video.Snippet.Title,

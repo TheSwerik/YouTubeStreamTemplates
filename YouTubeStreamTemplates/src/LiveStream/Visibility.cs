@@ -1,4 +1,4 @@
-﻿namespace YouTubeStreamTemplates.LiveStreaming
+﻿namespace YouTubeStreamTemplates.LiveStream
 {
     public enum Visibility
     {

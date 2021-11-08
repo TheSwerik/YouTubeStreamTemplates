@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Google.Apis.YouTube.v3.Data;
-using static YouTubeStreamTemplates.LiveStreaming.LiveBroadcastComparer.LiveStreamSortMode;
+using static YouTubeStreamTemplates.LiveStream.LiveBroadcastComparer.LiveStreamSortMode;
 
-namespace YouTubeStreamTemplates.LiveStreaming
+namespace YouTubeStreamTemplates.LiveStream
 {
     public class LiveBroadcastComparer : IComparer<LiveBroadcast>
     {

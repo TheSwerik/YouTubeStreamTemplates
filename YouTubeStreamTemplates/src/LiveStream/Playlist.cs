@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace YouTubeStreamTemplates.LiveStreaming
+namespace YouTubeStreamTemplates.LiveStream
 {
     public struct Playlist
     {

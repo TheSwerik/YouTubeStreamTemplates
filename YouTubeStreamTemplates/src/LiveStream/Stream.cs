@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace YouTubeStreamTemplates.LiveStreaming
+namespace YouTubeStreamTemplates.LiveStream
 {
     //TODO rename
-    public record LiveStream : IComparable<LiveStream>
+    public record Stream : IComparable<Stream>
     {
         public const int MaxThumbnailSize = 2097152;
         public string Id { get; init; } = null!;
@@ -25,7 +25,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
 
         #region Methods
 
-        public bool HasDifference(LiveStream other)
+        public bool HasDifference(Stream other)
         {
             return !(Title.Equals(other.Title) &&
                      Description.Equals(other.Description) &&
@@ -34,7 +34,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                      Tags.All(t => other.Tags.Contains(t)));
         }
 
-        public int CompareTo(LiveStream? other) { return StartTime.CompareTo(other?.StartTime); }
+        public int CompareTo(Stream? other) { return StartTime.CompareTo(other?.StartTime); }
 
         public override string ToString()
         {

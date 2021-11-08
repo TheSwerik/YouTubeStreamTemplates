@@ -12,7 +12,7 @@ namespace YouTubeStreamTemplates.Helpers
         private static string TempFolderPath => Path.GetTempPath() + @"\YouTubeStreamTemplates\";
         private static string TempThumbnailFolderPath => @$"{TempFolderPath}Thumbnails\";
         private static string TempTemplateThumbnailFolderPath => @$"{TempThumbnailFolderPath}Template\";
-        private static string TempStreamThumbnailFolderPath => @$"{TempThumbnailFolderPath}LiveStream\";
+        private static string TempStreamThumbnailFolderPath => @$"{TempThumbnailFolderPath}Stream\";
 
         public static string GetImagePath(string path, bool template, string id, int timeout = 1000)
         {
