@@ -59,7 +59,7 @@ namespace YouTubeStreamTemplates.Helpers
             while (_stopwatch.IsRunning && _stopwatch.ElapsedMilliseconds < runtime && !token.IsCancellationRequested)
                 await Task.Delay(_checkSteps, token);
 
-            if (token.IsCancellationRequested) return;
+            token.ThrowIfCancellationRequested();
             _stopwatch.Reset();
         }
     }
