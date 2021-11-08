@@ -25,8 +25,8 @@
         <PackageReference Include="Google.Apis.Core" Version="1.55.0"/>
         <PackageReference Include="Google.Apis.Discovery.v1" Version="1.55.0"/>
         <PackageReference Include="Google.Apis.YouTube.v3" Version="1.55.0.2449"/>
-        <PackageReference Include="NLog" Version="4.7.11"/>
-        <PackageReference Include="NLog.Schema" Version="4.7.11"/>
+        <PackageReference Include="NLog" Version="4.7.12"/>
+        <PackageReference Include="NLog.Schema" Version="4.7.12"/>
     </ItemGroup>
 
     <ItemGroup>
