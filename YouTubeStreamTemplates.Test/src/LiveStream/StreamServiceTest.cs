@@ -4,6 +4,6 @@ namespace YouTubeStreamTemplates.Test.LiveStream
 {
     public class StreamServiceTest
     {
-        [Test] public void TestInitialize() { Assert.Fail(); }
+        [Test] public void TestInitialize() { Assert.Fail("Not Implemented"); }
     }
 }
