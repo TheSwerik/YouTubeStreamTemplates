@@ -326,7 +326,7 @@ namespace YouTubeStreamTemplates.LiveStreaming
                 await InitPlaylists();
             }
 
-            _coolDownTimer.ReStart();
+            _coolDownTimer.Restart();
         }
 
         #region Looping
