@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -18,22 +17,22 @@ using YouTubeStreamTemplates.Templates;
 
 namespace YouTubeStreamTemplates.LiveStream
 {
-    public class LiveStreamService
+    public class StreamService
     {
         #region Attributes
 
         #region Static
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static LiveStreamService _instance = null!;
+        private static StreamService _instance = null!;
         private static SettingsService SettingsService => SettingsService.Instance;
         public static bool IsInitialized { get; private set; }
 
-        public static LiveStreamService Instance
+        public static StreamService Instance
         {
             get
             {
-                if (_instance == null) throw new Exception("INSTANCE IS NULL");
+                if (_instance == null) throw new StreamServiceNotInitializedException();
                 return _instance;
             }
         }
@@ -60,11 +59,11 @@ namespace YouTubeStreamTemplates.LiveStream
         public static async Task Init()
         {
             if (CoolDownTimer.IsRunning) return;
-            if (_instance != null) throw new AlreadyInitializedException(typeof(LiveStreamService));
+            if (_instance != null) throw new AlreadyInitializedException(typeof(StreamService));
             CoolDownTimer.StartBlock();
             var ytService = await CreateDefaultYouTubeService();
             if (ytService == null) throw new CouldNotCreateServiceException();
-            _instance = new LiveStreamService(ytService);
+            _instance = new StreamService(ytService);
             await _instance.InitCategories();
             await _instance.InitPlaylists();
 #pragma warning disable 4014
@@ -114,7 +113,7 @@ namespace YouTubeStreamTemplates.LiveStream
 
         #endregion
 
-        private LiveStreamService(YouTubeService youTubeService)
+        private StreamService(YouTubeService youTubeService)
         {
             _youTubeService = youTubeService;
             Category = new Dictionary<string, string>();
