@@ -56,7 +56,7 @@ namespace YouTubeStreamTemplates.LiveStream
 
         #region Initialisation
 
-        public static async Task Init(string clientId, string clientSecret)
+        public static async Task Init(string? clientId = null, string? clientSecret = null)
         {
             if (CoolDownTimer.IsRunning) return;
             if (_instance != null) throw new AlreadyInitializedException(typeof(StreamService));
@@ -75,13 +75,14 @@ namespace YouTubeStreamTemplates.LiveStream
 
         #region YouTubeService
 
-        private static async Task<YouTubeService> CreateDefaultYouTubeService(string clientId, string clientSecret)
+        private static async Task<YouTubeService> CreateDefaultYouTubeService(string? clientId, string? clientSecret)
         {
-            return await CreateYouTubeService(YouTubeService.Scope.YoutubeReadonly,
+            return await CreateYouTubeService(clientId, clientSecret,
+                                              YouTubeService.Scope.YoutubeReadonly,
                                               YouTubeService.Scope.YoutubeForceSsl);
         }
 
-        private static async Task<YouTubeService> CreateYouTubeService(string clientId, string clientSecret,
+        private static async Task<YouTubeService> CreateYouTubeService(string? clientId, string? clientSecret,
                                                                        params string[] scopes)
         {
             return new YouTubeService(new BaseClientService.Initializer
@@ -91,7 +92,7 @@ namespace YouTubeStreamTemplates.LiveStream
                                       });
         }
 
-        private static async Task<UserCredential> GetCredentials(string clientId, string clientSecret,
+        private static async Task<UserCredential> GetCredentials(string? clientId, string? clientSecret,
                                                                  IEnumerable<string> scopes)
         {
             ClientSecrets secrets;
@@ -102,6 +103,7 @@ namespace YouTubeStreamTemplates.LiveStream
             }
             else
             {
+                if (clientId == null || clientSecret == null) throw new NoClientIdOrSecretException();
                 secrets = new ClientSecrets { ClientId = clientId, ClientSecret = clientSecret };
             }
 
