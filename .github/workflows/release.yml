@@ -20,8 +20,8 @@ jobs:
 
       - name: Paste Client Id and Secret
         run: |
-          sed -i 's/CLIENT_ID/${{ secrets.CLIENT_ID }}/g' YouTubeStreamTemplates/src/LiveStreaming/LiveStreamService.cs
-          sed -i 's/CLIENT_SECRET/${{ secrets.CLIENT_SECRET }}/g' YouTubeStreamTemplates/src/LiveStreaming/LiveStreamService.cs
+          sed -i 's/CLIENT_ID/${{ secrets.CLIENT_ID }}/g' YouTubeStreamTemplates/src/LiveStream/StreamService.cs
+          sed -i 's/CLIENT_SECRET/${{ secrets.CLIENT_SECRET }}/g' YouTubeStreamTemplates/src/LiveStream/StreamService.cs
      
       - name: Set VERSION variable from tag
         run: echo "VERSION=${GITHUB_REF##*/}" >> $GITHUB_ENV
