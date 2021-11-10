@@ -37,6 +37,16 @@ namespace YouTubeStreamTemplates.LiveStream
         {
             if (y == null) return 1;
             if (x == null) return -1;
+            return _sortMode switch
+                   {
+                       DateDesc or DateAsc => CompareDate(x, y) == 0 ? CompareTitle(x, y) : CompareDate(x, y),
+                       TitleDesc or TitleAsc => CompareTitle(x, y) == 0 ? CompareDate(x, y) : CompareTitle(x, y),
+                       _ => throw new ArgumentOutOfRangeException(nameof(_sortMode), _sortMode + "", "wrong")
+                   };
+        }
+
+        private int CompareDate(LiveBroadcast x, LiveBroadcast y)
+        {
             var xSnippet = x.Snippet;
             var xStartTime = _timeCompareMode == LiveStreamTimeCompareMode.Actual
                                  ? xSnippet.ActualStartTime
@@ -45,14 +55,16 @@ namespace YouTubeStreamTemplates.LiveStream
             var yStartTime = _timeCompareMode == LiveStreamTimeCompareMode.Actual
                                  ? ySnippet.ActualStartTime
                                  : ySnippet.ScheduledStartTime;
-            return _sortMode switch
-                   {
-                       DateDesc => -xStartTime?.CompareTo(yStartTime) ?? 1,
-                       DateAsc => xStartTime?.CompareTo(yStartTime) ?? -1,
-                       TitleDesc => -string.Compare(xSnippet.Title, ySnippet.Title, StringComparison.InvariantCulture),
-                       TitleAsc => string.Compare(xSnippet.Title, ySnippet.Title, StringComparison.InvariantCulture),
-                       _ => throw new ArgumentOutOfRangeException(nameof(_sortMode), _sortMode + "", "wrong")
-                   };
+            var sortValue = xStartTime?.CompareTo(yStartTime) ?? -1;
+            return _sortMode is DateDesc or TitleDesc ? -sortValue : sortValue;
+        }
+
+        private int CompareTitle(LiveBroadcast x, LiveBroadcast y)
+        {
+            var xSnippet = x.Snippet;
+            var ySnippet = y.Snippet;
+            var sortValue = string.Compare(xSnippet.Title, ySnippet.Title, StringComparison.InvariantCulture);
+            return _sortMode is TitleDesc or DateDesc ? -sortValue : sortValue;
         }
 
         internal enum LiveStreamSortMode
