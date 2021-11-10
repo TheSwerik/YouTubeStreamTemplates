@@ -7,7 +7,7 @@ namespace YouTubeStreamTemplates.LiveStream
 {
     public static class ExtensionMethods
     {
-        public static Stream ToLiveStream(this LiveBroadcast liveBroadcast)
+        public static Stream ToStream(this LiveBroadcast liveBroadcast)
         {
             return new Stream
                    {
@@ -16,6 +16,22 @@ namespace YouTubeStreamTemplates.LiveStream
                        Description = liveBroadcast.Snippet.Description,
                        StartTime = liveBroadcast.Snippet.ActualStartTime ?? DateTime.MinValue,
                        EndTime = liveBroadcast.Snippet.ActualEndTime ?? DateTime.MinValue
+                   };
+        }
+
+        public static Stream ToStream(this Video video)
+        {
+            return new Stream
+                   {
+                       Id = video.Id,
+                       Title = video.Snippet.Title,
+                       Description = video.Snippet.Description,
+                       Category = video.Snippet.CategoryId,
+                       Tags = (List<string>)(video.Snippet.Tags ?? new List<string>()),
+                       TextLanguage = video.Snippet.DefaultLanguage,
+                       AudioLanguage = video.Snippet.DefaultAudioLanguage,
+                       StartTime = video.LiveStreamingDetails?.ScheduledStartTime ?? DateTime.MinValue,
+                       EndTime = video.LiveStreamingDetails?.ScheduledEndTime ?? DateTime.MinValue
                    };
         }
 
@@ -29,7 +45,8 @@ namespace YouTubeStreamTemplates.LiveStream
                                  {
                                      Title = stream.Title,
                                      Description = stream.Description,
-                                     ScheduledStartTime = stream.StartTime.ToUniversalTime()
+                                     ScheduledStartTime = stream.StartTime.ToUniversalTime(),
+                                     ScheduledEndTime = stream.EndTime.ToUniversalTime()
                                  }
                    };
         }
@@ -54,22 +71,6 @@ namespace YouTubeStreamTemplates.LiveStream
                                                   ScheduledEndTime = stream.EndTime.ToUniversalTime()
                                               },
                        Status = new VideoStatus()
-                   };
-        }
-
-        public static Stream ToLiveStream(this Video video)
-        {
-            return new Stream
-                   {
-                       Id = video.Id,
-                       Title = video.Snippet.Title,
-                       Description = video.Snippet.Description,
-                       Category = video.Snippet.CategoryId,
-                       Tags = (List<string>)(video.Snippet.Tags ?? new List<string>()),
-                       TextLanguage = video.Snippet.DefaultLanguage,
-                       AudioLanguage = video.Snippet.DefaultAudioLanguage,
-                       StartTime = video.LiveStreamingDetails?.ScheduledStartTime ?? DateTime.MinValue,
-                       EndTime = video.LiveStreamingDetails?.ScheduledEndTime ?? DateTime.MinValue
                    };
         }
 

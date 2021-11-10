@@ -12,11 +12,11 @@ namespace YouTubeStreamTemplates.Test.LiveStream
         {
             var streams = new List<Stream>
                           {
-                              new() { StartTime = DateTime.Today.Add(TimeSpan.FromDays(1)) },
+                              new() { StartTime = DateTime.Today.AddDays(1) },
                               new() { StartTime = DateTime.Today },
-                              new() { StartTime = DateTime.Today.Add(TimeSpan.FromDays(3)) },
-                              new() { StartTime = DateTime.Today.Add(TimeSpan.FromDays(2)) },
-                              new() { StartTime = DateTime.Today.Add(TimeSpan.FromDays(4)) }
+                              new() { StartTime = DateTime.Today.AddDays(3) },
+                              new() { StartTime = DateTime.Today.AddDays(2) },
+                              new() { StartTime = DateTime.Today.AddDays(4) }
                           };
 
             var sortedStreams = new List<Stream>(streams);

@@ -251,7 +251,7 @@ namespace YouTubeStreamTemplates.LiveStream
 
         #region Public Methods
 
-        public async Task<Stream> GetCurrentStream() { return (await GetCurrentBroadcast()).ToLiveStream(); }
+        public async Task<Stream> GetCurrentStream() { return (await GetCurrentBroadcast()).ToStream(); }
 
         public async Task<Stream> GetCurrentStreamAsVideo()
         {
@@ -260,7 +260,7 @@ namespace YouTubeStreamTemplates.LiveStream
             videoRequest.Id = liveStream.Id;
             var videos = await videoRequest.ExecuteAsync();
             if (videos.Items == null || videos.Items.Count <= 0) throw new NoVideoFoundException(liveStream.Id);
-            var result = videos.Items[0].ToLiveStream();
+            var result = videos.Items[0].ToStream();
             result.PlaylistIDs = Playlists.Where(p => p.Videos.ContainsKey(result.Id)).Select(p => p.Id).ToList();
             return result;
         }
