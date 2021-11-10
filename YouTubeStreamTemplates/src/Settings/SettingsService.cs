@@ -11,8 +11,6 @@ namespace YouTubeStreamTemplates.Settings
 {
     public class SettingsService
     {
-        private const string DefaultPath = @"res/Default.cfg";
-
         private static SettingsService? _instance;
         private readonly Dictionary<Setting, string> _defaultSettings;
 
@@ -27,12 +25,22 @@ namespace YouTubeStreamTemplates.Settings
         private SettingsService()
         {
             Settings = new Dictionary<Setting, string>();
-            _defaultSettings = new Dictionary<Setting, string>();
+            _defaultSettings = new Dictionary<Setting, string>
+                               {
+                                   { Setting.SavePath, @"%appdata%/YouTubeStreamTemplates/Templates" },
+                                   { Setting.ForceEnglish, "false" },
+                                   { Setting.CurrentTemplate, "" },
+                                   { Setting.OnlyUpdateSavedTemplates, "false" },
+                                   { Setting.AutoUpdate, "false" }
+                               };
 
-            if (!File.Exists(DefaultPath)) throw new CorruptInstallationException(DefaultPath);
-            AddAllSettings(_defaultSettings, DefaultPath);
+            if (!File.Exists(_path))
+            {
+                var lines = new List<string>(5);
+                lines.AddRange(_defaultSettings.Select(pair => pair.Key + " = " + pair.Value));
+                File.WriteAllText(_path, string.Join("\n", lines));
+            }
 
-            if (!File.Exists(_path)) File.Copy(DefaultPath, _path);
             AddAllSettings(Settings, _path);
 
             Directory.CreateDirectory(Settings[Setting.SavePath]);
@@ -43,11 +51,6 @@ namespace YouTubeStreamTemplates.Settings
         {
             var lines = File.ReadLines(path).Where(l => l.Contains('=')).Select(l => l.Split('=')).ToArray();
             var settingNames = Enum.GetValues<Setting>();
-
-            if (path.Equals(DefaultPath) &&
-                (lines.Length != settingNames.Length ||
-                 settingNames.Any(n => lines.All(l => !l[0].Trim().Equals(n.ToString())))))
-                throw new CorruptInstallationException(DefaultPath);
 
             foreach (var setting in settingNames)
             {

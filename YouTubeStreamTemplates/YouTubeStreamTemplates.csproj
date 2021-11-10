@@ -10,7 +10,7 @@
         <PackageId>YouTubeStreamTemplates</PackageId>
         <PackageProjectUrl>https://github.com/TheSwerik/YouTubeStreamTemplates</PackageProjectUrl>
         <RepositoryUrl>https://github.com/TheSwerik/YouTubeStreamTemplates</RepositoryUrl>
-        <Version>0.9.0</Version>
+        <Version>0.9.5</Version>
         <Authors>Swerik</Authors>
         <Company>Swerik</Company>
     </PropertyGroup>
@@ -29,9 +29,6 @@
         <PackageReference Include="NLog.Schema" Version="4.7.12"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <None Include="res/**" CopyToOutputDirectory="PreserveNewest"/>
-    </ItemGroup>
     <ItemGroup>
         <None Include="nlog.debug.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Debug' " Link="nlog.config"/>
         <None Include="nlog.release.config" CopyToOutputDirectory="PreserveNewest" Condition=" '$(Configuration)' == 'Release' " Link="nlog.config"/>
