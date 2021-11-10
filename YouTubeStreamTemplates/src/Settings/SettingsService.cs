@@ -27,7 +27,10 @@ namespace YouTubeStreamTemplates.Settings
             Settings = new Dictionary<Setting, string>();
             _defaultSettings = new Dictionary<Setting, string>
                                {
-                                   { Setting.SavePath, @"%appdata%/YouTubeStreamTemplates/Templates" },
+                                   {
+                                       Setting.SavePath,
+                                       $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}/YouTubeStreamTemplates/Templates"
+                                   },
                                    { Setting.ForceEnglish, "false" },
                                    { Setting.CurrentTemplate, "" },
                                    { Setting.OnlyUpdateSavedTemplates, "false" },
