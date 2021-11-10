@@ -15,8 +15,8 @@ namespace YouTubeStreamTemplates.Templates
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static TemplateService _instance = null!;
-        public readonly Func<Template> GetEditedTemplate;
         public readonly List<Template> Templates;
+        public Func<Template> GetEditedTemplate;
 
         private TemplateService()
         {
