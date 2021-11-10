@@ -56,12 +56,12 @@ namespace YouTubeStreamTemplates.LiveStream
 
         #region Initialisation
 
-        public static async Task Init()
+        public static async Task Init(string? clientId = null, string? clientSecret = null)
         {
             if (CoolDownTimer.IsRunning) return;
             if (_instance != null) throw new AlreadyInitializedException(typeof(StreamService));
             CoolDownTimer.StartBlock();
-            var ytService = await CreateDefaultYouTubeService();
+            var ytService = await CreateDefaultYouTubeService(clientId, clientSecret);
             if (ytService == null) throw new CouldNotCreateServiceException();
             _instance = new StreamService(ytService);
             await _instance.InitCategories();
@@ -75,22 +75,25 @@ namespace YouTubeStreamTemplates.LiveStream
 
         #region YouTubeService
 
-        private static async Task<YouTubeService> CreateDefaultYouTubeService()
+        private static async Task<YouTubeService> CreateDefaultYouTubeService(string? clientId, string? clientSecret)
         {
-            return await CreateYouTubeService(YouTubeService.Scope.YoutubeReadonly,
+            return await CreateYouTubeService(clientId, clientSecret,
+                                              YouTubeService.Scope.YoutubeReadonly,
                                               YouTubeService.Scope.YoutubeForceSsl);
         }
 
-        private static async Task<YouTubeService> CreateYouTubeService(params string[] scopes)
+        private static async Task<YouTubeService> CreateYouTubeService(string? clientId, string? clientSecret,
+                                                                       params string[] scopes)
         {
             return new YouTubeService(new BaseClientService.Initializer
                                       {
-                                          HttpClientInitializer = await GetCredentials(scopes),
+                                          HttpClientInitializer = await GetCredentials(clientId, clientSecret, scopes),
                                           ApplicationName = "YouTubeStreamTemplates"
                                       });
         }
 
-        private static async Task<UserCredential> GetCredentials(IEnumerable<string> scopes)
+        private static async Task<UserCredential> GetCredentials(string? clientId, string? clientSecret,
+                                                                 IEnumerable<string> scopes)
         {
             ClientSecrets secrets;
             if (File.Exists("client_id.json"))
@@ -100,7 +103,8 @@ namespace YouTubeStreamTemplates.LiveStream
             }
             else
             {
-                secrets = new ClientSecrets { ClientId = "CLIENT_ID", ClientSecret = "CLIENT_SECRET" };
+                if (clientId == null || clientSecret == null) throw new NoClientIdOrSecretException();
+                secrets = new ClientSecrets { ClientId = clientId, ClientSecret = clientSecret };
             }
 
             return await GoogleWebAuthorizationBroker.AuthorizeAsync(
@@ -108,7 +112,8 @@ namespace YouTubeStreamTemplates.LiveStream
                        scopes,
                        "user",
                        CancellationToken.None,
-                       new FileDataStore("YouTubeStreamTemplates"));
+                       new FileDataStore("YouTubeStreamTemplates")
+                   );
         }
 
         #endregion
