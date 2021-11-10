@@ -16,7 +16,7 @@ namespace YouTubeStreamTemplates.Settings
         private static SettingsService? _instance;
         private readonly Dictionary<Setting, string> _defaultSettings;
 
-        private readonly string Path =
+        private readonly string _path =
             $@"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\YouTubeStreamTemplates\settings.cfg";
 
         public static SettingsService Instance => _instance ??= new SettingsService();
@@ -32,8 +32,8 @@ namespace YouTubeStreamTemplates.Settings
             if (!File.Exists(DefaultPath)) throw new CorruptInstallationException(DefaultPath);
             AddAllSettings(_defaultSettings, DefaultPath);
 
-            if (!File.Exists(Path)) File.Copy(DefaultPath, Path);
-            AddAllSettings(Settings, Path);
+            if (!File.Exists(_path)) File.Copy(DefaultPath, _path);
+            AddAllSettings(Settings, _path);
 
             Directory.CreateDirectory(Settings[Setting.SavePath]);
             ImageHelper.CreateDirectories();
@@ -67,18 +67,18 @@ namespace YouTubeStreamTemplates.Settings
 
         #region Public Methods
 
-        public async Task Save()
+        private async Task Save()
         {
             var lines = Enum.GetValues<Setting>()
                             .Select(setting => $"{setting} = {Settings[setting]}")
                             .ToList();
-            await File.WriteAllLinesAsync(Path, lines);
+            await File.WriteAllLinesAsync(_path, lines);
         }
 
         public async Task UpdateSetting(Setting setting, string value)
         {
             Settings[setting] = value;
-            await Instance.Save();
+            await Save();
         }
 
         public bool GetBool(Setting setting) { return bool.Parse(Settings[setting]); }

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace YouTubeStreamTemplates.Helpers
@@ -7,6 +8,7 @@ namespace YouTubeStreamTemplates.Helpers
     {
         private readonly int _checkSteps;
         private readonly Stopwatch _stopwatch;
+        private CancellationTokenSource? _cancellationTokenSource;
 
         public CoolDownTimer(int checkSteps = 100)
         {
@@ -16,25 +18,48 @@ namespace YouTubeStreamTemplates.Helpers
 
         public bool IsRunning => _stopwatch.IsRunning;
 
+        ~CoolDownTimer()
+        {
+            _stopwatch.Reset();
+            if (_cancellationTokenSource == null) return;
+            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource.Dispose();
+        }
+
         public void StartBlock() { _stopwatch.Start(); }
 
         public void Start(long runtime = 3000)
         {
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+            }
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
             _stopwatch.Start();
-            Task.Run(async () => await StopStopWatch(runtime));
+            Task.Run(async () => await StopStopWatch(runtime, token), token);
         }
 
-        public void Reset() { _stopwatch.Reset(); }
+        public void Reset()
+        {
+            _cancellationTokenSource?.Cancel();
+            _stopwatch.Reset();
+        }
 
-        public void ReStart(long runtime = 3000)
+        public void Restart(long runtime = 3000)
         {
             Reset();
             Start(runtime);
         }
 
-        private async Task StopStopWatch(long runtime)
+        private async Task StopStopWatch(long runtime, CancellationToken token)
         {
-            while (_stopwatch.IsRunning && _stopwatch.ElapsedMilliseconds < runtime) await Task.Delay(_checkSteps);
+            while (_stopwatch.IsRunning && _stopwatch.ElapsedMilliseconds < runtime && !token.IsCancellationRequested)
+                await Task.Delay(_checkSteps, token);
+
+            token.ThrowIfCancellationRequested();
             _stopwatch.Reset();
         }
     }

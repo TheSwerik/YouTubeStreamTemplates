@@ -15,19 +15,18 @@ namespace YouTubeStreamTemplates.Templates
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private static TemplateService _instance = null!;
+        public readonly Func<Template> GetEditedTemplate;
         public readonly List<Template> Templates;
-        private List<string> _templatePaths;
-        public Func<Template> GetEditedTemplate;
 
         private TemplateService()
         {
-            _templatePaths = new List<string>();
             Templates = new List<Template>();
             GetEditedTemplate = GetCurrentTemplate;
         }
 
         private static SettingsService SettingsService => SettingsService.Instance;
 
+        // ReSharper disable once ConstantNullCoalescingCondition
         public static TemplateService Instance => _instance ??= new TemplateService();
 
         #region Helper Methods
@@ -96,10 +95,11 @@ namespace YouTubeStreamTemplates.Templates
         public async Task LoadAllTemplates(string folderPath)
         {
             foreach (var filePath in Directory.EnumerateFiles(folderPath)) await LoadTemplate(filePath);
-            Logger.Debug("Loaded {0} Templates.", Templates.Count);
+            // ReSharper disable once PositionalPropertyUsedProblem
+            Logger.Debug("Loaded {0} Templates", Templates.Count);
         }
 
-        public async Task<Template> LoadTemplate(string path)
+        private async Task LoadTemplate(string path)
         {
             path = path.Trim();
             if (string.IsNullOrWhiteSpace(path)) throw new EmptyPathException();
@@ -111,7 +111,6 @@ namespace YouTubeStreamTemplates.Templates
 
             template = await GetTemplateFromPath(path);
             Templates.Add(template);
-            return template;
         }
 
         public void DeleteTemplate(Template template)

@@ -1,9 +1,9 @@
 ﻿using System;
-using YouTubeStreamTemplates.LiveStreaming;
+using YouTubeStreamTemplates.LiveStream;
 
 namespace YouTubeStreamTemplates.Templates
 {
-    public record Template : LiveStream
+    public record Template : Stream
     {
         public Template(string name)
         {
