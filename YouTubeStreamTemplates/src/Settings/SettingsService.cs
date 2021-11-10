@@ -37,6 +37,7 @@ namespace YouTubeStreamTemplates.Settings
                                    { Setting.AutoUpdate, "false" }
                                };
 
+            Directory.CreateDirectory(_defaultSettings[Setting.SavePath]);
             if (!File.Exists(_path))
             {
                 var lines = new List<string>(5);
